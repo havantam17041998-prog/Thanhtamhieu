@@ -3,204 +3,286 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Điện Lạnh Thanh Tâm Hiếu | Sửa Chữa & Bảo Trì Tận Tâm</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta name="description" content="Công ty Thanh Tâm Hiếu chuyên sửa chữa máy lạnh, bảo trì HVAC, thi công điện nhà xưởng tại Đồng Nai, Bình Dương, Vũng Tàu, TP.HCM.">
+    <title>Điện Lạnh Thanh Tâm Hiếu | Uy Tín - Tận Tâm - Chuyên Nghiệp</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
+        /* --- CẤU HÌNH GIAO DIỆN CHUNG --- */
         :root {
-            --primary-color: #0056b3;
-            --secondary-color: #ffc107;
-            --text-dark: #333;
-            --light-bg: #f4f7f6;
+            --primary: #0068ff; /* Màu xanh Zalo/Thương hiệu */
+            --secondary: #ffc107; /* Màu vàng điểm nhấn */
+            --danger: #dc3545; /* Màu đỏ cho Hotline */
+            --success: #28a745; /* Màu xanh lá gọi điện */
+            --dark: #333;
+            --light: #f4f6f9;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            color: var(--text-dark);
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        
+        body { padding-bottom: 70px; /* Chừa chỗ cho thanh menu dưới điện thoại */ }
+        
+        a { text-decoration: none; }
+        ul { list-style: none; }
 
-        header {
-            background: var(--primary-color);
+        /* --- HEADER & NAV --- */
+        header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; padding: 15px; }
+        .logo { font-size: 24px; font-weight: bold; color: var(--primary); text-transform: uppercase; }
+        .logo span { color: var(--danger); }
+        
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a { color: var(--dark); font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+        .btn-header { background: var(--danger); color: white !important; padding: 8px 15px; border-radius: 5px; }
+
+        /* --- HERO BANNER --- */
+        .hero {
+            background: linear-gradient(rgba(0,86,179,0.8), rgba(0,86,179,0.8)), url('https://source.unsplash.com/1600x900/?hvac,technician');
+            background-size: cover;
             color: white;
-            padding: 20px;
             text-align: center;
+            padding: 100px 20px;
         }
+        .hero h1 { font-size: 3em; margin-bottom: 15px; text-transform: uppercase; }
+        .hero p { font-size: 1.2em; margin-bottom: 30px; }
+        .cta-btn { background: var(--secondary); color: var(--dark); padding: 15px 30px; font-size: 18px; font-weight: bold; border-radius: 30px; display: inline-block; transition: 0.3s; }
+        .cta-btn:hover { transform: scale(1.05); background: #e0a800; }
 
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: auto;
-            padding: 20px 0;
-        }
+        /* --- GIỚI THIỆU & THẾ MẠNH --- */
+        .section { padding: 60px 20px; max-width: 1200px; margin: auto; }
+        .section-title { text-align: center; margin-bottom: 40px; }
+        .section-title h2 { color: var(--primary); font-size: 2.5em; margin-bottom: 10px; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .feature-box { text-align: center; padding: 30px; background: var(--light); border-radius: 10px; transition: 0.3s; }
+        .feature-box:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .feature-box i { font-size: 40px; color: var(--primary); margin-bottom: 15px; }
 
-        .highlight { color: var(--secondary-color); }
+        /* --- DỊCH VỤ --- */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .service-card { border: 1px solid #eee; border-radius: 10px; overflow: hidden; }
+        .service-head { background: var(--primary); color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 1.2em; }
+        .service-body { padding: 20px; }
+        .service-body ul li { margin-bottom: 10px; padding-left: 20px; position: relative; }
+        .service-body ul li::before { content: "✔"; color: var(--success); position: absolute; left: 0; }
 
-        /* Bảng giá */
-        .price-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+        /* --- FORM LIÊN HỆ --- */
+        .contact-section { background: var(--light); }
+        .form-container { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); max-width: 600px; margin: auto; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-control { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; }
+        .submit-btn { width: 100%; background: var(--primary); color: white; padding: 15px; border: none; border-radius: 5px; font-size: 18px; font-weight: bold; cursor: pointer; }
 
-        .price-table th, .price-table td {
-            padding: 15px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
+        /* --- FOOTER --- */
+        footer { background: #222; color: #fff; padding: 40px 20px; text-align: center; }
+        .footer-info p { margin: 10px 0; }
 
-        .price-table th {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        /* Form đặt lịch */
-        .booking-form {
-            background: var(--light-bg);
-            padding: 30px;
-            border-radius: 10px;
-            margin-top: 30px;
-        }
-
-        .form-group { margin-bottom: 15px; }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .btn-submit {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 15px 20px;
-            width: 100%;
-            font-size: 18px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-
-        /* Nút Hotline cố định */
-        .fixed-contact {
+        /* --- MOBILE STICKY BAR (QUAN TRỌNG) --- */
+        .contact-bar-mobile {
+            display: none;
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            display: flex;
-            justify-content: space-between;
-            z-index: 1000;
+            bottom: 0; left: 0; width: 100%;
+            background: #fff;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 9999;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #eee;
         }
-
-        .btn-call {
-            background: #ff0000;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            flex: 1;
-            margin-right: 10px;
-            text-align: center;
-        }
-
-        .btn-zalo {
-            background: #0068ff;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            flex: 1;
-            text-align: center;
-        }
-
-        @media (max-width: 600px) {
-            header h1 { font-size: 22px; }
+        .contact-item { display: flex; flex-direction: column; align-items: center; font-size: 12px; font-weight: bold; flex: 1; color: var(--dark); }
+        .contact-item i { font-size: 20px; margin-bottom: 5px; }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; gap: 10px; }
+            .nav-links { display: none; } /* Ẩn menu trên mobile cho gọn */
+            .hero h1 { font-size: 1.8em; }
+            .contact-bar-mobile { display: flex; } /* Hiện thanh menu dưới */
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>CÔNG TY TNHH TM DV THANH TÂM HIẾU</h1>
-    <p>Chuyên Lạnh Gia Dụng - Hệ Thống Lạnh Công Nghiệp - HVAC</p>
-    <p><i>Khu vực: Đồng Nai - Bình Dương - Vũng Tàu - TP.HCM</i></p>
-</header>
+    <header>
+        <div class="navbar">
+            <div class="logo">Thanh Tâm <span>Hiếu</span></div>
+            <div class="nav-links">
+                <a href="#ve-chung-toi">Về chúng tôi</a>
+                <a href="#dich-vu">Dịch vụ</a>
+                <a href="#bang-gia">Bảng giá</a>
+                <a href="tel:0364574555" class="btn-header"><i class="fas fa-phone"></i> 0364.574.555</a>
+            </div>
+        </div>
+    </header>
 
-<div class="container">
-    <h2>Dịch Vụ Lạnh Gia Dụng Tận Tâm</h2>
-    <p>Chúng tôi cam kết làm việc <strong>tỉ mỉ, cẩn thận</strong>, báo giá minh bạch trước khi sửa chữa.</p>
+    <section class="hero">
+        <h1>CHUYÊN GIA ĐIỆN LẠNH & CƠ ĐIỆN CÔNG NGHIỆP</h1>
+        <p>Phục vụ tại: Đồng Nai - Bình Dương - Vũng Tàu - TP.HCM</p>
+        <p><i>"Làm việc có TÂM - Hỗ trợ tận TÌNH - Giá cả hợp LÝ"</i></p>
+        <a href="#lien-he" class="cta-btn">YÊU CẦU KHẢO SÁT NGAY</a>
+    </section>
 
-    <h3>Bảng Giá Tham Khảo</h3>
-    <table class="price-table">
-        <thead>
-            <tr>
-                <th>Dịch Vụ</th>
-                <th>Đơn Giá</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Vệ sinh máy lạnh (Treo tường)</td>
-                <td>Từ 150.000 VNĐ</td>
-            </tr>
-            <tr>
-                <td>Sửa tủ lạnh (Kiểm tra tận nơi)</td>
-                <td>Miễn phí khảo sát</td>
-            </tr>
-            <tr>
-                <td>Bảo trì hệ thống lạnh công nghiệp</td>
-                <td>Liên hệ báo giá</td>
-            </tr>
-            <tr>
-                <td>Thiết kế lắp đặt tủ điện</td>
-                <td>Theo yêu cầu</td>
-            </tr>
-        </tbody>
-    </table>
+    <section class="section" id="ve-chung-toi">
+        <div class="section-title">
+            <h2>TẠI SAO CHỌN THANH TÂM HIẾU?</h2>
+        </div>
+        <div class="features">
+            <div class="feature-box">
+                <i class="fas fa-heart"></i>
+                <h3>Làm Việc Có Tâm</h3>
+                <p>Kỹ thuật viên tỉ mỉ, cẩn thận từng mối hàn, không vẽ bệnh, coi máy của khách như máy của mình.</p>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-bolt"></i>
+                <h3>Hỗ Trợ Thần Tốc</h3>
+                <p>Có mặt nhanh chóng tại các KCN Đồng Nai, Bình Dương. Xử lý sự cố 24/7 để không gián đoạn sản xuất.</p>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-tools"></i>
+                <h3>Đa Dạng Dịch Vụ</h3>
+                <p>Từ sửa máy lạnh gia đình đến thi công hệ thống HVAC, tủ điện công nghiệp cho nhà xưởng lớn.</p>
+            </div>
+        </div>
+    </section>
 
-    <div class="booking-form">
-        <h3>Đặt Lịch Hỗ Trợ Nhanh</h3>
-        <form action="#">
-            <div class="form-group">
-                <input type="text" placeholder="Họ và tên của bạn" required>
+    <section class="section" id="dich-vu">
+        <div class="section-title">
+            <h2>DỊCH VỤ CỦA CHÚNG TÔI</h2>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-head"><i class="fas fa-snowflake"></i> LẠNH GIA DỤNG</div>
+                <div class="service-body">
+                    <ul>
+                        <li>Vệ sinh máy lạnh sạch sâu (Treo tường, Âm trần).</li>
+                        <li>Sửa tủ lạnh Inverter, tủ đông, tủ mát.</li>
+                        <li>Sửa máy giặt lồng ngang, lồng đứng.</li>
+                        <li>Bơm gas, xử lý chảy nước, máy kêu to.</li>
+                    </ul>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="tel" placeholder="Số điện thoại" required>
+            <div class="service-card">
+                <div class="service-head"><i class="fas fa-industry"></i> LẠNH CÔNG NGHIỆP & HVAC</div>
+                <div class="service-body">
+                    <ul>
+                        <li>Thiết kế & Thi công hệ thống VRV, VRF, Chiller.</li>
+                        <li>Lắp đặt kho lạnh bảo quản thực phẩm/dược phẩm.</li>
+                        <li>Bảo trì định kỳ hệ thống lạnh nhà xưởng, tòa nhà.</li>
+                        <li>Thi công ống gió, thông gió làm mát.</li>
+                    </ul>
+                </div>
             </div>
-            <div class="form-group">
-                <select>
-                    <option value="">Chọn dịch vụ cần hỗ trợ</option>
-                    <option value="lanh-gia-dung">Sửa chữa điện lạnh gia dụng</option>
-                    <option value="hvac">Hệ thống lạnh/HVAC</option>
-                    <option value="dien">Thi công điện/Tủ điện</option>
-                </select>
+            <div class="service-card">
+                <div class="service-head"><i class="fas fa-plug"></i> CƠ ĐIỆN & TỦ ĐIỆN</div>
+                <div class="service-body">
+                    <ul>
+                        <li>Thiết kế & Lắp đặt tủ điện theo yêu cầu (MSB, ATS...).</li>
+                        <li>Thi công hệ thống điện văn phòng, nhà xưởng.</li>
+                        <li>Cải tạo, nâng cấp hệ thống điện cũ.</li>
+                        <li>Khắc phục sự cố điện công nghiệp.</li>
+                    </ul>
+                </div>
             </div>
-            <div class="form-group">
-                <textarea rows="3" placeholder="Tình trạng máy hoặc yêu cầu cụ thể"></textarea>
-            </div>
-            <button type="submit" class="btn-submit">GỬI YÊU CẦU NGAY</button>
-        </form>
+        </div>
+    </section>
+
+    <section class="section contact-section" id="lien-he">
+        <div class="section-title">
+            <h2>ĐẶT LỊCH KHẢO SÁT & SỬA CHỮA</h2>
+            <p>Để lại thông tin, chúng tôi sẽ gọi lại tư vấn miễn phí sau 5 phút!</p>
+        </div>
+        <div class="form-container">
+            <form action="https://api.sheetmonkey.io/form/wE8W5mCL4wteSUgcanYr7k" method="POST" id="my-form">
+    <div class="form-group">
+        <label>Họ và tên:</label>
+        <input type="text" name="ho_ten" class="form-control" placeholder="Nhập tên của bạn" required>
     </div>
-
-    <div style="margin-top: 40px; text-align: center; padding-bottom: 80px;">
-        <h3>Tại Sao Chọn Thanh Tâm Hiếu?</h3>
-        <p>✅ Làm việc có tâm - ✅ Kỹ thuật tỉ mỉ - ✅ Giá cả phải chăng - ✅ Hỗ trợ 24/7</p>
+    <div class="form-group">
+        <label>Số điện thoại:</label>
+        <input type="tel" name="so_dien_thoai" class="form-control" placeholder="Nhập số điện thoại" required>
     </div>
-</div>
+    <div class="form-group">
+        <label>Dịch vụ cần hỗ trợ:</label>
+        <select name="dich_vu" class="form-control">
+            <option value="Sua_Chua_Gia_Dinh">Sửa chữa Điện Lạnh Gia Đình</option>
+            <option value="He_Thong_HVAC">Hệ thống HVAC/Kho lạnh</option>
+            <option value="Thi_Cong_Dien">Thi công Tủ điện/Điện Xưởng</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Ghi chú thêm:</label>
+        <textarea name="ghi_chu" class="form-control" rows="3" placeholder="Ví dụ: Máy lạnh không lạnh, cần thợ gấp..."></textarea>
+    </div>
+    <button type="submit" class="submit-btn">GỬI YÊU CẦU NGAY</button>
+    <p id="my-form-status"></p>
+</form>
+            <div style="margin-top: 20px; text-align: center;">
+                <p>Hoặc nhắn tin trực tiếp qua Zalo:</p>
+                <a href="https://zalo.me/0364574555" style="color: var(--primary); font-weight: bold; font-size: 1.2em;">
+                    <i class="fas fa-comment-dots"></i> Chat Zalo Ngay
+                </a>
+            </div>
+        </div>
+    </section>
 
-<div class="fixed-contact">
-    <a href="tel:0364574555" class="btn-call"><i class="fa fa-phone"></i> GỌI NGAY</a>
-    <a href="https://zalo.me/0364574555" class="btn-zalo"><i class="fa fa-comment"></i> CHAT ZALO</a>
-</div>
+    <footer>
+        <h3>CÔNG TY TNHH TM DV THANH TÂM HIẾU</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Văn phòng chính: [1423/19/19, Khu phố 35 , Phường Long Bình, Tỉnh Đồng Nai], Đồng Nai</p>
+        <p><i class="fas fa-phone"></i> Hotline: 0364.574.555</p>
+        <p><i class="fas fa-envelope"></i> Email:DLthanhtamhieu@gmail.com</p>
+        <br>
+        <p>© 2024 Thanh Tâm Hiếu. All rights reserved.</p>
+    </footer>
 
+    <div class="contact-bar-mobile">
+        <a href="tel:0364574555" class="contact-item" style="color: var(--success);">
+            <i class="fas fa-phone-alt"></i>
+            <span>Gọi Ngay</span>
+        </a>
+        <a href="https://zalo.me/0364574555" class="contact-item" style="color: var(--primary);">
+            <i class="fas fa-comment-dots"></i>
+            <span>Chat Zalo</span>
+        </a>
+        <a href="https://maps.app.goo.gl/CbzV5Bn6E9TfuqFF7" class="contact-item" style="color: var(--danger);">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Chỉ Đường</span>
+        </a>
+    </div>
+<script>
+    var form = document.getElementById("my-form");
+    
+    async function handleSubmit(event) {
+      event.preventDefault();
+      var status = document.getElementById("my-form-status");
+      var data = new FormData(event.target);
+      fetch(event.target.action, {
+        method: form.method,
+        body: data,
+        headers: {
+            'Accept': 'application/json'
+        }
+      }).then(response => {
+        if (response.ok) {
+          status.innerHTML = "✅ Cảm ơn bạn! Thanh Tâm Hiếu sẽ gọi lại sau 5 phút.";
+          status.style.color = "green";
+          status.style.fontWeight = "bold";
+          status.style.marginTop = "10px";
+          form.reset(); // Xóa trắng ô nhập sau khi gửi thành công
+        } else {
+          response.json().then(data => {
+            if (Object.hasOwn(data, 'errors')) {
+              status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
+            } else {
+              status.innerHTML = "Lỗi mạng, vui lòng gọi Hotline!"
+            }
+          })
+        }
+      }).catch(error => {
+        status.innerHTML = "Lỗi mạng, vui lòng gọi Hotline!"
+      });
+    }
+    form.addEventListener("submit", handleSubmit)
+</script>
 </body>
 </html>
