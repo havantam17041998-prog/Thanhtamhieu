@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bảng giá sửa chữa điện lạnh, vệ sinh máy lạnh, thi công điện nước năm 2024 của Công ty Thanh Tâm Hiếu. Minh bạch - Rẻ - Uy tín.">
+    <title>Bảng Giá Dịch Vụ | Điện Lạnh Thanh Tâm Hiếu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* --- COPY LẠI CSS CƠ BẢN TỪ TRANG CHỦ ĐỂ ĐỒNG BỘ --- */
+        :root {
+            --primary: #0068ff; 
+            --secondary: #ffc107;
+            --danger: #dc3545;
+            --success: #28a745;
+            --dark: #333;
+            --light: #f4f6f9;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { padding-bottom: 70px; background: #f9f9f9; }
+        a { text-decoration: none; }
+        
+        /* Header & Nav */
+        header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; padding: 15px; }
+        .logo { font-size: 24px; font-weight: bold; color: var(--primary); text-transform: uppercase; }
+        .logo span { color: var(--danger); }
+        .nav-links a { color: var(--dark); font-weight: 500; margin-left: 20px; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+
+        /* Banner Trang Con */
+        .page-header {
+            background: var(--primary);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .page-header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        
+        /* --- PHẦN BẢNG GIÁ --- */
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        
+        .pricing-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+        
+        .pricing-title {
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+        }
+        .pricing-title i { margin-right: 10px; }
+
+        /* Table Style */
+        .price-table { width: 100%; border-collapse: collapse; }
+        .price-table th { background: #eee; text-align: left; padding: 12px; color: var(--dark); }
+        .price-table td { padding: 12px; border-bottom: 1px solid #ddd; }
+        .price-table tr:hover { background-color: #f1faff; }
+        
+        .price-col { color: var(--danger); font-weight: bold; text-align: right; }
+        .unit-col { color: #666; font-style: italic; font-size: 0.9em; }
+
+        /* Ghi chú */
+        .note-box {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 5px solid #ffeeba;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        /* Footer */
+        footer { background: #222; color: #fff; padding: 40px 20px; text-align: center; margin-top: 40px; }
+
+        /* Mobile Bar */
+        .contact-bar-mobile { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 9999; justify-content: space-around; padding: 10px 0; border-top: 1px solid #eee; }
+        .contact-item { display: flex; flex-direction: column; align-items: center; font-size: 12px; font-weight: bold; flex: 1; color: var(--dark); }
+        .contact-item i { font-size: 20px; margin-bottom: 5px; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .price-table th, .price-table td { padding: 8px; font-size: 14px; }
+            .contact-bar-mobile { display: flex; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <a href="index.html" class="logo">Thanh Tâm <span>Hiếu</span></a>
+            <div class="nav-links">
+                <a href="index.html">Trang chủ</a>
+                <a href="index.html#dich-vu">Dịch vụ</a>
+                <a href="#" style="color: var(--danger);">Bảng giá</a> <a href="index.html#lien-he">Liên hệ</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <h1>BẢNG GIÁ DỊCH VỤ</h1>
+        <p>Minh bạch - Rõ ràng - Không phát sinh chi phí vô lý</p>
+    </div>
+
+    <div class="container">
+        
+        <div class="pricing-section">
+            <h2 class="pricing-title"><i class="fas fa-snowflake"></i> Dịch Vụ Máy Lạnh Treo Tường (Gia Đình)</h2>
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>Hạng mục</th>
+                        <th>Đơn vị</th>
+                        <th style="text-align: right;">Đơn giá (VNĐ)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Vệ sinh máy lạnh (1HP - 2.5HP)</td>
+                        <td class="unit-col">Bộ</td>
+                        <td class="price-col">150.000 - 200.000</td>
+                    </tr>
+                    <tr>
+                        <td>Châm gas bổ sung (R22)</td>
+                        <td class="unit-col">PSI</td>
+                        <td class="price-col">10.000</td>
+                    </tr>
+                    <tr>
+                        <td>Châm gas bổ sung (R410A / R32)</td>
+                        <td class="unit-col">PSI</td>
+                        <td class="price-col">15.000</td>
+                    </tr>
+                    <tr>
+                        <td>Tháo lắp máy lạnh (Công thợ)</td>
+                        <td class="unit-col">Bộ</td>
+                        <td class="price-col">350.000 - 550.000</td>
+                    </tr>
+                    <tr>
+                        <td>Thay tụ kapa (Tụ đề block)</td>
+                        <td class="unit-col">Cái</td>
+                        <td class="price-col">Liên hệ</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pricing-section">
+            <h2 class="pricing-title"><i class="fas fa-industry"></i> Máy Lạnh Âm Trần - Áp Trần - Tủ Đứng</h2>
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>Hạng mục</th>
+                        <th>Công suất</th>
+                        <th style="text-align: right;">Đơn giá (VNĐ)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Vệ sinh máy lạnh Âm trần / Giấu trần</td>
+                        <td class="unit-col">2HP - 5HP</td>
+                        <td class="price-col">350.000 - 550.000</td>
+                    </tr>
+                    <tr>
+                        <td>Vệ sinh máy lạnh Tủ đứng</td>
+                        <td class="unit-col">2HP - 5HP</td>
+                        <td class="price-col">250.000 - 350.000</td>
+                    </tr>
+                    <tr>
+                        <td>Khảo sát sửa chữa hệ thống VRV/VRF</td>
+                        <td class="unit-col">Hệ thống</td>
+                        <td class="price-col">Miễn phí khảo sát</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pricing-section">
+            <h2 class="pricing-title"><i class="fas fa-bolt"></i> Thi Công Điện & Tủ Điện Công Nghiệp</h2>
+            <p style="margin-bottom: 15px;">Do đặc thù kỹ thuật, giá thi công điện phụ thuộc vào bản vẽ và vật tư. Dưới đây là giá nhân công tham khảo:</p>
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>Hạng mục</th>
+                        <th>Đơn vị</th>
+                        <th style="text-align: right;">Giá tham khảo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Thi công lắp đặt tủ điện</td>
+                        <td class="unit-col">Tủ</td>
+                        <td class="price-col">Liên hệ báo giá</td>
+                    </tr>
+                    <tr>
+                        <td>Đi dây điện, máng cáp nhà xưởng</td>
+                        <td class="unit-col">Mét</td>
+                        <td class="price-col">Thỏa thuận</td>
+                    </tr>
+                    <tr>
+                        <td>Sửa chập điện, mất nguồn (Khẩn cấp)</td>
+                        <td class="unit-col">Lần</td>
+                        <td class="price-col">Từ 200.000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="note-box">
+            <strong><i class="fas fa-exclamation-circle"></i> Lưu ý quan trọng:</strong>
+            <ul>
+                <li>Bảng giá trên mang tính chất tham khảo. Giá thực tế phụ thuộc vào vị trí lắp đặt (cao/khó), hãng sản xuất và tình trạng máy.</li>
+                <li>Kỹ thuật viên của <strong>Thanh Tâm Hiếu</strong> sẽ kiểm tra và báo giá chi tiết TRƯỚC khi làm. Khách hàng đồng ý mới tiến hành.</li>
+                <li>Giá chưa bao gồm VAT 10% (nếu quý khách cần xuất hóa đơn đỏ).</li>
+                <li>Bảo hành từ 3 - 12 tháng tùy linh kiện thay thế.</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="index.html#lien-he" style="background: var(--danger); color: white; padding: 15px 30px; border-radius: 30px; font-weight: bold; font-size: 1.1em; display: inline-block;">
+                <i class="fas fa-phone"></i> GỌI KHẢO SÁT & BÁO GIÁ
+            </a>
+        </div>
+
+    </div>
+
+    <footer>
+        <h3>CÔNG TY TNHH TM DV THANH TÂM HIẾU</h3>
+        <p>Văn phòng: Đồng Nai - Bình Dương - HCM</p>
+        <p>© 2026 Thanh Tâm Hiếu. All rights reserved.</p>
+    </footer>
+
+    <div class="contact-bar-mobile">
+        <a href="tel:0364574555" class="contact-item" style="color: var(--success);">
+            <i class="fas fa-phone-alt"></i>
+            <span>Gọi Ngay</span>
+        </a>
+        <a href="https://zalo.me/0364574555" class="contact-item" style="color: var(--primary);">
+            <i class="fas fa-comment-dots"></i>
+            <span>Chat Zalo</span>
+        </a>
+        <a href="https://goo.gl/maps/placeholder" class="contact-item" style="color: var(--danger);">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Chỉ Đường</span>
+        </a>
+    </div>
+
+</body>
+</html>
