@@ -6,53 +6,62 @@
     <meta name="description" content="Công ty Thanh Tâm Hiếu chuyên sửa chữa máy lạnh, bảo trì HVAC, thi công điện nhà xưởng tại Đồng Nai, Bình Dương, Vũng Tàu, TP.HCM.">
     <title>Điện Lạnh Thanh Tâm Hiếu | Uy Tín - Tận Tâm - Chuyên Nghiệp</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu.png">
     
     <style>
         /* --- CẤU HÌNH GIAO DIỆN CHUNG --- */
         :root {
-            --primary: #0068ff; /* Màu xanh Zalo/Thương hiệu */
-            --secondary: #ffc107; /* Màu vàng điểm nhấn */
-            --danger: #dc3545; /* Màu đỏ cho Hotline */
-            --success: #28a745; /* Màu xanh lá gọi điện */
+            --primary: #0068ff;
+            --secondary: #ffc107;
+            --danger: #dc3545;
+            --success: #28a745;
             --dark: #333;
             --light: #f4f6f9;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; scroll-behavior: smooth; }
         
-        body { padding-bottom: 70px; /* Chừa chỗ cho thanh menu dưới điện thoại */ }
+        body { padding-bottom: 70px; }
         
         a { text-decoration: none; }
         ul { list-style: none; }
 
         /* --- HEADER & NAV --- */
         header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; padding: 15px; }
-        .logo { font-size: 24px; font-weight: bold; color: var(--primary); text-transform: uppercase; }
-        .logo span { color: var(--danger); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; padding: 15px; position: relative; }
         
-        .nav-links { display: flex; gap: 20px; }
+        /* LOGO */
+        .logo { display: flex; align-items: center; text-decoration: none; gap: 10px; }
+        .logo img { max-height: 55px; width: auto; object-fit: contain; }
+        .brand-text { display: flex; flex-direction: column; }
+        .company-name { font-size: 18px; font-weight: 800; color: var(--primary); text-transform: uppercase; line-height: 1.2; }
+        .company-slogan { font-size: 12px; color: #555; font-style: italic; }
+
+        /* MENU DESKTOP */
+        .nav-links { display: flex; gap: 20px; align-items: center; }
         .nav-links a { color: var(--dark); font-weight: 500; transition: 0.3s; }
         .nav-links a:hover { color: var(--primary); }
         .btn-header { background: var(--danger); color: white !important; padding: 8px 15px; border-radius: 5px; }
 
+        /* MENU MOBILE ICON */
+        .menu-toggle { display: none; font-size: 24px; cursor: pointer; color: var(--dark); }
+
         /* --- HERO BANNER --- */
         .hero {
             background: linear-gradient(rgba(0,86,179,0.8), rgba(0,86,179,0.8)), url('https://source.unsplash.com/1600x900/?hvac,technician');
-            background-size: cover;
-            color: white;
-            text-align: center;
-            padding: 100px 20px;
+            background-size: cover; color: white; text-align: center; padding: 100px 20px;
         }
-        .hero h1 { font-size: 3em; margin-bottom: 15px; text-transform: uppercase; }
-        .hero p { font-size: 1.2em; margin-bottom: 30px; }
+        .hero h1 { font-size: 2.5em; margin-bottom: 15px; text-transform: uppercase; }
+        .hero p { font-size: 1.1em; margin-bottom: 30px; }
         .cta-btn { background: var(--secondary); color: var(--dark); padding: 15px 30px; font-size: 18px; font-weight: bold; border-radius: 30px; display: inline-block; transition: 0.3s; }
         .cta-btn:hover { transform: scale(1.05); background: #e0a800; }
 
-        /* --- GIỚI THIỆU & THẾ MẠNH --- */
+        /* --- SECTION CHUNG --- */
         .section { padding: 60px 20px; max-width: 1200px; margin: auto; }
         .section-title { text-align: center; margin-bottom: 40px; }
-        .section-title h2 { color: var(--primary); font-size: 2.5em; margin-bottom: 10px; }
+        .section-title h2 { color: var(--primary); font-size: 2.2em; margin-bottom: 10px; }
+
+        /* --- FEATURES --- */
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         .feature-box { text-align: center; padding: 30px; background: var(--light); border-radius: 10px; transition: 0.3s; }
         .feature-box:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
@@ -66,6 +75,23 @@
         .service-body ul li { margin-bottom: 10px; padding-left: 20px; position: relative; }
         .service-body ul li::before { content: "✔"; color: var(--success); position: absolute; left: 0; }
 
+        /* --- HÌNH ẢNH DỰ ÁN --- */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+        .gallery-item { position: relative; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .gallery-item img { width: 100%; height: 250px; object-fit: cover; transition: transform 0.3s; }
+        .gallery-item:hover img { transform: scale(1.1); }
+        .gallery-caption { position: absolute; bottom: 0; background: rgba(0,0,0,0.7); color: white; width: 100%; padding: 10px; text-align: center; font-size: 14px; }
+
+        /* --- ĐÁNH GIÁ (REVIEW) --- */
+        .review-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .review-card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--secondary); }
+        .stars { color: #ffc107; font-size: 20px; margin-bottom: 15px; }
+        .review-text { font-style: italic; color: #555; margin-bottom: 20px; min-height: 80px; }
+        .review-author { display: flex; align-items: center; border-top: 1px solid #eee; padding-top: 15px; }
+        .author-avatar { width: 40px; height: 40px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; color: #888; }
+        .author-info strong { display: block; color: var(--dark); }
+        .author-info span { font-size: 12px; color: #888; }
+
         /* --- FORM LIÊN HỆ --- */
         .contact-section { background: var(--light); }
         .form-container { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); max-width: 600px; margin: auto; }
@@ -76,61 +102,85 @@
 
         /* --- FOOTER --- */
         footer { background: #222; color: #fff; padding: 40px 20px; text-align: center; }
-        .footer-info p { margin: 10px 0; }
+        footer p { margin: 10px 0; }
 
-        /* --- MOBILE STICKY BAR (QUAN TRỌNG) --- */
-        .contact-bar-mobile {
-            display: none;
-            position: fixed;
-            bottom: 0; left: 0; width: 100%;
-            background: #fff;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-            z-index: 9999;
-            justify-content: space-around;
-            padding: 10px 0;
-            border-top: 1px solid #eee;
-        }
+        /* --- MOBILE BAR --- */
+        .contact-bar-mobile { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 9999; justify-content: space-around; padding: 10px 0; border-top: 1px solid #eee; }
         .contact-item { display: flex; flex-direction: column; align-items: center; font-size: 12px; font-weight: bold; flex: 1; color: var(--dark); }
         .contact-item i { font-size: 20px; margin-bottom: 5px; }
+
+        /* --- CSS CHO NÚT NỔI (DESKTOP) --- */
+        .hotline-phone-ring-wrap { position: fixed; bottom: 80px; left: 20px; z-index: 999999; }
+        .hotline-phone-ring, .hotline-zalo-ring { position: relative; width: 110px; height: 110px; cursor: pointer; z-index: 11; }
+        .hotline-phone-ring { margin-bottom: 10px; }
         
-        /* RESPONSIVE */
+        .hotline-phone-ring-circle, .hotline-zalo-ring-circle { width: 85px; height: 85px; top: 10px; left: 10px; position: absolute; border-radius: 100%; opacity: .5; animation: phonering-alo-circle-anim 1.2s infinite ease-in-out; }
+        .hotline-phone-ring-circle { border: 2px solid #e60808; }
+        .hotline-zalo-ring-circle { border: 2px solid #0068ff; }
+
+        .hotline-phone-ring-circle-fill, .hotline-zalo-ring-circle-fill { width: 55px; height: 55px; top: 25px; left: 25px; position: absolute; border-radius: 100%; animation: phonering-alo-circle-fill-anim 2.3s infinite ease-in-out; }
+        .hotline-phone-ring-circle-fill { background-color: rgba(230, 8, 8, 0.7); }
+        .hotline-zalo-ring-circle-fill { background-color: rgba(0, 104, 255, 0.7); }
+
+        .hotline-phone-ring-img-circle, .hotline-zalo-ring-img-circle { width: 50px; height: 50px; top: 28px; left: 28px; position: absolute; border-radius: 100%; display: flex; align-items: center; justify-content: center; }
+        .hotline-phone-ring-img-circle { background-color: #e60808; animation: phonering-alo-circle-img-anim 1s infinite ease-in-out; }
+        .hotline-zalo-ring-img-circle { background-color: #0068ff; }
+        .hotline-phone-ring-img-circle i { color: #fff; font-size: 20px; }
+        .hotline-zalo-ring-img-circle img { width: 30px; height: 30px; }
+
+        @keyframes phonering-alo-circle-anim { 0% { transform: rotate(0) scale(0.5) skew(1deg); opacity: 0.1; } 30% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.5; } 100% { transform: rotate(0) scale(1) skew(1deg); opacity: 0.1; } }
+        @keyframes phonering-alo-circle-fill-anim { 0% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.6; } 50% { transform: rotate(0) scale(1) skew(1deg); opacity: 0.6; } 100% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.6; } }
+        @keyframes phonering-alo-circle-img-anim { 0% { transform: rotate(0) scale(1) skew(1deg); } 10% { transform: rotate(-25deg) scale(1) skew(1deg); } 20% { transform: rotate(25deg) scale(1) skew(1deg); } 30% { transform: rotate(-25deg) scale(1) skew(1deg); } 40% { transform: rotate(25deg) scale(1) skew(1deg); } 50% { transform: rotate(0) scale(1) skew(1deg); } 100% { transform: rotate(0) scale(1) skew(1deg); } }
+
+        /* --- RESPONSIVE MOBILE --- */
         @media (max-width: 768px) {
-            .navbar { flex-direction: column; gap: 10px; }
-            .nav-links { display: none; } /* Ẩn menu trên mobile cho gọn */
+            .menu-toggle { display: block; } /* Hiện nút 3 gạch */
+            
+            .nav-links { 
+                display: none; /* Mặc định ẩn menu */
+                flex-direction: column; 
+                position: absolute; 
+                top: 70px; 
+                left: 0; 
+                width: 100%; 
+                background: white; 
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1); 
+                padding: 20px;
+                text-align: center;
+            }
+            .nav-links.active { display: flex; } /* Hiện menu khi bấm */
+            
+            .logo img { height: 40px; }
+            .company-name { font-size: 15px; }
+            .company-slogan { display: none; } /* Ẩn Slogan cho gọn */
+            
             .hero h1 { font-size: 1.8em; }
-            .contact-bar-mobile { display: flex; } /* Hiện thanh menu dưới */
+            
+            /* Ẩn nút rung lắc trên mobile để tránh che màn hình, chỉ hiện thanh dưới đáy */
+            .hotline-phone-ring-wrap { display: none; } 
+            .contact-bar-mobile { display: flex; }
         }
-        /* --- CSS CHO LOGO (Dán đoạn này vào) --- */
-.logo {
-    display: flex; /* Giúp căn giữa logo theo chiều dọc */
-    align-items: center;
-}
-
-.logo img {
-    max-height: 60px; /* Chiều cao tối đa trên máy tính */
-    width: auto;      /* Chiều rộng tự động co theo */
-    object-fit: contain; /* Giữ nguyên tỷ lệ ảnh không bị méo */
-}
-
-/* Khi xem trên điện thoại (màn hình nhỏ hơn 768px) */
-@media (max-width: 768px) {
-    .logo img {
-        max-height: 40px; /* Logo nhỏ lại để vừa màn hình điện thoại */
-    }
-}
     </style>
-    <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu.png">
 </head>
 <body>
 
     <header>
         <div class="navbar">
-           <a href="index.html" class="logo">
-    <img src="logo-thanh-tam-hieu.png" alt="Logo Thanh Tâm Hiếu" style="height: 50px; width: auto; vertical-align: middle;">
-</a>
-            <div class="nav-links">
-                <a href="#ve-chung-toi">Về chúng tôi</a>
-                <a href="#dich-vu">Dịch vụ</a>
+            <a href="index.html" class="logo">
+                <img src="logo-thanh-tam-hieu.png" alt="Logo Thanh Tâm Hiếu">
+                <div class="brand-text">
+                    <span class="company-name">THANH TÂM HIẾU</span>
+                    <span class="company-slogan">Uy Tín - Tận Tâm - Chuyên Nghiệp</span>
+                </div>
+            </a>
+            
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <div class="nav-links" id="navLinks">
+                <a href="#ve-chung-toi" onclick="toggleMenu()">Về chúng tôi</a>
+                <a href="#dich-vu" onclick="toggleMenu()">Dịch vụ</a>
                 <a href="banggia.html">Bảng giá</a>
                 <a href="tel:0364574555" class="btn-header"><i class="fas fa-phone"></i> 0364.574.555</a>
             </div>
@@ -208,9 +258,7 @@
         </div>
     </section>
 
-    <section class="section contact-section" id="lien-he">
-        <div class="section-title">
-            <section class="section" style="background: #fff;">
+    <section class="section" style="background: #fff;">
         <div class="section-title">
             <h2>HÌNH ẢNH THI CÔNG THỰC TẾ</h2>
             <p>Người thật - Việc thật. Sự tỉ mỉ làm nên thương hiệu Thanh Tâm Hiếu.</p>
@@ -230,169 +278,70 @@
             </div>
         </div>
     </section>
-            <section class="section" style="background-color: #f0f8ff;"> <div class="section-title">
+
+    <section class="section" style="background-color: #f0f8ff;">
+        <div class="section-title">
             <h2>KHÁCH HÀNG NÓI GÌ VỀ CHÚNG TÔI?</h2>
             <p>Sự hài lòng của quý khách là niềm tự hào của Thanh Tâm Hiếu</p>
         </div>
-
         <div class="review-container">
             <div class="review-card">
                 <div class="stars">★★★★★</div>
                 <p class="review-text">"Nhà mình ở Biên Hòa, máy lạnh hư gọi mấy chỗ không ai tới liền. Gọi bên Thanh Tâm Hiếu 30 phút có mặt. Thợ làm kỹ, dọn dẹp sạch sẽ mới về. Rất ưng ý!"</p>
                 <div class="review-author">
                     <div class="author-avatar"><i class="fas fa-user"></i></div>
-                    <div class="author-info">
-                        <strong>Chị Lan Anh</strong>
-                        <span>TP. Biên Hòa, Đồng Nai</span>
-                    </div>
+                    <div class="author-info"><strong>Chị Lan Anh</strong><span>TP. Biên Hòa, Đồng Nai</span></div>
                 </div>
             </div>
-
             <div class="review-card">
                 <div class="stars">★★★★★</div>
                 <p class="review-text">"Công ty tôi thuê bên này thi công lại hệ thống điện nhà xưởng tại Dĩ An. Anh em kỹ thuật làm việc rất chuyên nghiệp, đi dây gọn đẹp, nghiệm thu nhanh."</p>
                 <div class="review-author">
                     <div class="author-avatar"><i class="fas fa-building"></i></div>
-                    <div class="author-info">
-                        <strong>Anh Hùng (Giám đốc Xưởng Gỗ)</strong>
-                        <span>Dĩ An, Bình Dương</span>
-                    </div>
+                    <div class="author-info"><strong>Anh Hùng (Giám đốc Xưởng Gỗ)</strong><span>Dĩ An, Bình Dương</span></div>
                 </div>
             </div>
-
             <div class="review-card">
                 <div class="stars">★★★★★</div>
                 <p class="review-text">"Giá cả minh bạch, báo giá trước khi làm nên không lo bị chặt chém. Sẽ giới thiệu cho bạn bè ủng hộ công ty."</p>
                 <div class="review-author">
                     <div class="author-avatar"><i class="fas fa-user"></i></div>
-                    <div class="author-info">
-                        <strong>Anh Tuấn Minh</strong>
-                        <span>TP. Vũng Tàu</span>
-                    </div>
+                    <div class="author-info"><strong>Anh Tuấn Minh</strong><span>TP. Vũng Tàu</span></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <style>
-        /* CSS CHO PHẦN ĐÁNH GIÁ */
-        .review-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Tự động chia cột */
-            gap: 20px;
-        }
-
-        .review-card {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            border-top: 4px solid var(--secondary); /* Viền màu vàng tạo điểm nhấn */
-        }
-
-        .stars {
-            color: #ffc107; /* Màu vàng sao */
-            font-size: 20px;
-            margin-bottom: 15px;
-        }
-
-        .review-text {
-            font-style: italic;
-            color: #555;
-            margin-bottom: 20px;
-            min-height: 80px; /* Giữ các khung đều nhau */
-        }
-
-        .review-author {
-            display: flex;
-            align-items: center;
-            border-top: 1px solid #eee;
-            padding-top: 15px;
-        }
-
-        .author-avatar {
-            width: 40px;
-            height: 40px;
-            background: #eee;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            color: #888;
-        }
-
-        .author-info strong {
-            display: block;
-            color: var(--dark);
-        }
-
-        .author-info span {
-            font-size: 12px;
-            color: #888;
-        }
-    </style>
-
-    <style>
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
-        }
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .gallery-item img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            transition: transform 0.3s;
-        }
-        .gallery-item:hover img {
-            transform: scale(1.1); /* Hiệu ứng phóng to khi di chuột */
-        }
-        .gallery-caption {
-            position: absolute;
-            bottom: 0;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            width: 100%;
-            padding: 10px;
-            text-align: center;
-            font-size: 14px;
-        }
-    </style>
+    <section class="section contact-section" id="lien-he">
+        <div class="section-title">
             <h2>ĐẶT LỊCH KHẢO SÁT & SỬA CHỮA</h2>
             <p>Để lại thông tin, chúng tôi sẽ gọi lại tư vấn miễn phí sau 5 phút!</p>
         </div>
         <div class="form-container">
             <form action="https://api.sheetmonkey.io/form/wE8W5mCL4wteSUgcanYr7k" method="POST" id="my-form">
-    <div class="form-group">
-        <label>Họ và tên:</label>
-        <input type="text" name="ho_ten" class="form-control" placeholder="Nhập tên của bạn" required>
-    </div>
-    <div class="form-group">
-        <label>Số điện thoại:</label>
-        <input type="tel" name="so_dien_thoai" class="form-control" placeholder="Nhập số điện thoại" required>
-    </div>
-    <div class="form-group">
-        <label>Dịch vụ cần hỗ trợ:</label>
-        <select name="dich_vu" class="form-control">
-            <option value="Sua_Chua_Gia_Dinh">Sửa chữa Điện Lạnh Gia Đình</option>
-            <option value="He_Thong_HVAC">Hệ thống HVAC/Kho lạnh</option>
-            <option value="Thi_Cong_Dien">Thi công Tủ điện/Điện Xưởng</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label>Ghi chú thêm:</label>
-        <textarea name="ghi_chu" class="form-control" rows="3" placeholder="Ví dụ: Máy lạnh không lạnh, cần thợ gấp..."></textarea>
-    </div>
-    <button type="submit" class="submit-btn">GỬI YÊU CẦU NGAY</button>
-    <p id="my-form-status"></p>
-</form>
+                <div class="form-group">
+                    <label>Họ và tên:</label>
+                    <input type="text" name="ho_ten" class="form-control" placeholder="Nhập tên của bạn" required>
+                </div>
+                <div class="form-group">
+                    <label>Số điện thoại:</label>
+                    <input type="tel" name="so_dien_thoai" class="form-control" placeholder="Nhập số điện thoại" required>
+                </div>
+                <div class="form-group">
+                    <label>Dịch vụ cần hỗ trợ:</label>
+                    <select name="dich_vu" class="form-control">
+                        <option value="Sua_Chua_Gia_Dinh">Sửa chữa Điện Lạnh Gia Đình</option>
+                        <option value="He_Thong_HVAC">Hệ thống HVAC/Kho lạnh</option>
+                        <option value="Thi_Cong_Dien">Thi công Tủ điện/Điện Xưởng</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ghi chú thêm:</label>
+                    <textarea name="ghi_chu" class="form-control" rows="3" placeholder="Ví dụ: Máy lạnh không lạnh, cần thợ gấp..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">GỬI YÊU CẦU NGAY</button>
+                <p id="my-form-status"></p>
+            </form>
             <div style="margin-top: 20px; text-align: center;">
                 <p>Hoặc nhắn tin trực tiếp qua Zalo:</p>
                 <a href="https://zalo.me/0364574555" style="color: var(--primary); font-weight: bold; font-size: 1.2em;">
@@ -404,256 +353,72 @@
 
     <footer>
         <h3>CÔNG TY TNHH TM DV THANH TÂM HIẾU</h3>
-        <p><i class="fas fa-map-marker-alt"></i> Văn phòng chính: [1423/19/19, Khu phố 35 , Phường Long Bình, Tỉnh Đồng Nai], Đồng Nai</p>
+        <p><i class="fas fa-map-marker-alt"></i> Văn phòng chính: 1423/19/19, Khu phố 35, P. Long Bình, Đồng Nai</p>
         <p><i class="fas fa-phone"></i> Hotline: 0364.574.555</p>
-        <p><i class="fas fa-envelope"></i> Email:DLthanhtamhieu@gmail.com</p>
+        <p><i class="fas fa-envelope"></i> Email: DLthanhtamhieu@gmail.com</p>
         <br>
         <p>© 2026 Thanh Tâm Hiếu. All rights reserved.</p>
     </footer>
 
     <div class="contact-bar-mobile">
         <a href="tel:0364574555" class="contact-item" style="color: var(--success);">
-            <i class="fas fa-phone-alt"></i>
-            <span>Gọi Ngay</span>
+            <i class="fas fa-phone-alt"></i> <span>Gọi Ngay</span>
         </a>
         <a href="https://zalo.me/0364574555" class="contact-item" style="color: var(--primary);">
-            <i class="fas fa-comment-dots"></i>
-            <span>Chat Zalo</span>
+            <i class="fas fa-comment-dots"></i> <span>Chat Zalo</span>
         </a>
-        <a href="https://maps.app.goo.gl/CbzV5Bn6E9TfuqFF7" class="contact-item" style="color: var(--danger);">
-            <i class="fas fa-map-marker-alt"></i>
-            <span>Chỉ Đường</span>
+        <a href="https://goo.gl/maps/placeholder" class="contact-item" style="color: var(--danger);">
+            <i class="fas fa-map-marker-alt"></i> <span>Chỉ Đường</span>
         </a>
     </div>
-<script>
-    var form = document.getElementById("my-form");
-    
-    async function handleSubmit(event) {
-      event.preventDefault();
-      var status = document.getElementById("my-form-status");
-      var data = new FormData(event.target);
-      fetch(event.target.action, {
-        method: form.method,
-        body: data,
-        headers: {
-            'Accept': 'application/json'
-        }
-      }).then(response => {
-        if (response.ok) {
-          status.innerHTML = "✅ Cảm ơn bạn! Thanh Tâm Hiếu sẽ gọi lại sau 5 phút.";
-          status.style.color = "green";
-          status.style.fontWeight = "bold";
-          status.style.marginTop = "10px";
-          form.reset(); // Xóa trắng ô nhập sau khi gửi thành công
-        } else {
-          response.json().then(data => {
-            if (Object.hasOwn(data, 'errors')) {
-              status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
-            } else {
-              status.innerHTML = "Lỗi mạng, vui lòng gọi Hotline!"
-            }
-          })
-        }
-      }).catch(error => {
-        status.innerHTML = "Lỗi mạng, vui lòng gọi Hotline!"
-      });
-    }
-    form.addEventListener("submit", handleSubmit)
-</script>
+
     <div class="hotline-phone-ring-wrap">
-    
-    <div class="hotline-phone-ring">
-        <div class="hotline-phone-ring-circle"></div>
-        <div class="hotline-phone-ring-circle-fill"></div>
-        <div class="hotline-phone-ring-img-circle">
-            <a href="tel:0364574555" class="pps-btn-img">
-                <i class="fas fa-phone-alt"></i>
-            </a>
+        <div class="hotline-phone-ring">
+            <div class="hotline-phone-ring-circle"></div>
+            <div class="hotline-phone-ring-circle-fill"></div>
+            <div class="hotline-phone-ring-img-circle">
+                <a href="tel:0364574555" class="pps-btn-img"><i class="fas fa-phone-alt"></i></a>
+            </div>
+        </div>
+        <div class="hotline-zalo-ring">
+            <div class="hotline-zalo-ring-circle"></div>
+            <div class="hotline-zalo-ring-circle-fill"></div>
+            <div class="hotline-zalo-ring-img-circle">
+                <a href="https://zalo.me/0364574555" target="_blank" class="pps-btn-img">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png" alt="Chat Zalo">
+                </a>
+            </div>
         </div>
     </div>
 
-    <div class="hotline-zalo-ring">
-        <div class="hotline-zalo-ring-circle"></div>
-        <div class="hotline-zalo-ring-circle-fill"></div>
-        <div class="hotline-zalo-ring-img-circle">
-            <a href="https://zalo.me/0364574555" target="_blank" class="pps-btn-img">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png" alt="Chat Zalo">
-            </a>
-        </div>
-    </div>
-
-</div>
-
-<style>
-    /* VỊ TRÍ CỐ ĐỊNH Ở GÓC TRÁI MÀN HÌNH */
-    .hotline-phone-ring-wrap {
-        position: fixed;
-        bottom: 80px; /* Cách đáy 80px để không che mất thanh menu mobile cũ */
-        left: 20px;
-        z-index: 999999;
-    }
-
-    /* --- CSS CHO NÚT GỌI ĐIỆN (MÀU ĐỎ) --- */
-    .hotline-phone-ring {
-        position: relative;
-        visibility: visible;
-        background-color: transparent;
-        width: 110px;
-        height: 110px;
-        cursor: pointer;
-        z-index: 11;
-        transition: visibility .5s;
-        margin-bottom: 10px; /* Khoảng cách với nút Zalo */
-    }
-
-    .hotline-phone-ring-circle {
-        width: 85px;
-        height: 85px;
-        top: 10px;
-        left: 10px;
-        position: absolute;
-        background-color: transparent;
-        border-radius: 100%;
-        border: 2px solid #e60808;
-        opacity: .5;
-        animation: phonering-alo-circle-anim 1.2s infinite ease-in-out;
-        transition: all .5s;
-        transform-origin: 50% 50%;
-    }
-
-    .hotline-phone-ring-circle-fill {
-        width: 55px;
-        height: 55px;
-        top: 25px;
-        left: 25px;
-        position: absolute;
-        background-color: rgba(230, 8, 8, 0.7);
-        border-radius: 100%;
-        border: 2px solid transparent;
-        animation: phonering-alo-circle-fill-anim 2.3s infinite ease-in-out;
-        transition: all .5s;
-        transform-origin: 50% 50%;
-    }
-
-    .hotline-phone-ring-img-circle {
-        background-color: #e60808;
-        width: 50px;
-        height: 50px;
-        top: 28px;
-        left: 28px;
-        position: absolute;
-        background-size: 20px;
-        border-radius: 100%;
-        border: 2px solid transparent;
-        animation: phonering-alo-circle-img-anim 1s infinite ease-in-out;
-        transform-origin: 50% 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .hotline-phone-ring-img-circle .pps-btn-img {
-        display: flex;
-    }
-
-    .hotline-phone-ring-img-circle .pps-btn-img i {
-        color: #fff;
-        font-size: 20px;
-    }
-
-    /* --- CSS CHO NÚT ZALO (MÀU XANH) --- */
-    .hotline-zalo-ring {
-        position: relative;
-        visibility: visible;
-        background-color: transparent;
-        width: 110px;
-        height: 110px;
-        cursor: pointer;
-        z-index: 11;
-    }
-
-    .hotline-zalo-ring-circle {
-        width: 85px;
-        height: 85px;
-        top: 10px;
-        left: 10px;
-        position: absolute;
-        background-color: transparent;
-        border-radius: 100%;
-        border: 2px solid #0068ff;
-        opacity: .5;
-        animation: phonering-alo-circle-anim 1.2s infinite ease-in-out;
-    }
-
-    .hotline-zalo-ring-circle-fill {
-        width: 55px;
-        height: 55px;
-        top: 25px;
-        left: 25px;
-        position: absolute;
-        background-color: rgba(0, 104, 255, 0.7);
-        border-radius: 100%;
-        border: 2px solid transparent;
-        animation: phonering-alo-circle-fill-anim 2.3s infinite ease-in-out;
-    }
-
-    .hotline-zalo-ring-img-circle {
-        background-color: #0068ff;
-        width: 50px;
-        height: 50px;
-        top: 28px;
-        left: 28px;
-        position: absolute;
-        border-radius: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .hotline-zalo-ring-img-circle img {
-        width: 30px;
-        height: 30px;
-    }
-
-    /* --- HIỆU ỨNG CHUYỂN ĐỘNG (KEYFRAMES) --- */
-    @keyframes phonering-alo-circle-anim {
-        0% { transform: rotate(0) scale(0.5) skew(1deg); opacity: 0.1; }
-        30% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.5; }
-        100% { transform: rotate(0) scale(1) skew(1deg); opacity: 0.1; }
-    }
-
-    @keyframes phonering-alo-circle-fill-anim {
-        0% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.6; }
-        50% { transform: rotate(0) scale(1) skew(1deg); opacity: 0.6; }
-        100% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.6; }
-    }
-
-    @keyframes phonering-alo-circle-img-anim {
-        0% { transform: rotate(0) scale(1) skew(1deg); }
-        10% { transform: rotate(-25deg) scale(1) skew(1deg); }
-        20% { transform: rotate(25deg) scale(1) skew(1deg); }
-        30% { transform: rotate(-25deg) scale(1) skew(1deg); }
-        40% { transform: rotate(25deg) scale(1) skew(1deg); }
-        50% { transform: rotate(0) scale(1) skew(1deg); }
-        100% { transform: rotate(0) scale(1) skew(1deg); }
-    }
-    
-    /* Tùy chỉnh trên điện thoại để không bị to quá */
-    @media (max-width: 768px) {
-        .hotline-phone-ring-wrap {
-            bottom: 70px; /* Đẩy lên trên thanh menu dưới một chút */
-            left: 0;
-            transform: scale(0.8); /* Thu nhỏ lại 80% cho gọn */
+    <script>
+        // Xử lý gửi Form
+        var form = document.getElementById("my-form");
+        async function handleSubmit(event) {
+            event.preventDefault();
+            var status = document.getElementById("my-form-status");
+            var data = new FormData(event.target);
+            fetch(event.target.action, {
+                method: form.method,
+                body: data,
+                headers: { 'Accept': 'application/json' }
+            }).then(response => {
+                if (response.ok) {
+                    status.innerHTML = "✅ Cảm ơn bạn! Thanh Tâm Hiếu sẽ gọi lại sau 5 phút.";
+                    status.style.color = "green"; status.style.fontWeight = "bold"; status.style.marginTop = "10px";
+                    form.reset();
+                } else {
+                    status.innerHTML = "Lỗi mạng, vui lòng gọi Hotline!";
+                }
+            }).catch(error => { status.innerHTML = "Lỗi mạng, vui lòng gọi Hotline!"; });
         }
-    }
-</style>
+        form.addEventListener("submit", handleSubmit);
+
+        // Xử lý Menu Mobile (Nút 3 gạch)
+        function toggleMenu() {
+            var nav = document.getElementById("navLinks");
+            nav.classList.toggle("active");
+        }
+    </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
