@@ -100,6 +100,24 @@
             .hero h1 { font-size: 1.8em; }
             .contact-bar-mobile { display: flex; } /* Hiện thanh menu dưới */
         }
+        /* --- CSS CHO LOGO (Dán đoạn này vào) --- */
+.logo {
+    display: flex; /* Giúp căn giữa logo theo chiều dọc */
+    align-items: center;
+}
+
+.logo img {
+    max-height: 60px; /* Chiều cao tối đa trên máy tính */
+    width: auto;      /* Chiều rộng tự động co theo */
+    object-fit: contain; /* Giữ nguyên tỷ lệ ảnh không bị méo */
+}
+
+/* Khi xem trên điện thoại (màn hình nhỏ hơn 768px) */
+@media (max-width: 768px) {
+    .logo img {
+        max-height: 40px; /* Logo nhỏ lại để vừa màn hình điện thoại */
+    }
+}
     </style>
 </head>
 <body>
@@ -116,6 +134,7 @@
                 <a href="tel:0364574555" class="btn-header"><i class="fas fa-phone"></i> 0364.574.555</a>
             </div>
         </div>
+        <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu.png">
     </header>
 
     <section class="hero">
@@ -289,4 +308,5 @@
 </body>
 
 </html>
+
 
