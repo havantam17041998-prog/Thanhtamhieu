@@ -9,7 +9,9 @@
     <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu.png">
     
     <style>
-        /* --- 1. COPY CSS TỪ TRANG CHỦ ĐỂ ĐỒNG BỘ --- */
+        /* =========================================
+           1. CSS DÙNG CHUNG (ĐỒNG BỘ VỚI INDEX.HTML)
+           ========================================= */
         :root {
             --primary: #0068ff;
             --secondary: #ffc107;
@@ -24,30 +26,71 @@
         a { text-decoration: none; }
         ul { list-style: none; }
 
-        /* Header & Menu */
+        /* HEADER */
         header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
         .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; padding: 15px; position: relative; }
-        .logo { display: flex; align-items: center; gap: 10px; }
+        .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
         .logo img { max-height: 55px; width: auto; object-fit: contain; }
         .brand-text { display: flex; flex-direction: column; }
         .company-name { font-size: 18px; font-weight: 800; color: var(--primary); text-transform: uppercase; line-height: 1.2; }
         .company-slogan { font-size: 12px; color: #555; font-style: italic; }
+
         .nav-links { display: flex; gap: 20px; align-items: center; }
         .nav-links a { color: var(--dark); font-weight: 500; transition: 0.3s; }
         .nav-links a:hover { color: var(--primary); }
-        .nav-links a.active { color: var(--primary); font-weight: bold; }
+        .nav-links a.active { color: var(--primary); font-weight: bold; border-bottom: 2px solid var(--primary); } /* Highlight mục đang chọn */
+        
         .btn-header { background: var(--danger); color: white !important; padding: 8px 15px; border-radius: 5px; }
         .menu-toggle { display: none; font-size: 24px; cursor: pointer; color: var(--dark); }
 
-        /* Banner con (Mini Hero) */
+        /* FOOTER */
+        footer { background: #222; color: #fff; padding: 40px 20px; text-align: center; margin-top: 50px; }
+        footer p { margin: 10px 0; }
+        footer a { color: #fff; text-decoration: none; transition: 0.3s; }
+        footer a:hover { color: var(--secondary); }
+
+        /* MOBILE BAR */
+        .contact-bar-mobile { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 9999; justify-content: space-around; padding: 10px 0; border-top: 1px solid #eee; }
+        .contact-item { display: flex; flex-direction: column; align-items: center; font-size: 12px; font-weight: bold; flex: 1; color: var(--dark); }
+        .contact-item i { font-size: 20px; margin-bottom: 5px; }
+
+        /* NÚT RUNG */
+        .hotline-phone-ring-wrap { position: fixed; bottom: 80px; left: 20px; z-index: 999999; }
+        .hotline-phone-ring, .hotline-zalo-ring { position: relative; width: 110px; height: 110px; cursor: pointer; z-index: 11; margin-bottom: 10px; }
+        .hotline-phone-ring-circle, .hotline-zalo-ring-circle { width: 85px; height: 85px; top: 10px; left: 10px; position: absolute; border-radius: 100%; opacity: .5; animation: ring 1.2s infinite; }
+        .hotline-phone-ring-circle { border: 2px solid #e60808; } .hotline-zalo-ring-circle { border: 2px solid #0068ff; }
+        .hotline-phone-ring-circle-fill, .hotline-zalo-ring-circle-fill { width: 55px; height: 55px; top: 25px; left: 25px; position: absolute; border-radius: 100%; animation: ring-fill 2.3s infinite; }
+        .hotline-phone-ring-circle-fill { background: rgba(230,8,8,0.7); } .hotline-zalo-ring-circle-fill { background: rgba(0,104,255,0.7); }
+        .hotline-phone-ring-img-circle, .hotline-zalo-ring-img-circle { width: 50px; height: 50px; top: 28px; left: 28px; position: absolute; border-radius: 100%; display: flex; justify-content: center; align-items: center; }
+        .hotline-phone-ring-img-circle { background: #e60808; animation: ring-img 1s infinite; } .hotline-zalo-ring-img-circle { background: #0068ff; }
+        .hotline-phone-ring-img-circle i { color: white; font-size: 20px; } .hotline-zalo-ring-img-circle img { width: 30px; height: 30px; }
+
+        @keyframes ring { 0% { transform: rotate(0) scale(0.5) skew(1deg); opacity: 0.1; } 30% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.5; } 100% { transform: rotate(0) scale(1) skew(1deg); opacity: 0.1; } }
+        @keyframes ring-fill { 0% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.6; } 50% { transform: rotate(0) scale(1) skew(1deg); opacity: 0.6; } 100% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.6; } }
+        @keyframes ring-img { 0% { transform: rotate(0) scale(1) skew(1deg); } 10% { transform: rotate(-25deg) scale(1) skew(1deg); } 20% { transform: rotate(25deg) scale(1) skew(1deg); } 30% { transform: rotate(-25deg) scale(1) skew(1deg); } 40% { transform: rotate(25deg) scale(1) skew(1deg); } 50% { transform: rotate(0) scale(1) skew(1deg); } 100% { transform: rotate(0) scale(1) skew(1deg); } }
+
+        /* RESPONSIVE CHUNG */
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: white; box-shadow: 0 5px 10px rgba(0,0,0,0.1); padding: 20px; text-align: center; }
+            .nav-links.active-mobile { display: flex; } /* Class này sẽ được JS toggle */
+            .logo img { height: 40px; } 
+            .company-name { font-size: 15px; } 
+            .company-slogan { display: none; }
+            .hotline-phone-ring-wrap { display: none; } 
+            .contact-bar-mobile { display: flex; }
+        }
+
+        /* =========================================
+           2. CSS RIÊNG CHO TRANG BẢNG GIÁ
+           ========================================= */
         .page-header {
-            background: linear-gradient(rgba(0,86,179,0.9), rgba(0,86,179,0.9)), url('https://images.unsplash.com/photo-1556740758-90de2929450a?auto=format&fit=crop&w=1600&q=80');
+            background: linear-gradient(rgba(0,86,179,0.9), rgba(0,86,179,0.9)), url('https://source.unsplash.com/1600x900/?calculator,money');
             background-size: cover; background-position: center;
             color: white; text-align: center; padding: 60px 20px;
         }
         .page-header h1 { font-size: 2.2em; margin-bottom: 10px; text-transform: uppercase; }
 
-        /* --- 2. CSS RIÊNG CHO BẢNG GIÁ --- */
         .price-section { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
         .price-category { 
             margin-top: 40px; margin-bottom: 20px; 
@@ -62,41 +105,18 @@
         td { padding: 15px; border-bottom: 1px solid #eee; color: #333; }
         tr:nth-child(even) { background-color: #f9f9f9; }
         tr:hover { background-color: #f1f1f1; }
-        .price-col { font-weight: bold; color: var(--danger); width: 150px; }
+        .price-col { font-weight: bold; color: var(--danger); width: 180px; }
         .note-col { font-style: italic; color: #666; font-size: 0.9em; }
 
         .note-box { background: #fff3cd; border: 1px solid #ffeeba; padding: 20px; border-radius: 10px; margin-top: 40px; color: #856404; }
-
-        /* Footer & Mobile Bar (Copy từ Index) */
-        footer { background: #222; color: #fff; padding: 40px 20px; text-align: center; margin-top: 50px; }
-        footer p { margin: 10px 0; }
-        footer a { color: #fff; text-decoration: none; }
         
-        .contact-bar-mobile { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 9999; justify-content: space-around; padding: 10px 0; border-top: 1px solid #eee; }
-        .contact-item { display: flex; flex-direction: column; align-items: center; font-size: 12px; font-weight: bold; flex: 1; color: var(--dark); }
-        .contact-item i { font-size: 20px; margin-bottom: 5px; }
-
-        .hotline-phone-ring-wrap { position: fixed; bottom: 80px; left: 20px; z-index: 999999; }
-        .hotline-phone-ring, .hotline-zalo-ring { position: relative; width: 110px; height: 110px; cursor: pointer; z-index: 11; margin-bottom: 10px; }
-        .hotline-phone-ring-circle, .hotline-zalo-ring-circle { width: 85px; height: 85px; top: 10px; left: 10px; position: absolute; border-radius: 100%; opacity: .5; animation: ring 1.2s infinite; }
-        .hotline-phone-ring-circle { border: 2px solid #e60808; } .hotline-zalo-ring-circle { border: 2px solid #0068ff; }
-        .hotline-phone-ring-circle-fill, .hotline-zalo-ring-circle-fill { width: 55px; height: 55px; top: 25px; left: 25px; position: absolute; border-radius: 100%; animation: ring-fill 2.3s infinite; }
-        .hotline-phone-ring-circle-fill { background: rgba(230,8,8,0.7); } .hotline-zalo-ring-circle-fill { background: rgba(0,104,255,0.7); }
-        .hotline-phone-ring-img-circle, .hotline-zalo-ring-img-circle { width: 50px; height: 50px; top: 28px; left: 28px; position: absolute; border-radius: 100%; display: flex; justify-content: center; align-items: center; }
-        .hotline-phone-ring-img-circle { background: #e60808; animation: ring-img 1s infinite; } .hotline-zalo-ring-img-circle { background: #0068ff; }
-        .hotline-phone-ring-img-circle i { color: white; font-size: 20px; } .hotline-zalo-ring-img-circle img { width: 30px; height: 30px; }
-        @keyframes ring { 0% { transform: rotate(0) scale(0.5) skew(1deg); opacity: 0.1; } 30% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.5; } 100% { transform: rotate(0) scale(1) skew(1deg); opacity: 0.1; } }
-        @keyframes ring-fill { 0% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.6; } 50% { transform: rotate(0) scale(1) skew(1deg); opacity: 0.6; } 100% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.6; } }
-        @keyframes ring-img { 0% { transform: rotate(0) scale(1) skew(1deg); } 10% { transform: rotate(-25deg) scale(1) skew(1deg); } 20% { transform: rotate(25deg) scale(1) skew(1deg); } 30% { transform: rotate(-25deg) scale(1) skew(1deg); } 40% { transform: rotate(25deg) scale(1) skew(1deg); } 50% { transform: rotate(0) scale(1) skew(1deg); } 100% { transform: rotate(0) scale(1) skew(1deg); } }
-
-
-        @media (max-width: 768px) {
-            .menu-toggle { display: block; }
-            .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: white; box-shadow: 0 5px 10px rgba(0,0,0,0.1); padding: 20px; text-align: center; }
-            .nav-links.active { display: flex; }
-            .logo img { height: 40px; } .company-name { font-size: 15px; } .company-slogan { display: none; }
-            .hotline-phone-ring-wrap { display: none; } .contact-bar-mobile { display: flex; }
+        .cta-btn-price {
+            background: var(--danger); color: white; padding: 15px 30px; 
+            border-radius: 30px; font-weight: bold; font-size: 1.1em; 
+            display: inline-block; transition: 0.3s;
         }
+        .cta-btn-price:hover { transform: scale(1.05); background: #c82333; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+
     </style>
 </head>
 <body>
@@ -110,12 +130,14 @@
                     <span class="company-slogan">Uy Tín - Tận Tâm - Chuyên Nghiệp</span>
                 </div>
             </a>
+            
             <div class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+            
             <div class="nav-links" id="navLinks">
-                <a href="index.html#ve-chung-toi" onclick="toggleMenu()">Về chúng tôi</a>
-                <a href="index.html#dich-vu" onclick="toggleMenu()">Dịch vụ</a>
-                <a href="banggia.html" class="active">Bảng giá</a>
-                <a href="index.html#faq" onclick="toggleMenu()">Hỏi đáp</a>
+                <a href="index.html">Trang chủ</a>
+                <a href="index.html#ve-chung-toi">Về chúng tôi</a>
+                <a href="index.html#dich-vu">Dịch vụ</a>
+                <a href="banggia.html" class="active">Bảng giá</a> <a href="index.html#faq">Hỏi đáp</a>
                 <a href="tel:0364574555" class="btn-header"><i class="fas fa-phone"></i> 0364.574.555</a>
             </div>
         </div>
@@ -128,7 +150,7 @@
 
     <div class="price-section">
 
-        <div class="price-category"><i class="fas fa-snowflake"></i> 1. Máy Lạnh Treo Tường</div>
+        <div class="price-category"><i class="fas fa-snowflake"></i> 1. Dịch Vụ Máy Lạnh</div>
         <div class="price-table-wrap">
             <table>
                 <thead>
@@ -140,9 +162,14 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Vệ sinh máy lạnh (1HP - 2.5HP)</td>
+                        <td>Vệ sinh máy lạnh treo tường (1HP - 2.5HP)</td>
                         <td class="price-col">150.000 - 200.000</td>
                         <td class="note-col">Bao gồm xịt rửa dàn nóng, dàn lạnh, kiểm tra gas.</td>
+                    </tr>
+                    <tr>
+                        <td>Vệ sinh máy Âm trần / Áp trần</td>
+                        <td class="price-col">350.000 - 450.000</td>
+                        <td class="note-col">Vệ sinh kỹ, che chắn bạt chuyên dụng.</td>
                     </tr>
                     <tr>
                         <td>Châm thêm Gas R22 (Gas thường)</td>
@@ -159,46 +186,11 @@
                         <td class="price-col">250.000 - 450.000</td>
                         <td class="note-col">Tùy công suất máy.</td>
                     </tr>
-                    <tr>
-                        <td>Sửa Board mạch dàn lạnh/nóng</td>
-                        <td class="price-col">Liên hệ</td>
-                        <td class="note-col">Cần kiểm tra lỗi cụ thể để báo giá.</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
 
-        <div class="price-category"><i class="fas fa-building"></i> 2. Máy Lạnh Âm Trần - Tủ Đứng</div>
-        <div class="price-table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nội dung công việc</th>
-                        <th>Đơn giá (VNĐ)</th>
-                        <th>Ghi chú</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Vệ sinh máy Âm trần / Áp trần</td>
-                        <td class="price-col">350.000 - 450.000</td>
-                        <td class="note-col">Vệ sinh kỹ, che chắn bạt chuyên dụng.</td>
-                    </tr>
-                    <tr>
-                        <td>Vệ sinh máy Tủ đứng</td>
-                        <td class="price-col">250.000 - 350.000</td>
-                        <td class="note-col">Tùy công suất (3HP - 5HP - 10HP).</td>
-                    </tr>
-                    <tr>
-                        <td>Nạp Gas máy công nghiệp</td>
-                        <td class="price-col">Liên hệ</td>
-                        <td class="note-col">Báo giá theo lượng gas thực tế.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="price-category"><i class="fas fa-tshirt"></i> 3. Dịch Vụ Máy Giặt (Mới)</div>
+        <div class="price-category"><i class="fas fa-tshirt"></i> 2. Dịch Vụ Máy Giặt</div>
         <div class="price-table-wrap">
             <table>
                 <thead>
@@ -222,23 +214,18 @@
                     <tr>
                         <td>Thay van cấp nước / Van xả</td>
                         <td class="price-col">250.000 - 550.000</td>
-                        <td class="note-col">Tùy hãng (Toshiba, Panasonic, LG, Electrolux...).</td>
+                        <td class="note-col">Tùy hãng (Toshiba, Panasonic, LG...).</td>
                     </tr>
                     <tr>
                         <td>Sửa Board mạch máy giặt</td>
                         <td class="price-col">450.000 - 1.200.000</td>
                         <td class="note-col">Bảo hành 06 tháng.</td>
                     </tr>
-                    <tr>
-                        <td>Sơn cạp, làm đồng vỏ máy (Rỉ sét)</td>
-                        <td class="price-col">Liên hệ</td>
-                        <td class="note-col">Làm mới vỏ máy như zin.</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
 
-        <div class="price-category"><i class="fas fa-box"></i> 4. Dịch Vụ Tủ Lạnh</div>
+        <div class="price-category"><i class="fas fa-box"></i> 3. Dịch Vụ Tủ Lạnh</div>
         <div class="price-table-wrap">
             <table>
                 <thead>
@@ -274,12 +261,12 @@
                 <li>Bảng giá trên mang tính chất tham khảo, giá thực tế có thể thay đổi tùy thuộc vào: Vị trí lắp đặt (cao, khó thao tác), hãng máy, mức độ hư hỏng.</li>
                 <li>Kỹ thuật viên sẽ <strong>kiểm tra và báo giá chi tiết TRƯỚC khi làm</strong>. Khách hàng đồng ý mới tiến hành.</li>
                 <li>Giá chưa bao gồm VAT 10% (nếu quý khách cần xuất hóa đơn đỏ).</li>
-                <li>Bảo hành từ 3 - 12 tháng cho các linh kiện thay thế.</li>
+                <li>Bảo hành từ 3 - 12 tháng tùy hạng mục.</li>
             </ul>
         </div>
 
         <div style="text-align: center; margin-top: 40px;">
-            <a href="index.html#lien-he" class="cta-btn">
+            <a href="index.html#lien-he" class="cta-btn-price">
                 <i class="fas fa-phone"></i> GỌI KHẢO SÁT & BÁO GIÁ
             </a>
         </div>
@@ -318,8 +305,23 @@
     </div>
 
     <script>
-        // Xử lý Menu Mobile
-        function toggleMenu() { document.getElementById("navLinks").classList.toggle("active"); }
+        // Xử lý Menu Mobile: dùng toggle class 'active-mobile' cho đúng với CSS responsive
+        function toggleMenu() { 
+            var nav = document.getElementById("navLinks");
+            if (window.getComputedStyle(nav).display === "none") {
+                nav.style.display = "flex";
+                nav.style.flexDirection = "column";
+                nav.style.position = "absolute";
+                nav.style.top = "70px";
+                nav.style.left = "0";
+                nav.style.width = "100%";
+                nav.style.background = "white";
+                nav.style.padding = "20px";
+                nav.style.boxShadow = "0 5px 10px rgba(0,0,0,0.1)";
+            } else {
+                nav.style.display = "none";
+            }
+        }
     </script>
 </body>
 </html>
