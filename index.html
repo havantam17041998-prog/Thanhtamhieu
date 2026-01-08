@@ -11,7 +11,7 @@
     <style>
         /* --- 1. CẤU HÌNH CƠ BẢN --- */
         :root {
-            --primary: #0068ff;
+            --primary: #0068ff; /* Màu xanh chủ đạo */
             --secondary: #ffc107;
             --danger: #dc3545;
             --success: #28a745;
@@ -57,11 +57,29 @@
         .cta-btn { background: var(--secondary); color: var(--dark); padding: 15px 30px; font-size: 18px; font-weight: bold; border-radius: 30px; display: inline-block; transition: 0.3s; margin-top: 20px; }
         .cta-btn:hover { transform: scale(1.05); background: #e0a800; }
 
+        /* --- 4. BRAND BRANDS (LOGO HÃNG - MỚI) --- */
+        .brands-section { background: var(--primary); padding: 40px 20px; text-align: center; color: white; }
+        .brands-title { font-size: 1.2em; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
+        .brands-grid { 
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; 
+            max-width: 1200px; margin: auto; 
+        }
+        .brand-item { 
+            background: white; padding: 10px; border-radius: 8px; 
+            width: 140px; height: 70px; 
+            display: flex; align-items: center; justify-content: center; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            transition: transform 0.3s; 
+        }
+        .brand-item:hover { transform: scale(1.05); }
+        .brand-item img { max-width: 100%; max-height: 100%; object-fit: contain; filter: grayscale(100%); transition: 0.3s; }
+        .brand-item:hover img { filter: grayscale(0%); } /* Di chuột vào sẽ hiện màu logo */
+
+        /* --- 5. CÁC KHỐI DỊCH VỤ & TÍNH NĂNG --- */
         .section { padding: 60px 20px; max-width: 1200px; margin: auto; }
         .section-title { text-align: center; margin-bottom: 40px; }
         .section-title h2 { color: var(--primary); font-size: 2.2em; margin-bottom: 10px; }
 
-        /* --- 4. CÁC KHỐI DỊCH VỤ & TÍNH NĂNG --- */
         .features, .services-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
@@ -79,7 +97,7 @@
         .service-body ul li { margin-bottom: 12px; padding-left: 25px; position: relative; line-height: 1.5; }
         .service-body ul li::before { content: "✔"; color: var(--success); position: absolute; left: 0; font-weight: bold; }
 
-        /* --- 5. THƯ VIỆN ẢNH (GALLERY) --- */
+        /* --- 6. THƯ VIỆN ẢNH (GALLERY) --- */
         .gallery-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
@@ -105,7 +123,6 @@
             text-align: center; font-size: 14px; 
         }
 
-        /* Nhãn bấm xem */
         .click-hint {
             position: absolute; top: 10px; right: 10px;
             background: var(--secondary); color: var(--dark);
@@ -116,7 +133,7 @@
         }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-        /* --- 6. POPUP (MODAL) --- */
+        /* --- 7. POPUP (MODAL) --- */
         .modal {
             display: none; position: fixed; z-index: 10000;
             left: 0; top: 0;
@@ -150,7 +167,7 @@
         .modal-steps ul li { margin-bottom: 10px; padding-left: 25px; position: relative; line-height: 1.5; }
         .modal-steps ul li::before { content: "🔹"; position: absolute; left: 0; font-size: 14px; top: 2px; }
 
-        /* --- 7. ĐÁNH GIÁ (ĐÃ BỔ SUNG CSS) --- */
+        /* --- 8. ĐÁNH GIÁ & LIÊN HỆ --- */
         .review-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .review-card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--secondary); display: flex; flex-direction: column; justify-content: space-between; }
         .stars { color: #ffc107; font-size: 20px; margin-bottom: 15px; }
@@ -160,7 +177,6 @@
         .author-info strong { display: block; color: var(--dark); font-size: 14px; }
         .author-info span { font-size: 12px; color: #888; }
         
-        /* --- 8. LIÊN HỆ & FOOTER --- */
         .contact-section { background: var(--light); }
         .form-container { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); max-width: 600px; margin: auto; }
         .form-group { margin-bottom: 20px; }
@@ -234,6 +250,30 @@
         <p>Phục vụ tại: Đồng Nai - Bình Dương - Vũng Tàu - TP.HCM</p>
         <p><i>"Làm việc có TÂM - Hỗ trợ tận TÌNH - Giá cả hợp LÝ"</i></p>
         <a href="#lien-he" class="cta-btn">YÊU CẦU KHẢO SÁT NGAY</a>
+    </section>
+
+    <section class="brands-section">
+        <div class="brands-title"><i class="fas fa-handshake"></i> Chuyên Trị Các Dòng Máy</div>
+        <div class="brands-grid">
+            <div class="brand-item" title="Daikin">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Daikin_logo.svg/2560px-Daikin_logo.svg.png" alt="Daikin">
+            </div>
+            <div class="brand-item" title="Panasonic">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Panasonic_Corporation_logo.svg/2560px-Panasonic_Corporation_logo.svg.png" alt="Panasonic">
+            </div>
+            <div class="brand-item" title="Toshiba">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Toshiba_logo_1.svg/2560px-Toshiba_logo_1.svg.png" alt="Toshiba">
+            </div>
+            <div class="brand-item" title="LG">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/LG_logo_%282015%29.svg/2560px-LG_logo_%282015%29.svg.png" alt="LG">
+            </div>
+            <div class="brand-item" title="Mitsubishi Electric">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Mitsubishi_Electric_logo.svg/2560px-Mitsubishi_Electric_logo.svg.png" alt="Mitsubishi">
+            </div>
+            <div class="brand-item" title="Samsung">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/2560px-Samsung_Logo.svg.png" alt="Samsung">
+            </div>
+        </div>
     </section>
 
     <section class="section" id="ve-chung-toi">
@@ -414,24 +454,30 @@
         </div>
         <div class="review-container">
             <div class="review-card">
-                <div class="stars">★★★★★</div>
-                <p class="review-text">"Nhà mình ở Biên Hòa, máy lạnh hư gọi mấy chỗ không ai tới liền. Gọi bên Thanh Tâm Hiếu 30 phút có mặt. Thợ làm kỹ, dọn dẹp sạch sẽ mới về. Rất ưng ý!"</p>
+                <div>
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">"Nhà mình ở Biên Hòa, máy lạnh hư gọi mấy chỗ không ai tới liền. Gọi bên Thanh Tâm Hiếu 30 phút có mặt. Thợ làm kỹ, dọn dẹp sạch sẽ mới về. Rất ưng ý!"</p>
+                </div>
                 <div class="review-author">
                     <div class="author-avatar"><i class="fas fa-user"></i></div>
                     <div class="author-info"><strong>Chị Lan Anh</strong><span>TP. Biên Hòa, Đồng Nai</span></div>
                 </div>
             </div>
             <div class="review-card">
-                <div class="stars">★★★★★</div>
-                <p class="review-text">"Công ty tôi thuê bên này thi công lại hệ thống điện nhà xưởng tại Dĩ An. Anh em kỹ thuật làm việc rất chuyên nghiệp, đi dây gọn đẹp, nghiệm thu nhanh."</p>
+                <div>
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">"Công ty tôi thuê bên này thi công lại hệ thống điện nhà xưởng tại Dĩ An. Anh em kỹ thuật làm việc rất chuyên nghiệp, đi dây gọn đẹp, nghiệm thu nhanh."</p>
+                </div>
                 <div class="review-author">
                     <div class="author-avatar"><i class="fas fa-building"></i></div>
                     <div class="author-info"><strong>Anh Hùng (Giám đốc Xưởng Gỗ)</strong><span>Dĩ An, Bình Dương</span></div>
                 </div>
             </div>
             <div class="review-card">
-                <div class="stars">★★★★★</div>
-                <p class="review-text">"Giá cả minh bạch, báo giá trước khi làm nên không lo bị chặt chém. Sẽ giới thiệu cho bạn bè ủng hộ công ty."</p>
+                <div>
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">"Giá cả minh bạch, báo giá trước khi làm nên không lo bị chặt chém. Sẽ giới thiệu cho bạn bè ủng hộ công ty."</p>
+                </div>
                 <div class="review-author">
                     <div class="author-avatar"><i class="fas fa-user"></i></div>
                     <div class="author-info"><strong>Anh Tuấn Minh</strong><span>TP. Vũng Tàu</span></div>
