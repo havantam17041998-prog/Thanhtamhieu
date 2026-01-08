@@ -11,7 +11,7 @@
     <style>
         /* --- 1. CẤU HÌNH CƠ BẢN --- */
         :root {
-            --primary: #0068ff; /* Màu xanh chủ đạo */
+            --primary: #0068ff;
             --secondary: #ffc107;
             --danger: #dc3545;
             --success: #28a745;
@@ -20,20 +20,15 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; scroll-behavior: smooth; }
-        
         body { padding-bottom: 70px; background-color: #fff; }
-        
         a { text-decoration: none; }
         ul { list-style: none; }
 
         /* --- 2. HEADER & MENU --- */
         header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        
         .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; padding: 15px; position: relative; }
-        
         .logo { display: flex; align-items: center; gap: 10px; }
         .logo img { max-height: 55px; width: auto; object-fit: contain; }
-        
         .brand-text { display: flex; flex-direction: column; }
         .company-name { font-size: 18px; font-weight: 800; color: var(--primary); text-transform: uppercase; line-height: 1.2; }
         .company-slogan { font-size: 12px; color: #555; font-style: italic; }
@@ -41,144 +36,113 @@
         .nav-links { display: flex; gap: 20px; align-items: center; }
         .nav-links a { color: var(--dark); font-weight: 500; transition: 0.3s; }
         .nav-links a:hover { color: var(--primary); }
-        
         .btn-header { background: var(--danger); color: white !important; padding: 8px 15px; border-radius: 5px; }
-        
         .menu-toggle { display: none; font-size: 24px; cursor: pointer; color: var(--dark); }
 
-        /* --- 3. BANNER & TIÊU ĐỀ --- */
+        /* --- 3. BANNER (HERO SECTION) --- */
         .hero {
-            background: linear-gradient(rgba(0,86,179,0.8), rgba(0,86,179,0.8)), url('https://source.unsplash.com/1600x900/?hvac,technician');
-            background-size: cover; color: white; text-align: center; padding: 100px 20px;
+            /* Ảnh nền chuyên nghiệp + lớp phủ tối */
+            background: linear-gradient(rgba(0, 30, 80, 0.85), rgba(0, 30, 80, 0.7)), url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=1600&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            text-align: center;
+            padding: 120px 20px;
+            position: relative;
         }
-        .hero h1 { font-size: 2.5em; margin-bottom: 15px; text-transform: uppercase; }
-        .hero p { font-size: 1.1em; margin-bottom: 15px; }
         
-        .cta-btn { background: var(--secondary); color: var(--dark); padding: 15px 30px; font-size: 18px; font-weight: bold; border-radius: 30px; display: inline-block; transition: 0.3s; margin-top: 20px; }
-        .cta-btn:hover { transform: scale(1.05); background: #e0a800; }
-
-        /* --- 4. BRAND BRANDS (LOGO HÃNG - MỚI) --- */
-        .brands-section { background: var(--primary); padding: 40px 20px; text-align: center; color: white; }
-        .brands-title { font-size: 1.2em; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
-        .brands-grid { 
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; 
-            max-width: 1200px; margin: auto; 
+        .hero h1 { 
+            font-size: 2.8em; margin-bottom: 20px; text-transform: uppercase; font-weight: 900; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5); letter-spacing: 1px;
         }
-        .brand-item { 
-            background: white; padding: 10px; border-radius: 8px; 
-            width: 140px; height: 70px; 
-            display: flex; align-items: center; justify-content: center; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-            transition: transform 0.3s; 
+        
+        .hero p { 
+            font-size: 1.2em; margin-bottom: 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
-        .brand-item:hover { transform: scale(1.05); }
-        .brand-item img { max-width: 100%; max-height: 100%; object-fit: contain; filter: grayscale(100%); transition: 0.3s; }
-        .brand-item:hover img { filter: grayscale(0%); } /* Di chuột vào sẽ hiện màu logo */
+        
+        .cta-btn { 
+            background: linear-gradient(45deg, #ffc107, #ffdb58); color: #333; padding: 18px 40px; 
+            font-size: 18px; font-weight: bold; border-radius: 50px; display: inline-block; 
+            transition: 0.3s; margin-top: 25px; box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4); 
+            border: 2px solid white;
+        }
+        
+        .cta-btn:hover { 
+            transform: translateY(-3px) scale(1.05); background: white; color: var(--primary);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3); border-color: var(--primary);
+        }
 
-        /* --- 5. CÁC KHỐI DỊCH VỤ & TÍNH NĂNG --- */
+        /* --- 4. SECTION CHUNG --- */
         .section { padding: 60px 20px; max-width: 1200px; margin: auto; }
         .section-title { text-align: center; margin-bottom: 40px; }
         .section-title h2 { color: var(--primary); font-size: 2.2em; margin-bottom: 10px; }
 
-        .features, .services-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 30px; 
-        }
-
+        /* --- 5. FEATURES & SERVICES --- */
+        .features, .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         .feature-box { text-align: center; padding: 30px; background: var(--light); border-radius: 10px; transition: 0.3s; height: 100%; }
         .feature-box:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .feature-box i { font-size: 40px; color: var(--primary); margin-bottom: 15px; }
         .feature-box p { line-height: 1.6; color: #555; }
-
         .service-card { border: 1px solid #eee; border-radius: 10px; overflow: hidden; height: 100%; display: flex; flex-direction: column; }
         .service-head { background: var(--primary); color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 1.2em; }
         .service-body { padding: 20px; flex-grow: 1; }
         .service-body ul li { margin-bottom: 12px; padding-left: 25px; position: relative; line-height: 1.5; }
         .service-body ul li::before { content: "✔"; color: var(--success); position: absolute; left: 0; font-weight: bold; }
 
-        /* --- 6. THƯ VIỆN ẢNH (GALLERY) --- */
-        .gallery-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 20px; 
-        }
-        
-        .gallery-item { 
-            position: relative; 
-            overflow: hidden; 
-            border-radius: 10px; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
-            cursor: pointer; 
-            background: #fff;
-        }
-        
+        /* --- 6. GALLERY --- */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .gallery-item { position: relative; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); cursor: pointer; background: #fff; }
         .gallery-item img { width: 100%; height: 250px; object-fit: cover; transition: transform 0.3s; display: block; }
         .gallery-item:hover img { transform: scale(1.1); }
-        
-        .gallery-caption { 
-            position: absolute; bottom: 0; 
-            background: rgba(0,0,0,0.7); color: white; 
-            width: 100%; padding: 10px; 
-            text-align: center; font-size: 14px; 
-        }
-
-        .click-hint {
-            position: absolute; top: 10px; right: 10px;
-            background: var(--secondary); color: var(--dark);
-            padding: 5px 10px; border-radius: 20px;
-            font-size: 12px; font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            animation: pulse 2s infinite; z-index: 2;
-        }
+        .gallery-caption { position: absolute; bottom: 0; background: rgba(0,0,0,0.7); color: white; width: 100%; padding: 10px; text-align: center; font-size: 14px; }
+        .click-hint { position: absolute; top: 10px; right: 10px; background: var(--secondary); color: var(--dark); padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; animation: pulse 2s infinite; z-index: 2; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-        /* --- 7. POPUP (MODAL) --- */
-        .modal {
-            display: none; position: fixed; z-index: 10000;
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.8);
-            backdrop-filter: blur(5px);
-        }
-        
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto; padding: 25px;
-            border: 1px solid #888;
-            width: 90%; max-width: 800px;
-            border-radius: 10px;
-            position: relative;
-            animation: slideDown 0.4s;
-        }
+        /* --- 7. MODAL --- */
+        .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
+        .modal-content { background-color: #fefefe; margin: 5% auto; padding: 25px; border: 1px solid #888; width: 90%; max-width: 800px; border-radius: 10px; position: relative; animation: slideDown 0.4s; }
         @keyframes slideDown { from { top: -100px; opacity: 0; } to { top: 0; opacity: 1; } }
-
         .close-modal { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
         .close-modal:hover { color: var(--danger); }
-        
         .modal-body { display: flex; flex-direction: column; gap: 20px; }
         .modal-image-single img { width: 100%; height: 350px; object-fit: cover; border-radius: 8px; }
         .modal-images { display: flex; gap: 10px; }
         .modal-images img { width: 50%; height: 250px; object-fit: cover; border-radius: 8px; }
-        
         .modal-steps { background: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 5px solid var(--primary); }
         .modal-steps h3 { color: var(--primary); margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
         .modal-steps ul li { margin-bottom: 10px; padding-left: 25px; position: relative; line-height: 1.5; }
         .modal-steps ul li::before { content: "🔹"; position: absolute; left: 0; font-size: 14px; top: 2px; }
 
-        /* --- 8. ĐÁNH GIÁ & LIÊN HỆ --- */
+        /* --- 8. FAQ SECTION --- */
+        .faq-item { background: white; border-bottom: 1px solid #ddd; padding: 15px; cursor: pointer; transition: 0.3s; }
+        .faq-item:hover { background: #f9f9f9; }
+        .faq-question { display: flex; justify-content: space-between; align-items: center; font-weight: bold; color: var(--dark); font-size: 16px; }
+        .faq-answer { display: none; margin-top: 10px; color: #555; line-height: 1.6; border-top: 1px dashed #eee; padding-top: 10px; }
+        .faq-item.active .faq-answer { display: block; animation: fadeIn 0.5s; }
+        .faq-icon { transition: transform 0.3s; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); color: var(--primary); }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- 9. REVIEWS --- */
         .review-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .review-card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--secondary); display: flex; flex-direction: column; justify-content: space-between; }
         .stars { color: #ffc107; font-size: 20px; margin-bottom: 15px; }
-        .review-text { font-style: italic; color: #555; margin-bottom: 20px; }
-        .review-author { display: flex; align-items: center; border-top: 1px solid #eee; padding-top: 15px; }
-        .author-avatar { width: 40px; height: 40px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; color: #888; font-size: 18px; }
-        .author-info strong { display: block; color: var(--dark); font-size: 14px; }
-        .author-info span { font-size: 12px; color: #888; }
+        .review-text { font-style: italic; color: #555; margin-bottom: 20px; line-height: 1.6; }
         
+        /* Chỉnh sửa phần thông tin tác giả */
+        .review-author { display: flex; align-items: center; border-top: 1px solid #eee; padding-top: 15px; }
+        .author-avatar { width: 50px; height: 50px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; color: #888; font-size: 20px; flex-shrink: 0; }
+        .author-info { display: flex; flex-direction: column; }
+        .author-info strong { display: block; color: var(--dark); font-size: 15px; margin-bottom: 2px; }
+        .author-info span { font-size: 13px; color: #666; font-weight: normal; }
+        
+        /* --- 10. LIÊN HỆ & MAP --- */
+        .contact-container-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .map-box { height: 100%; min-height: 350px; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .map-box iframe { width: 100%; height: 100%; border: 0; }
         .contact-section { background: var(--light); }
-        .form-container { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); max-width: 600px; margin: auto; }
+        .form-container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
         .form-control { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; }
@@ -189,7 +153,7 @@
         footer a { color: #fff; text-decoration: none; transition: 0.3s; }
         footer a:hover { color: var(--secondary); }
 
-        /* --- 9. MOBILE & NÚT RUNG --- */
+        /* --- 11. MOBILE & NÚT RUNG --- */
         .contact-bar-mobile { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 9999; justify-content: space-around; padding: 10px 0; border-top: 1px solid #eee; }
         .contact-item { display: flex; flex-direction: column; align-items: center; font-size: 12px; font-weight: bold; flex: 1; color: var(--dark); }
         .contact-item i { font-size: 20px; margin-bottom: 5px; }
@@ -208,7 +172,6 @@
         @keyframes ring-fill { 0% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.6; } 50% { transform: rotate(0) scale(1) skew(1deg); opacity: 0.6; } 100% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.6; } }
         @keyframes ring-img { 0% { transform: rotate(0) scale(1) skew(1deg); } 10% { transform: rotate(-25deg) scale(1) skew(1deg); } 20% { transform: rotate(25deg) scale(1) skew(1deg); } 30% { transform: rotate(-25deg) scale(1) skew(1deg); } 40% { transform: rotate(25deg) scale(1) skew(1deg); } 50% { transform: rotate(0) scale(1) skew(1deg); } 100% { transform: rotate(0) scale(1) skew(1deg); } }
 
-        /* --- 10. RESPONSIVE --- */
         @media (max-width: 768px) {
             .menu-toggle { display: block; }
             .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: white; box-shadow: 0 5px 10px rgba(0,0,0,0.1); padding: 20px; text-align: center; }
@@ -221,6 +184,7 @@
             .modal-images { flex-direction: column; } 
             .modal-images img { width: 100%; height: 200px; }
             .modal-image-single img { height: 200px; }
+            .contact-container-grid { grid-template-columns: 1fr; } 
         }
     </style>
 </head>
@@ -239,7 +203,7 @@
             <div class="nav-links" id="navLinks">
                 <a href="#ve-chung-toi" onclick="toggleMenu()">Về chúng tôi</a>
                 <a href="#dich-vu" onclick="toggleMenu()">Dịch vụ</a>
-                <a href="banggia.html">Bảng giá</a>
+                <a href="banggia.html">Bảng giá</a> <a href="#faq" onclick="toggleMenu()">Hỏi đáp</a>
                 <a href="tel:0364574555" class="btn-header"><i class="fas fa-phone"></i> 0364.574.555</a>
             </div>
         </div>
@@ -250,30 +214,6 @@
         <p>Phục vụ tại: Đồng Nai - Bình Dương - Vũng Tàu - TP.HCM</p>
         <p><i>"Làm việc có TÂM - Hỗ trợ tận TÌNH - Giá cả hợp LÝ"</i></p>
         <a href="#lien-he" class="cta-btn">YÊU CẦU KHẢO SÁT NGAY</a>
-    </section>
-
-    <section class="brands-section">
-        <div class="brands-title"><i class="fas fa-handshake"></i> Chuyên Trị Các Dòng Máy</div>
-        <div class="brands-grid">
-            <div class="brand-item" title="Daikin">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Daikin_logo.svg/2560px-Daikin_logo.svg.png" alt="Daikin">
-            </div>
-            <div class="brand-item" title="Panasonic">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Panasonic_Corporation_logo.svg/2560px-Panasonic_Corporation_logo.svg.png" alt="Panasonic">
-            </div>
-            <div class="brand-item" title="Toshiba">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Toshiba_logo_1.svg/2560px-Toshiba_logo_1.svg.png" alt="Toshiba">
-            </div>
-            <div class="brand-item" title="LG">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/LG_logo_%282015%29.svg/2560px-LG_logo_%282015%29.svg.png" alt="LG">
-            </div>
-            <div class="brand-item" title="Mitsubishi Electric">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Mitsubishi_Electric_logo.svg/2560px-Mitsubishi_Electric_logo.svg.png" alt="Mitsubishi">
-            </div>
-            <div class="brand-item" title="Samsung">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/2560px-Samsung_Logo.svg.png" alt="Samsung">
-            </div>
-        </div>
     </section>
 
     <section class="section" id="ve-chung-toi">
@@ -377,75 +317,27 @@
         </div>
     </section>
 
-    <div id="vrfModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('vrfModal')">×</span>
-            <h2 style="color: var(--primary); text-align: center; margin-bottom: 20px;">QUY TRÌNH BẢO DƯỠNG VRF CHUẨN</h2>
-            <div class="modal-body">
-                <div class="modal-images">
-                    <img src="vrf-dan-nong.jpg" alt="Dàn nóng" onerror="this.src='https://source.unsplash.com/600x400/?hvac,outdoor'">
-                    <img src="vrf-dan-lanh.jpg" alt="Dàn lạnh" onerror="this.src='https://source.unsplash.com/600x400/?hvac,indoor'">
-                </div>
-                <div class="modal-steps">
-                    <h3><i class="fas fa-clipboard-check"></i> 5 Bước thực hiện:</h3>
-                    <ul>
-                        <li><strong>B1:</strong> Kiểm tra thông số vận hành (Dòng điện, Gas).</li>
-                        <li><strong>B2:</strong> Vệ sinh Dàn Lạnh (Che chắn kỹ, bơm áp lực cao).</li>
-                        <li><strong>B3:</strong> Vệ sinh Dàn Nóng (Giải nhiệt tốt).</li>
-                        <li><strong>B4:</strong> Thông tắc đường ống nước ngưng.</li>
-                        <li><strong>B5:</strong> Chạy thử máy, lập biên bản nghiệm thu.</li>
-                    </ul>
-                </div>
-                <div style="text-align: center;"><a href="#lien-he" class="cta-btn" onclick="closeModal('vrfModal')">ĐẶT LỊCH NGAY</a></div>
+    <section class="section" id="faq" style="background: #fdfdfd;">
+        <div class="section-title"><h2>CÂU HỎI THƯỜNG GẶP</h2></div>
+        <div style="max-width: 800px; margin: auto;">
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">1. Công ty có xuất hóa đơn VAT không? <i class="fas fa-chevron-down faq-icon"></i></div>
+                <div class="faq-answer">Có. Thanh Tâm Hiếu là công ty pháp nhân đầy đủ, chúng tôi cung cấp hóa đơn VAT, hợp đồng và biên bản nghiệm thu đầy đủ cho khách hàng doanh nghiệp.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">2. Thời gian bảo hành dịch vụ là bao lâu? <i class="fas fa-chevron-down faq-icon"></i></div>
+                <div class="faq-answer">Tùy vào hạng mục sửa chữa hoặc thay thế linh kiện, thời gian bảo hành dao động từ 03 tháng đến 12 tháng. Chúng tôi cam kết bảo hành trách nhiệm, không trốn tránh.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">3. Tôi ở KCN xa (như Nhơn Trạch, Mỹ Xuân) có đến được không? <i class="fas fa-chevron-down faq-icon"></i></div>
+                <div class="faq-answer">Có. Đội ngũ kỹ thuật của chúng tôi phục vụ khắp Đồng Nai, Bình Dương, Vũng Tàu và TP.HCM. Hãy gọi hotline để đặt lịch khảo sát.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">4. Chi phí khảo sát ban đầu là bao nhiêu? <i class="fas fa-chevron-down faq-icon"></i></div>
+                <div class="faq-answer">Hoàn toàn MIỄN PHÍ. Kỹ thuật viên sẽ đến kiểm tra, đo đạc và báo giá chi tiết. Nếu khách hàng đồng ý mới tiến hành làm.</div>
             </div>
         </div>
-    </div>
-
-    <div id="tudienModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('tudienModal')">×</span>
-            <h2 style="color: var(--primary); text-align: center; margin-bottom: 20px;">QUY TRÌNH LẮP TỦ ĐIỆN CÔNG NGHIỆP</h2>
-            <div class="modal-body">
-                <div class="modal-image-single">
-                    <img src="tu-dien.jpg" alt="Tủ điện Bình Dương" onerror="this.src='https://source.unsplash.com/600x400/?electric,panel'">
-                </div>
-                <div class="modal-steps">
-                    <h3><i class="fas fa-bolt"></i> Các bước thi công chuẩn:</h3>
-                    <ul>
-                        <li><strong>B1:</strong> Khảo sát tải, thiết kế sơ đồ nguyên lý (CAD).</li>
-                        <li><strong>B2:</strong> Gia công vỏ tủ, đột lỗ, gá thiết bị (CB, Contactor).</li>
-                        <li><strong>B3:</strong> Đấu nối dây động lực/điều khiển, bấm đầu cos.</li>
-                        <li><strong>B4:</strong> Kiểm tra nguội (Check dây) và cách điện (Megger).</li>
-                        <li><strong>B5:</strong> Đóng điện chạy thử tải và bàn giao.</li>
-                    </ul>
-                </div>
-                <div style="text-align: center;"><a href="#lien-he" class="cta-btn" onclick="closeModal('tudienModal')">YÊU CẦU BÁO GIÁ</a></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="kholanhModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('kholanhModal')">×</span>
-            <h2 style="color: var(--primary); text-align: center; margin-bottom: 20px;">QUY TRÌNH BẢO TRÌ KHO LẠNH</h2>
-            <div class="modal-body">
-                <div class="modal-image-single">
-                    <img src="kho-lanh.jpg" alt="Kho lạnh Vũng Tàu" onerror="this.src='https://source.unsplash.com/600x400/?cold,storage'">
-                </div>
-                <div class="modal-steps">
-                    <h3><i class="fas fa-snowflake"></i> Nội dung bảo trì định kỳ:</h3>
-                    <ul>
-                        <li><strong>B1:</strong> Kiểm tra độ kín vỏ kho, gioăng cửa.</li>
-                        <li><strong>B2:</strong> Vệ sinh dàn lạnh, xả đá, thông thoát nước.</li>
-                        <li><strong>B3:</strong> Kiểm tra máy nén, vệ sinh dàn nóng.</li>
-                        <li><strong>B4:</strong> Kiểm tra áp suất gas, châm dầu lạnh.</li>
-                        <li><strong>B5:</strong> Vận hành thử đạt nhiệt độ yêu cầu.</li>
-                    </ul>
-                </div>
-                <div style="text-align: center;"><a href="#lien-he" class="cta-btn" onclick="closeModal('kholanhModal')">GỌI KỸ THUẬT NGAY</a></div>
-            </div>
-        </div>
-    </div>
+    </section>
 
     <section class="section" style="background-color: #f0f8ff;">
         <div class="section-title">
@@ -470,7 +362,7 @@
                 </div>
                 <div class="review-author">
                     <div class="author-avatar"><i class="fas fa-building"></i></div>
-                    <div class="author-info"><strong>Anh Hùng (Giám đốc Xưởng Gỗ)</strong><span>Dĩ An, Bình Dương</span></div>
+                    <div class="author-info"><strong>Anh Hùng (GĐ Xưởng Gỗ)</strong><span>Dĩ An, Bình Dương</span></div>
                 </div>
             </div>
             <div class="review-card">
@@ -488,32 +380,41 @@
 
     <section class="section contact-section" id="lien-he">
         <div class="section-title"><h2>ĐẶT LỊCH KHẢO SÁT & SỬA CHỮA</h2><p>Để lại thông tin, chúng tôi sẽ gọi lại tư vấn miễn phí sau 5 phút!</p></div>
-        <div class="form-container">
-            <form action="https://api.sheetmonkey.io/form/wE8W5mCL4wteSUgcanYr7k" method="POST" id="my-form">
-                <div class="form-group"><label>Họ và tên:</label><input type="text" name="ho_ten" class="form-control" placeholder="Nhập tên của bạn" required></div>
-                <div class="form-group"><label>Số điện thoại:</label><input type="tel" name="so_dien_thoai" class="form-control" placeholder="Nhập số điện thoại" required></div>
-                <div class="form-group"><label>Dịch vụ cần hỗ trợ:</label>
-                    <select name="dich_vu" class="form-control">
-                        <option value="Sua_Chua_Gia_Dinh">Sửa chữa Điện Lạnh Gia Đình</option>
-                        <option value="He_Thong_HVAC">Hệ thống HVAC/Kho lạnh</option>
-                        <option value="Thi_Cong_Dien">Thi công Tủ điện/Điện Xưởng</option>
-                    </select>
-                </div>
-                <div class="form-group"><label>Ghi chú thêm:</label><textarea name="ghi_chu" class="form-control" rows="3" placeholder="Ví dụ: Máy lạnh không lạnh, cần thợ gấp..."></textarea></div>
-                <button type="submit" class="submit-btn">GỬI YÊU CẦU NGAY</button>
-                <p id="my-form-status"></p>
-            </form>
-            <div style="margin-top: 20px; text-align: center;">
-                <p>Hoặc nhắn tin trực tiếp qua Zalo:</p>
-                <a href="https://zalo.me/0364574555" style="color: var(--primary); font-weight: bold; font-size: 1.2em;"><i class="fas fa-comment-dots"></i> Chat Zalo Ngay</a>
+        
+        <div class="contact-container-grid">
+            <div class="form-container">
+                <form action="https://api.sheetmonkey.io/form/wE8W5mCL4wteSUgcanYr7k" method="POST" id="my-form">
+                    <div class="form-group"><label>Họ và tên:</label><input type="text" name="ho_ten" class="form-control" placeholder="Nhập tên của bạn" required></div>
+                    <div class="form-group"><label>Số điện thoại:</label><input type="tel" name="so_dien_thoai" class="form-control" placeholder="Nhập số điện thoại" required></div>
+                    <div class="form-group"><label>Dịch vụ cần hỗ trợ:</label>
+                        <select name="dich_vu" class="form-control">
+                            <option value="Sua_Chua_Gia_Dinh">Sửa chữa Điện Lạnh Gia Đình</option>
+                            <option value="He_Thong_HVAC">Hệ thống HVAC/Kho lạnh</option>
+                            <option value="Thi_Cong_Dien">Thi công Tủ điện/Điện Xưởng</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Ghi chú thêm:</label><textarea name="ghi_chu" class="form-control" rows="3" placeholder="Ví dụ: Máy lạnh không lạnh, cần thợ gấp..."></textarea></div>
+                    <button type="submit" class="submit-btn">GỬI YÊU CẦU NGAY</button>
+                    <p id="my-form-status"></p>
+                </form>
             </div>
+
+            <div class="map-box">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.494793836272!2d106.87786447480598!3d10.93247945935032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174e7c3e5a5b5b5%3A0x1234567890abcdef!2zMTQyMy8xOS8xOSwgS2h1IHBo4buS IDM1LCBQLiBMb25nIELDrG5oLCDEkOG7k25nIE5haQ!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s" 
+                style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; text-align: center;">
+            <p>Hoặc nhắn tin trực tiếp qua Zalo:</p>
+            <a href="https://zalo.me/0364574555" style="color: var(--primary); font-weight: bold; font-size: 1.2em;"><i class="fas fa-comment-dots"></i> Chat Zalo Ngay</a>
         </div>
     </section>
 
     <footer>
         <h3>CÔNG TY TNHH TM DV THANH TÂM HIẾU</h3>
         <p>
-            <a href="https://www.google.com/maps/search/1423%2F19%2F19+Khu+ph%E1%BB%91+35,+P.+Long+B%C3%ACnh,+%C4%90%E1%BB%93ng+Nai" target="_blank">
+            <a href="https://goo.gl/maps/placeholder" target="_blank">
                 <i class="fas fa-map-marker-alt"></i> Văn phòng: 1423/19/19, Khu phố 35, P. Long Bình, Đồng Nai
             </a>
         </p>
@@ -525,7 +426,7 @@
     <div class="contact-bar-mobile">
         <a href="tel:0364574555" class="contact-item" style="color: var(--success);"><i class="fas fa-phone-alt"></i> <span>Gọi Ngay</span></a>
         <a href="https://zalo.me/0364574555" class="contact-item" style="color: var(--primary);"><i class="fas fa-comment-dots"></i> <span>Chat Zalo</span></a>
-        <a href="https://www.google.com/maps/search/1423%2F19%2F19+Khu+ph%E1%BB%91+35,+P.+Long+B%C3%ACnh,+%C4%90%E1%BB%93ng+Nai" target="_blank" class="contact-item" style="color: var(--danger);"><i class="fas fa-map-marker-alt"></i> <span>Chỉ Đường</span></a>
+        <a href="https://goo.gl/maps/placeholder" class="contact-item" style="color: var(--danger);"><i class="fas fa-map-marker-alt"></i> <span>Chỉ Đường</span></a>
     </div>
 
     <div class="hotline-phone-ring-wrap">
@@ -540,6 +441,12 @@
             <div class="hotline-zalo-ring-img-circle"><a href="https://zalo.me/0364574555" target="_blank" class="pps-btn-img"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png" alt="Chat Zalo"></a></div>
         </div>
     </div>
+
+    <div id="vrfModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('vrfModal')">×</span><h2 style="color: var(--primary); text-align: center;">QUY TRÌNH BẢO DƯỠNG VRF</h2><div class="modal-body"><div class="modal-images"><img src="vrf-dan-nong.jpg" alt="Dàn nóng" onerror="this.src='https://source.unsplash.com/600x400/?hvac,outdoor'"><img src="vrf-dan-lanh.jpg" alt="Dàn lạnh" onerror="this.src='https://source.unsplash.com/600x400/?hvac,indoor'"></div><div class="modal-steps"><h3>5 Bước thực hiện:</h3><ul><li>B1: Kiểm tra thông số vận hành.</li><li>B2: Vệ sinh Dàn Lạnh (Che chắn kỹ).</li><li>B3: Vệ sinh Dàn Nóng.</li><li>B4: Thông tắc nước ngưng.</li><li>B5: Chạy thử máy.</li></ul></div></div></div></div>
+
+    <div id="tudienModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('tudienModal')">×</span><h2 style="color: var(--primary); text-align: center;">QUY TRÌNH LẮP TỦ ĐIỆN</h2><div class="modal-body"><div class="modal-image-single"><img src="tu-dien.jpg" alt="Tủ điện" onerror="this.src='https://source.unsplash.com/600x400/?electric,panel'"></div><div class="modal-steps"><h3>Các bước thi công:</h3><ul><li>B1: Khảo sát tải, thiết kế.</li><li>B2: Gia công vỏ, đột lỗ.</li><li>B3: Đấu nối dây, bấm cos.</li><li>B4: Kiểm tra nguội.</li><li>B5: Đóng điện bàn giao.</li></ul></div></div></div></div>
+
+    <div id="kholanhModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('kholanhModal')">×</span><h2 style="color: var(--primary); text-align: center;">QUY TRÌNH BẢO TRÌ KHO LẠNH</h2><div class="modal-body"><div class="modal-image-single"><img src="kho-lanh.jpg" alt="Kho lạnh" onerror="this.src='https://source.unsplash.com/600x400/?cold,storage'"></div><div class="modal-steps"><h3>Nội dung bảo trì:</h3><ul><li>B1: Kiểm tra độ kín vỏ kho.</li><li>B2: Vệ sinh dàn lạnh/nóng.</li><li>B3: Kiểm tra máy nén.</li><li>B4: Kiểm tra gas, dầu lạnh.</li><li>B5: Vận hành thử.</li></ul></div></div></div></div>
 
     <script>
         // 1. XỬ LÝ GỬI FORM
@@ -557,19 +464,13 @@
         // 2. XỬ LÝ MENU MOBILE
         function toggleMenu() { document.getElementById("navLinks").classList.toggle("active"); }
 
-        // 3. XỬ LÝ POPUP (MODALS)
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = "block";
-        }
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = "none";
-        }
-        // Bấm ra ngoài vùng trắng thì đóng popup
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = "none";
-            }
-        }
+        // 3. XỬ LÝ POPUP
+        function openModal(id) { document.getElementById(id).style.display = "block"; }
+        function closeModal(id) { document.getElementById(id).style.display = "none"; }
+        window.onclick = function(e) { if (e.target.classList.contains('modal')) e.target.style.display = "none"; }
+
+        // 4. XỬ LÝ FAQ (CLICK ĐỂ MỞ)
+        function toggleFAQ(element) { element.classList.toggle("active"); }
     </script>
 </body>
 </html>
