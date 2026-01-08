@@ -230,6 +230,108 @@
             </div>
         </div>
     </section>
+            <section class="section" style="background-color: #f0f8ff;"> <div class="section-title">
+            <h2>KHÁCH HÀNG NÓI GÌ VỀ CHÚNG TÔI?</h2>
+            <p>Sự hài lòng của quý khách là niềm tự hào của Thanh Tâm Hiếu</p>
+        </div>
+
+        <div class="review-container">
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p class="review-text">"Nhà mình ở Biên Hòa, máy lạnh hư gọi mấy chỗ không ai tới liền. Gọi bên Thanh Tâm Hiếu 30 phút có mặt. Thợ làm kỹ, dọn dẹp sạch sẽ mới về. Rất ưng ý!"</p>
+                <div class="review-author">
+                    <div class="author-avatar"><i class="fas fa-user"></i></div>
+                    <div class="author-info">
+                        <strong>Chị Lan Anh</strong>
+                        <span>TP. Biên Hòa, Đồng Nai</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p class="review-text">"Công ty tôi thuê bên này thi công lại hệ thống điện nhà xưởng tại Dĩ An. Anh em kỹ thuật làm việc rất chuyên nghiệp, đi dây gọn đẹp, nghiệm thu nhanh."</p>
+                <div class="review-author">
+                    <div class="author-avatar"><i class="fas fa-building"></i></div>
+                    <div class="author-info">
+                        <strong>Anh Hùng (Giám đốc Xưởng Gỗ)</strong>
+                        <span>Dĩ An, Bình Dương</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p class="review-text">"Giá cả minh bạch, báo giá trước khi làm nên không lo bị chặt chém. Sẽ giới thiệu cho bạn bè ủng hộ công ty."</p>
+                <div class="review-author">
+                    <div class="author-avatar"><i class="fas fa-user"></i></div>
+                    <div class="author-info">
+                        <strong>Anh Tuấn Minh</strong>
+                        <span>TP. Vũng Tàu</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        /* CSS CHO PHẦN ĐÁNH GIÁ */
+        .review-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Tự động chia cột */
+            gap: 20px;
+        }
+
+        .review-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--secondary); /* Viền màu vàng tạo điểm nhấn */
+        }
+
+        .stars {
+            color: #ffc107; /* Màu vàng sao */
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .review-text {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 20px;
+            min-height: 80px; /* Giữ các khung đều nhau */
+        }
+
+        .review-author {
+            display: flex;
+            align-items: center;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            background: #eee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #888;
+        }
+
+        .author-info strong {
+            display: block;
+            color: var(--dark);
+        }
+
+        .author-info span {
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
 
     <style>
         .gallery-grid {
@@ -548,6 +650,7 @@
 </body>
 
 </html>
+
 
 
 
