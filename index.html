@@ -52,31 +52,34 @@
             background-size: cover; color: white; text-align: center; padding: 100px 20px;
         }
         .hero h1 { font-size: 2.5em; margin-bottom: 15px; text-transform: uppercase; }
-        .hero p { font-size: 1.1em; margin-bottom: 30px; }
+        .hero p { font-size: 1.1em; margin-bottom: 15px; } /* Đã chỉnh khoảng cách */
         
-        .cta-btn { background: var(--secondary); color: var(--dark); padding: 15px 30px; font-size: 18px; font-weight: bold; border-radius: 30px; display: inline-block; transition: 0.3s; }
+        .cta-btn { background: var(--secondary); color: var(--dark); padding: 15px 30px; font-size: 18px; font-weight: bold; border-radius: 30px; display: inline-block; transition: 0.3s; margin-top: 20px; }
         .cta-btn:hover { transform: scale(1.05); background: #e0a800; }
 
         .section { padding: 60px 20px; max-width: 1200px; margin: auto; }
         .section-title { text-align: center; margin-bottom: 40px; }
         .section-title h2 { color: var(--primary); font-size: 2.2em; margin-bottom: 10px; }
 
-        /* --- 4. CÁC KHỐI DỊCH VỤ (GRID LAYOUT) --- */
+        /* --- 4. CÁC KHỐI DỊCH VỤ & TÍNH NĂNG --- */
         .features, .services-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
             gap: 30px; 
         }
 
-        .feature-box { text-align: center; padding: 30px; background: var(--light); border-radius: 10px; transition: 0.3s; }
+        /* Feature Box (Tại sao chọn chúng tôi) */
+        .feature-box { text-align: center; padding: 30px; background: var(--light); border-radius: 10px; transition: 0.3s; height: 100%; }
         .feature-box:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .feature-box i { font-size: 40px; color: var(--primary); margin-bottom: 15px; }
+        .feature-box p { line-height: 1.6; color: #555; }
 
-        .service-card { border: 1px solid #eee; border-radius: 10px; overflow: hidden; }
+        /* Service Card (Dịch vụ) */
+        .service-card { border: 1px solid #eee; border-radius: 10px; overflow: hidden; height: 100%; display: flex; flex-direction: column; }
         .service-head { background: var(--primary); color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 1.2em; }
-        .service-body { padding: 20px; }
-        .service-body ul li { margin-bottom: 10px; padding-left: 20px; position: relative; }
-        .service-body ul li::before { content: "✔"; color: var(--success); position: absolute; left: 0; }
+        .service-body { padding: 20px; flex-grow: 1; }
+        .service-body ul li { margin-bottom: 12px; padding-left: 25px; position: relative; line-height: 1.5; }
+        .service-body ul li::before { content: "✔"; color: var(--success); position: absolute; left: 0; font-weight: bold; }
 
         /* --- 5. THƯ VIỆN ẢNH (GALLERY) --- */
         .gallery-grid { 
@@ -90,7 +93,7 @@
             overflow: hidden; 
             border-radius: 10px; 
             box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
-            cursor: pointer; /* Con trỏ tay bấm */
+            cursor: pointer; 
             background: #fff;
         }
         
@@ -117,7 +120,7 @@
 
         /* --- 6. POPUP (MODAL) --- */
         .modal {
-            display: none; /* Mặc định ẩn */
+            display: none; 
             position: fixed; z-index: 10000;
             left: 0; top: 0;
             width: 100%; height: 100%;
@@ -224,7 +227,7 @@
     <section class="hero">
         <h1>CHUYÊN GIA ĐIỆN LẠNH & CƠ ĐIỆN CÔNG NGHIỆP</h1>
         <p>Phục vụ tại: Đồng Nai - Bình Dương - Vũng Tàu - TP.HCM</p>
-        <a href="#lien-he" class="cta-btn">YÊU CẦU KHẢO SÁT NGAY</a>
+        <p><i>"Làm việc có TÂM - Hỗ trợ tận TÌNH - Giá cả hợp LÝ"</i></p> <a href="#lien-he" class="cta-btn">YÊU CẦU KHẢO SÁT NGAY</a>
     </section>
 
     <section class="section" id="ve-chung-toi">
@@ -233,17 +236,17 @@
             <div class="feature-box">
                 <i class="fas fa-heart"></i>
                 <h3>Làm Việc Có Tâm</h3>
-                <p>Kỹ thuật viên tỉ mỉ, không vẽ bệnh, coi máy của khách như máy của mình.</p>
+                <p>Kỹ thuật viên tỉ mỉ, cẩn thận từng mối hàn, không vẽ bệnh, coi máy của khách như máy của mình.</p>
             </div>
             <div class="feature-box">
                 <i class="fas fa-bolt"></i>
                 <h3>Hỗ Trợ Thần Tốc</h3>
-                <p>Có mặt nhanh chóng tại các KCN Đồng Nai, Bình Dương. Xử lý sự cố 24/7.</p>
+                <p>Có mặt nhanh chóng tại các KCN Đồng Nai, Bình Dương. Xử lý sự cố 24/7 để không gián đoạn sản xuất.</p>
             </div>
             <div class="feature-box">
                 <i class="fas fa-tools"></i>
                 <h3>Đa Dạng Dịch Vụ</h3>
-                <p>Từ sửa máy lạnh gia đình đến thi công hệ thống HVAC, tủ điện công nghiệp.</p>
+                <p>Từ sửa máy lạnh gia đình đến thi công hệ thống HVAC, tủ điện công nghiệp cho nhà xưởng lớn.</p>
             </div>
         </div>
     </section>
@@ -253,15 +256,36 @@
         <div class="services-grid">
             <div class="service-card">
                 <div class="service-head"><i class="fas fa-snowflake"></i> LẠNH GIA DỤNG</div>
-                <div class="service-body"><ul><li>Vệ sinh máy lạnh sạch sâu.</li><li>Sửa tủ lạnh, tủ đông, máy giặt.</li></ul></div>
+                <div class="service-body">
+                    <ul>
+                        <li>Vệ sinh máy lạnh sạch sâu (Treo tường, Âm trần).</li>
+                        <li>Sửa tủ lạnh Inverter, tủ đông, tủ mát.</li>
+                        <li>Sửa máy giặt lồng ngang, lồng đứng.</li>
+                        <li>Bơm gas, xử lý chảy nước, máy kêu to.</li>
+                    </ul>
+                </div>
             </div>
             <div class="service-card">
-                <div class="service-head"><i class="fas fa-industry"></i> LẠNH CÔNG NGHIỆP</div>
-                <div class="service-body"><ul><li>Thi công VRV, VRF, Kho lạnh.</li><li>Bảo trì hệ thống lạnh nhà xưởng.</li></ul></div>
+                <div class="service-head"><i class="fas fa-industry"></i> LẠNH CÔNG NGHIỆP & HVAC</div>
+                <div class="service-body">
+                    <ul>
+                        <li>Thiết kế & Thi công hệ thống VRV, VRF, Chiller.</li>
+                        <li>Lắp đặt kho lạnh bảo quản thực phẩm/dược phẩm.</li>
+                        <li>Bảo trì định kỳ hệ thống lạnh nhà xưởng, tòa nhà.</li>
+                        <li>Thi công ống gió, thông gió làm mát.</li>
+                    </ul>
+                </div>
             </div>
             <div class="service-card">
                 <div class="service-head"><i class="fas fa-plug"></i> CƠ ĐIỆN & TỦ ĐIỆN</div>
-                <div class="service-body"><ul><li>Lắp đặt tủ điện MSB, ATS.</li><li>Thi công điện nhà xưởng.</li></ul></div>
+                <div class="service-body">
+                    <ul>
+                        <li>Thiết kế & Lắp đặt tủ điện theo yêu cầu (MSB, ATS...).</li>
+                        <li>Thi công hệ thống điện văn phòng, nhà xưởng.</li>
+                        <li>Cải tạo, nâng cấp hệ thống điện cũ.</li>
+                        <li>Khắc phục sự cố điện công nghiệp.</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
