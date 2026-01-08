@@ -305,9 +305,197 @@
     }
     form.addEventListener("submit", handleSubmit)
 </script>
+    <div class="hotline-phone-ring-wrap">
+    
+    <div class="hotline-phone-ring">
+        <div class="hotline-phone-ring-circle"></div>
+        <div class="hotline-phone-ring-circle-fill"></div>
+        <div class="hotline-phone-ring-img-circle">
+            <a href="tel:0364574555" class="pps-btn-img">
+                <i class="fas fa-phone-alt"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="hotline-zalo-ring">
+        <div class="hotline-zalo-ring-circle"></div>
+        <div class="hotline-zalo-ring-circle-fill"></div>
+        <div class="hotline-zalo-ring-img-circle">
+            <a href="https://zalo.me/0364574555" target="_blank" class="pps-btn-img">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png" alt="Chat Zalo">
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    /* VỊ TRÍ CỐ ĐỊNH Ở GÓC TRÁI MÀN HÌNH */
+    .hotline-phone-ring-wrap {
+        position: fixed;
+        bottom: 80px; /* Cách đáy 80px để không che mất thanh menu mobile cũ */
+        left: 20px;
+        z-index: 999999;
+    }
+
+    /* --- CSS CHO NÚT GỌI ĐIỆN (MÀU ĐỎ) --- */
+    .hotline-phone-ring {
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        width: 110px;
+        height: 110px;
+        cursor: pointer;
+        z-index: 11;
+        transition: visibility .5s;
+        margin-bottom: 10px; /* Khoảng cách với nút Zalo */
+    }
+
+    .hotline-phone-ring-circle {
+        width: 85px;
+        height: 85px;
+        top: 10px;
+        left: 10px;
+        position: absolute;
+        background-color: transparent;
+        border-radius: 100%;
+        border: 2px solid #e60808;
+        opacity: .5;
+        animation: phonering-alo-circle-anim 1.2s infinite ease-in-out;
+        transition: all .5s;
+        transform-origin: 50% 50%;
+    }
+
+    .hotline-phone-ring-circle-fill {
+        width: 55px;
+        height: 55px;
+        top: 25px;
+        left: 25px;
+        position: absolute;
+        background-color: rgba(230, 8, 8, 0.7);
+        border-radius: 100%;
+        border: 2px solid transparent;
+        animation: phonering-alo-circle-fill-anim 2.3s infinite ease-in-out;
+        transition: all .5s;
+        transform-origin: 50% 50%;
+    }
+
+    .hotline-phone-ring-img-circle {
+        background-color: #e60808;
+        width: 50px;
+        height: 50px;
+        top: 28px;
+        left: 28px;
+        position: absolute;
+        background-size: 20px;
+        border-radius: 100%;
+        border: 2px solid transparent;
+        animation: phonering-alo-circle-img-anim 1s infinite ease-in-out;
+        transform-origin: 50% 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hotline-phone-ring-img-circle .pps-btn-img {
+        display: flex;
+    }
+
+    .hotline-phone-ring-img-circle .pps-btn-img i {
+        color: #fff;
+        font-size: 20px;
+    }
+
+    /* --- CSS CHO NÚT ZALO (MÀU XANH) --- */
+    .hotline-zalo-ring {
+        position: relative;
+        visibility: visible;
+        background-color: transparent;
+        width: 110px;
+        height: 110px;
+        cursor: pointer;
+        z-index: 11;
+    }
+
+    .hotline-zalo-ring-circle {
+        width: 85px;
+        height: 85px;
+        top: 10px;
+        left: 10px;
+        position: absolute;
+        background-color: transparent;
+        border-radius: 100%;
+        border: 2px solid #0068ff;
+        opacity: .5;
+        animation: phonering-alo-circle-anim 1.2s infinite ease-in-out;
+    }
+
+    .hotline-zalo-ring-circle-fill {
+        width: 55px;
+        height: 55px;
+        top: 25px;
+        left: 25px;
+        position: absolute;
+        background-color: rgba(0, 104, 255, 0.7);
+        border-radius: 100%;
+        border: 2px solid transparent;
+        animation: phonering-alo-circle-fill-anim 2.3s infinite ease-in-out;
+    }
+
+    .hotline-zalo-ring-img-circle {
+        background-color: #0068ff;
+        width: 50px;
+        height: 50px;
+        top: 28px;
+        left: 28px;
+        position: absolute;
+        border-radius: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .hotline-zalo-ring-img-circle img {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* --- HIỆU ỨNG CHUYỂN ĐỘNG (KEYFRAMES) --- */
+    @keyframes phonering-alo-circle-anim {
+        0% { transform: rotate(0) scale(0.5) skew(1deg); opacity: 0.1; }
+        30% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.5; }
+        100% { transform: rotate(0) scale(1) skew(1deg); opacity: 0.1; }
+    }
+
+    @keyframes phonering-alo-circle-fill-anim {
+        0% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.6; }
+        50% { transform: rotate(0) scale(1) skew(1deg); opacity: 0.6; }
+        100% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.6; }
+    }
+
+    @keyframes phonering-alo-circle-img-anim {
+        0% { transform: rotate(0) scale(1) skew(1deg); }
+        10% { transform: rotate(-25deg) scale(1) skew(1deg); }
+        20% { transform: rotate(25deg) scale(1) skew(1deg); }
+        30% { transform: rotate(-25deg) scale(1) skew(1deg); }
+        40% { transform: rotate(25deg) scale(1) skew(1deg); }
+        50% { transform: rotate(0) scale(1) skew(1deg); }
+        100% { transform: rotate(0) scale(1) skew(1deg); }
+    }
+    
+    /* Tùy chỉnh trên điện thoại để không bị to quá */
+    @media (max-width: 768px) {
+        .hotline-phone-ring-wrap {
+            bottom: 70px; /* Đẩy lên trên thanh menu dưới một chút */
+            left: 0;
+            transform: scale(0.8); /* Thu nhỏ lại 80% cho gọn */
+        }
+    }
+</style>
 </body>
 
 </html>
+
 
 
 
