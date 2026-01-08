@@ -9,70 +9,167 @@
     <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu.png">
     
     <style>
-        /* --- CẤU HÌNH GIAO DIỆN CHUNG --- */
-        :root { --primary: #0068ff; --secondary: #ffc107; --danger: #dc3545; --success: #28a745; --dark: #333; --light: #f4f6f9; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; scroll-behavior: smooth; }
-        body { padding-bottom: 70px; }
-        a { text-decoration: none; } ul { list-style: none; }
+        /* --- 1. CẤU HÌNH CƠ BẢN --- */
+        :root {
+            --primary: #0068ff;
+            --secondary: #ffc107;
+            --danger: #dc3545;
+            --success: #28a745;
+            --dark: #333;
+            --light: #f4f6f9;
+        }
 
-        /* --- HEADER --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; scroll-behavior: smooth; }
+        
+        body { padding-bottom: 70px; background-color: #fff; }
+        
+        a { text-decoration: none; }
+        ul { list-style: none; }
+
+        /* --- 2. HEADER & MENU --- */
         header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        
         .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; padding: 15px; position: relative; }
-        .logo { display: flex; align-items: center; gap: 10px; } .logo img { max-height: 55px; width: auto; object-fit: contain; }
+        
+        .logo { display: flex; align-items: center; gap: 10px; }
+        .logo img { max-height: 55px; width: auto; object-fit: contain; }
+        
         .brand-text { display: flex; flex-direction: column; }
         .company-name { font-size: 18px; font-weight: 800; color: var(--primary); text-transform: uppercase; line-height: 1.2; }
         .company-slogan { font-size: 12px; color: #555; font-style: italic; }
-        .nav-links { display: flex; gap: 20px; align-items: center; } .nav-links a { color: var(--dark); font-weight: 500; transition: 0.3s; } .nav-links a:hover { color: var(--primary); }
+
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { color: var(--dark); font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+        
         .btn-header { background: var(--danger); color: white !important; padding: 8px 15px; border-radius: 5px; }
+        
         .menu-toggle { display: none; font-size: 24px; cursor: pointer; color: var(--dark); }
 
-        /* --- HERO & SECTIONS --- */
-        .hero { background: linear-gradient(rgba(0,86,179,0.8), rgba(0,86,179,0.8)), url('https://source.unsplash.com/1600x900/?hvac,technician'); background-size: cover; color: white; text-align: center; padding: 100px 20px; }
+        /* --- 3. BANNER & TIÊU ĐỀ --- */
+        .hero {
+            background: linear-gradient(rgba(0,86,179,0.8), rgba(0,86,179,0.8)), url('https://source.unsplash.com/1600x900/?hvac,technician');
+            background-size: cover; color: white; text-align: center; padding: 100px 20px;
+        }
         .hero h1 { font-size: 2.5em; margin-bottom: 15px; text-transform: uppercase; }
-        .section { padding: 60px 20px; max-width: 1200px; margin: auto; }
-        .section-title { text-align: center; margin-bottom: 40px; } .section-title h2 { color: var(--primary); font-size: 2.2em; margin-bottom: 10px; }
+        .hero p { font-size: 1.1em; margin-bottom: 30px; }
         
-        /* --- FEATURES & SERVICES --- */
-        .features, .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .cta-btn { background: var(--secondary); color: var(--dark); padding: 15px 30px; font-size: 18px; font-weight: bold; border-radius: 30px; display: inline-block; transition: 0.3s; }
+        .cta-btn:hover { transform: scale(1.05); background: #e0a800; }
+
+        .section { padding: 60px 20px; max-width: 1200px; margin: auto; }
+        .section-title { text-align: center; margin-bottom: 40px; }
+        .section-title h2 { color: var(--primary); font-size: 2.2em; margin-bottom: 10px; }
+
+        /* --- 4. CÁC KHỐI DỊCH VỤ (GRID LAYOUT) --- */
+        .features, .services-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 30px; 
+        }
+
         .feature-box { text-align: center; padding: 30px; background: var(--light); border-radius: 10px; transition: 0.3s; }
-        .feature-box:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); } .feature-box i { font-size: 40px; color: var(--primary); margin-bottom: 15px; }
+        .feature-box:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .feature-box i { font-size: 40px; color: var(--primary); margin-bottom: 15px; }
+
         .service-card { border: 1px solid #eee; border-radius: 10px; overflow: hidden; }
         .service-head { background: var(--primary); color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 1.2em; }
-        .service-body { padding: 20px; } .service-body ul li { margin-bottom: 10px; padding-left: 20px; position: relative; } .service-body ul li::before { content: "✔"; color: var(--success); position: absolute; left: 0; }
+        .service-body { padding: 20px; }
+        .service-body ul li { margin-bottom: 10px; padding-left: 20px; position: relative; }
+        .service-body ul li::before { content: "✔"; color: var(--success); position: absolute; left: 0; }
 
-        /* --- GALLERY GRID --- */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
-        .gallery-item { position: relative; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); cursor: pointer; }
-        .gallery-item img { width: 100%; height: 250px; object-fit: cover; transition: transform 0.3s; }
+        /* --- 5. THƯ VIỆN ẢNH (GALLERY) --- */
+        .gallery-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 20px; 
+        }
+        
+        .gallery-item { 
+            position: relative; 
+            overflow: hidden; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+            cursor: pointer; /* Con trỏ tay bấm */
+            background: #fff;
+        }
+        
+        .gallery-item img { width: 100%; height: 250px; object-fit: cover; transition: transform 0.3s; display: block; }
         .gallery-item:hover img { transform: scale(1.1); }
-        .gallery-caption { position: absolute; bottom: 0; background: rgba(0,0,0,0.7); color: white; width: 100%; padding: 10px; text-align: center; font-size: 14px; }
-        .click-hint { position: absolute; top: 10px; right: 10px; background: var(--secondary); color: var(--dark); padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.2); animation: pulse 2s infinite; z-index: 2; }
+        
+        .gallery-caption { 
+            position: absolute; bottom: 0; 
+            background: rgba(0,0,0,0.7); color: white; 
+            width: 100%; padding: 10px; 
+            text-align: center; font-size: 14px; 
+        }
+
+        /* Nhãn bấm xem */
+        .click-hint {
+            position: absolute; top: 10px; right: 10px;
+            background: var(--secondary); color: var(--dark);
+            padding: 5px 10px; border-radius: 20px;
+            font-size: 12px; font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite; z-index: 2;
+        }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-        /* --- MODAL (POPUP) --- */
-        .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
-        .modal-content { background-color: #fefefe; margin: 5% auto; padding: 20px; border: 1px solid #888; width: 90%; max-width: 800px; border-radius: 10px; position: relative; animation: slideDown 0.4s; }
+        /* --- 6. POPUP (MODAL) --- */
+        .modal {
+            display: none; /* Mặc định ẩn */
+            position: fixed; z-index: 10000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; padding: 25px;
+            border: 1px solid #888;
+            width: 90%; max-width: 800px;
+            border-radius: 10px;
+            position: relative;
+            animation: slideDown 0.4s;
+        }
         @keyframes slideDown { from { top: -100px; opacity: 0; } to { top: 0; opacity: 1; } }
-        .close-modal { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; } .close-modal:hover { color: var(--danger); }
-        .modal-body { display: flex; flex-direction: column; gap: 20px; }
-        .modal-image-single img { width: 100%; height: 300px; object-fit: cover; border-radius: 5px; } /* Ảnh đơn */
-        .modal-images { display: flex; gap: 10px; } /* Ảnh đôi */
-        .modal-images img { width: 50%; height: 200px; object-fit: cover; border-radius: 5px; }
-        .modal-steps { background: #f9f9f9; padding: 15px; border-radius: 5px; border-left: 4px solid var(--primary); }
-        .modal-steps h3 { color: var(--primary); margin-bottom: 10px; } .modal-steps ul li { margin-bottom: 8px; padding-left: 20px; position: relative; } .modal-steps ul li::before { content: "🔹"; position: absolute; left: 0; font-size: 12px; top: 2px; }
 
-        /* --- OTHERS --- */
+        .close-modal { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close-modal:hover { color: var(--danger); }
+        
+        .modal-body { display: flex; flex-direction: column; gap: 20px; }
+        .modal-image-single img { width: 100%; height: 350px; object-fit: cover; border-radius: 8px; }
+        .modal-images { display: flex; gap: 10px; }
+        .modal-images img { width: 50%; height: 250px; object-fit: cover; border-radius: 8px; }
+        
+        .modal-steps { background: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 5px solid var(--primary); }
+        .modal-steps h3 { color: var(--primary); margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+        .modal-steps ul li { margin-bottom: 10px; padding-left: 25px; position: relative; line-height: 1.5; }
+        .modal-steps ul li::before { content: "🔹"; position: absolute; left: 0; font-size: 14px; top: 2px; }
+
+        /* --- 7. ĐÁNH GIÁ & LIÊN HỆ --- */
         .review-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .review-card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--secondary); }
+        .stars { color: #ffc107; font-size: 20px; margin-bottom: 15px; }
+        
         .contact-section { background: var(--light); }
         .form-container { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); max-width: 600px; margin: auto; }
-        .form-control { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 15px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-control { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; }
         .submit-btn { width: 100%; background: var(--primary); color: white; padding: 15px; border: none; border-radius: 5px; font-size: 18px; font-weight: bold; cursor: pointer; }
-        footer { background: #222; color: #fff; padding: 40px 20px; text-align: center; }
 
-        /* --- MOBILE & RING BUTTONS --- */
+        footer { background: #222; color: #fff; padding: 40px 20px; text-align: center; }
+        footer p { margin: 10px 0; }
+
+        /* --- 8. MOBILE & NÚT RUNG --- */
         .contact-bar-mobile { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 9999; justify-content: space-around; padding: 10px 0; border-top: 1px solid #eee; }
-        .contact-item { display: flex; flex-direction: column; align-items: center; font-size: 12px; font-weight: bold; flex: 1; color: var(--dark); } .contact-item i { font-size: 20px; margin-bottom: 5px; }
+        .contact-item { display: flex; flex-direction: column; align-items: center; font-size: 12px; font-weight: bold; flex: 1; color: var(--dark); }
+        .contact-item i { font-size: 20px; margin-bottom: 5px; }
+
         .hotline-phone-ring-wrap { position: fixed; bottom: 80px; left: 20px; z-index: 999999; }
         .hotline-phone-ring, .hotline-zalo-ring { position: relative; width: 110px; height: 110px; cursor: pointer; z-index: 11; margin-bottom: 10px; }
         .hotline-phone-ring-circle, .hotline-zalo-ring-circle { width: 85px; height: 85px; top: 10px; left: 10px; position: absolute; border-radius: 100%; opacity: .5; animation: ring 1.2s infinite; }
@@ -82,17 +179,24 @@
         .hotline-phone-ring-img-circle, .hotline-zalo-ring-img-circle { width: 50px; height: 50px; top: 28px; left: 28px; position: absolute; border-radius: 100%; display: flex; justify-content: center; align-items: center; }
         .hotline-phone-ring-img-circle { background: #e60808; animation: ring-img 1s infinite; } .hotline-zalo-ring-img-circle { background: #0068ff; }
         .hotline-phone-ring-img-circle i { color: white; font-size: 20px; } .hotline-zalo-ring-img-circle img { width: 30px; height: 30px; }
+
         @keyframes ring { 0% { transform: rotate(0) scale(0.5) skew(1deg); opacity: 0.1; } 30% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.5; } 100% { transform: rotate(0) scale(1) skew(1deg); opacity: 0.1; } }
         @keyframes ring-fill { 0% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.6; } 50% { transform: rotate(0) scale(1) skew(1deg); opacity: 0.6; } 100% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.6; } }
         @keyframes ring-img { 0% { transform: rotate(0) scale(1) skew(1deg); } 10% { transform: rotate(-25deg) scale(1) skew(1deg); } 20% { transform: rotate(25deg) scale(1) skew(1deg); } 30% { transform: rotate(-25deg) scale(1) skew(1deg); } 40% { transform: rotate(25deg) scale(1) skew(1deg); } 50% { transform: rotate(0) scale(1) skew(1deg); } 100% { transform: rotate(0) scale(1) skew(1deg); } }
 
+        /* --- 9. RESPONSIVE --- */
         @media (max-width: 768px) {
             .menu-toggle { display: block; }
             .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: white; box-shadow: 0 5px 10px rgba(0,0,0,0.1); padding: 20px; text-align: center; }
             .nav-links.active { display: flex; }
-            .logo img { height: 40px; } .company-name { font-size: 15px; } .company-slogan { display: none; }
-            .hotline-phone-ring-wrap { display: none; } .contact-bar-mobile { display: flex; }
-            .modal-images { flex-direction: column; } .modal-images img { width: 100%; height: 180px; }
+            .logo img { height: 40px; } 
+            .company-name { font-size: 15px; } 
+            .company-slogan { display: none; }
+            .hotline-phone-ring-wrap { display: none; } 
+            .contact-bar-mobile { display: flex; }
+            .modal-images { flex-direction: column; } 
+            .modal-images img { width: 100%; height: 200px; }
+            .modal-image-single img { height: 200px; }
         }
     </style>
 </head>
@@ -102,7 +206,10 @@
         <div class="navbar">
             <a href="index.html" class="logo">
                 <img src="logo-thanh-tam-hieu.png" alt="Logo Thanh Tâm Hiếu">
-                <div class="brand-text"><span class="company-name">THANH TÂM HIẾU</span><span class="company-slogan">Uy Tín - Tận Tâm - Chuyên Nghiệp</span></div>
+                <div class="brand-text">
+                    <span class="company-name">THANH TÂM HIẾU</span>
+                    <span class="company-slogan">Uy Tín - Tận Tâm - Chuyên Nghiệp</span>
+                </div>
             </a>
             <div class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
             <div class="nav-links" id="navLinks">
@@ -123,23 +230,47 @@
     <section class="section" id="ve-chung-toi">
         <div class="section-title"><h2>TẠI SAO CHỌN THANH TÂM HIẾU?</h2></div>
         <div class="features">
-            <div class="feature-box"><i class="fas fa-heart"></i><h3>Làm Việc Có Tâm</h3><p>Kỹ thuật viên tỉ mỉ, không vẽ bệnh, coi máy của khách như máy của mình.</p></div>
-            <div class="feature-box"><i class="fas fa-bolt"></i><h3>Hỗ Trợ Thần Tốc</h3><p>Có mặt nhanh chóng tại các KCN Đồng Nai, Bình Dương. Xử lý sự cố 24/7.</p></div>
-            <div class="feature-box"><i class="fas fa-tools"></i><h3>Đa Dạng Dịch Vụ</h3><p>Từ sửa máy lạnh gia đình đến thi công hệ thống HVAC, tủ điện công nghiệp.</p></div>
+            <div class="feature-box">
+                <i class="fas fa-heart"></i>
+                <h3>Làm Việc Có Tâm</h3>
+                <p>Kỹ thuật viên tỉ mỉ, không vẽ bệnh, coi máy của khách như máy của mình.</p>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-bolt"></i>
+                <h3>Hỗ Trợ Thần Tốc</h3>
+                <p>Có mặt nhanh chóng tại các KCN Đồng Nai, Bình Dương. Xử lý sự cố 24/7.</p>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-tools"></i>
+                <h3>Đa Dạng Dịch Vụ</h3>
+                <p>Từ sửa máy lạnh gia đình đến thi công hệ thống HVAC, tủ điện công nghiệp.</p>
+            </div>
         </div>
     </section>
 
     <section class="section" id="dich-vu">
         <div class="section-title"><h2>DỊCH VỤ CỦA CHÚNG TÔI</h2></div>
         <div class="services-grid">
-            <div class="service-card"><div class="service-head"><i class="fas fa-snowflake"></i> LẠNH GIA DỤNG</div><div class="service-body"><ul><li>Vệ sinh máy lạnh sạch sâu.</li><li>Sửa tủ lạnh, tủ đông, máy giặt.</li></ul></div></div>
-            <div class="service-card"><div class="service-head"><i class="fas fa-industry"></i> LẠNH CÔNG NGHIỆP</div><div class="service-body"><ul><li>Thi công VRV, VRF, Kho lạnh.</li><li>Bảo trì hệ thống lạnh nhà xưởng.</li></ul></div></div>
-            <div class="service-card"><div class="service-head"><i class="fas fa-plug"></i> CƠ ĐIỆN & TỦ ĐIỆN</div><div class="service-body"><ul><li>Lắp đặt tủ điện MSB, ATS.</li><li>Thi công điện nhà xưởng.</li></ul></div></div>
+            <div class="service-card">
+                <div class="service-head"><i class="fas fa-snowflake"></i> LẠNH GIA DỤNG</div>
+                <div class="service-body"><ul><li>Vệ sinh máy lạnh sạch sâu.</li><li>Sửa tủ lạnh, tủ đông, máy giặt.</li></ul></div>
+            </div>
+            <div class="service-card">
+                <div class="service-head"><i class="fas fa-industry"></i> LẠNH CÔNG NGHIỆP</div>
+                <div class="service-body"><ul><li>Thi công VRV, VRF, Kho lạnh.</li><li>Bảo trì hệ thống lạnh nhà xưởng.</li></ul></div>
+            </div>
+            <div class="service-card">
+                <div class="service-head"><i class="fas fa-plug"></i> CƠ ĐIỆN & TỦ ĐIỆN</div>
+                <div class="service-body"><ul><li>Lắp đặt tủ điện MSB, ATS.</li><li>Thi công điện nhà xưởng.</li></ul></div>
+            </div>
         </div>
     </section>
 
     <section class="section" style="background: #fff;">
-        <div class="section-title"><h2>HÌNH ẢNH THI CÔNG THỰC TẾ</h2><p>Người thật - Việc thật. Sự tỉ mỉ làm nên thương hiệu Thanh Tâm Hiếu.</p></div>
+        <div class="section-title">
+            <h2>HÌNH ẢNH THI CÔNG THỰC TẾ</h2>
+            <p>Người thật - Việc thật. Sự tỉ mỉ làm nên thương hiệu Thanh Tâm Hiếu.</p>
+        </div>
         <div class="gallery-grid">
             
             <div class="gallery-item" onclick="openModal('vrfModal')">
@@ -188,11 +319,11 @@
                 <div class="modal-steps">
                     <h3><i class="fas fa-clipboard-check"></i> 5 Bước thực hiện:</h3>
                     <ul>
-                        <li><strong>B1:</strong> Kiểm tra thông số vận hành (Dòng điện, Gas) trước khi vệ sinh.</li>
-                        <li><strong>B2:</strong> Vệ sinh Dàn Lạnh: Tháo máng, quạt, dùng bạt che và bơm áp lực cao.</li>
-                        <li><strong>B3:</strong> Vệ sinh Dàn Nóng: Xịt rửa dàn ngưng tụ, đảm bảo giải nhiệt tốt.</li>
-                        <li><strong>B4:</strong> Thông tắc đường ống nước ngưng, kiểm tra bơm.</li>
-                        <li><strong>B5:</strong> Chạy thử máy và lập biên bản nghiệm thu.</li>
+                        <li><strong>B1:</strong> Kiểm tra thông số vận hành (Dòng điện, Gas).</li>
+                        <li><strong>B2:</strong> Vệ sinh Dàn Lạnh (Che chắn kỹ, bơm áp lực cao).</li>
+                        <li><strong>B3:</strong> Vệ sinh Dàn Nóng (Giải nhiệt tốt).</li>
+                        <li><strong>B4:</strong> Thông tắc đường ống nước ngưng.</li>
+                        <li><strong>B5:</strong> Chạy thử máy, lập biên bản nghiệm thu.</li>
                     </ul>
                 </div>
                 <div style="text-align: center;"><a href="#lien-he" class="cta-btn" onclick="closeModal('vrfModal')">ĐẶT LỊCH NGAY</a></div>
@@ -211,11 +342,11 @@
                 <div class="modal-steps">
                     <h3><i class="fas fa-bolt"></i> Các bước thi công chuẩn:</h3>
                     <ul>
-                        <li><strong>B1:</strong> Khảo sát tải thực tế và thiết kế sơ đồ nguyên lý (Bản vẽ CAD).</li>
-                        <li><strong>B2:</strong> Gia công vỏ tủ, đột lỗ và gá thiết bị (CB, Contactor, Biến tần...).</li>
-                        <li><strong>B3:</strong> Đấu nối dây động lực và dây điều khiển, bấm đầu cos thẩm mỹ.</li>
-                        <li><strong>B4:</strong> Kiểm tra nguội (Check dây) và kiểm tra cách điện (Megger).</li>
-                        <li><strong>B5:</strong> Đóng điện chạy thử tải và dán nhãn bàn giao.</li>
+                        <li><strong>B1:</strong> Khảo sát tải, thiết kế sơ đồ nguyên lý (CAD).</li>
+                        <li><strong>B2:</strong> Gia công vỏ tủ, đột lỗ, gá thiết bị (CB, Contactor).</li>
+                        <li><strong>B3:</strong> Đấu nối dây động lực/điều khiển, bấm đầu cos.</li>
+                        <li><strong>B4:</strong> Kiểm tra nguội (Check dây) và cách điện (Megger).</li>
+                        <li><strong>B5:</strong> Đóng điện chạy thử tải và bàn giao.</li>
                     </ul>
                 </div>
                 <div style="text-align: center;"><a href="#lien-he" class="cta-btn" onclick="closeModal('tudienModal')">YÊU CẦU BÁO GIÁ</a></div>
@@ -234,11 +365,11 @@
                 <div class="modal-steps">
                     <h3><i class="fas fa-snowflake"></i> Nội dung bảo trì định kỳ:</h3>
                     <ul>
-                        <li><strong>B1:</strong> Kiểm tra độ kín của vỏ kho, gioăng cửa và rèm nhựa.</li>
-                        <li><strong>B2:</strong> Vệ sinh dàn lạnh, xả đá và thông đường thoát nước ngưng.</li>
-                        <li><strong>B3:</strong> Kiểm tra máy nén, vệ sinh dàn nóng và quạt giải nhiệt.</li>
-                        <li><strong>B4:</strong> Kiểm tra áp suất gas, châm thêm dầu lạnh, siết lại ốc vít điện.</li>
-                        <li><strong>B5:</strong> Vận hành thử máy đạt nhiệt độ yêu cầu (-18°C đến 5°C).</li>
+                        <li><strong>B1:</strong> Kiểm tra độ kín vỏ kho, gioăng cửa.</li>
+                        <li><strong>B2:</strong> Vệ sinh dàn lạnh, xả đá, thông thoát nước.</li>
+                        <li><strong>B3:</strong> Kiểm tra máy nén, vệ sinh dàn nóng.</li>
+                        <li><strong>B4:</strong> Kiểm tra áp suất gas, châm dầu lạnh.</li>
+                        <li><strong>B5:</strong> Vận hành thử đạt nhiệt độ yêu cầu.</li>
                     </ul>
                 </div>
                 <div style="text-align: center;"><a href="#lien-he" class="cta-btn" onclick="closeModal('kholanhModal')">GỌI KỸ THUẬT NGAY</a></div>
@@ -252,12 +383,21 @@
             <form action="https://api.sheetmonkey.io/form/wE8W5mCL4wteSUgcanYr7k" method="POST" id="my-form">
                 <div class="form-group"><label>Họ và tên:</label><input type="text" name="ho_ten" class="form-control" placeholder="Nhập tên của bạn" required></div>
                 <div class="form-group"><label>Số điện thoại:</label><input type="tel" name="so_dien_thoai" class="form-control" placeholder="Nhập số điện thoại" required></div>
-                <div class="form-group"><label>Dịch vụ cần hỗ trợ:</label><select name="dich_vu" class="form-control"><option value="Sua_Chua_Gia_Dinh">Sửa chữa Điện Lạnh Gia Đình</option><option value="He_Thong_HVAC">Hệ thống HVAC/Kho lạnh</option><option value="Thi_Cong_Dien">Thi công Tủ điện/Điện Xưởng</option></select></div>
+                <div class="form-group"><label>Dịch vụ cần hỗ trợ:</label>
+                    <select name="dich_vu" class="form-control">
+                        <option value="Sua_Chua_Gia_Dinh">Sửa chữa Điện Lạnh Gia Đình</option>
+                        <option value="He_Thong_HVAC">Hệ thống HVAC/Kho lạnh</option>
+                        <option value="Thi_Cong_Dien">Thi công Tủ điện/Điện Xưởng</option>
+                    </select>
+                </div>
                 <div class="form-group"><label>Ghi chú thêm:</label><textarea name="ghi_chu" class="form-control" rows="3" placeholder="Ví dụ: Máy lạnh không lạnh, cần thợ gấp..."></textarea></div>
                 <button type="submit" class="submit-btn">GỬI YÊU CẦU NGAY</button>
                 <p id="my-form-status"></p>
             </form>
-            <div style="margin-top: 20px; text-align: center;"><p>Hoặc nhắn tin trực tiếp qua Zalo:</p><a href="https://zalo.me/0364574555" style="color: var(--primary); font-weight: bold; font-size: 1.2em;"><i class="fas fa-comment-dots"></i> Chat Zalo Ngay</a></div>
+            <div style="margin-top: 20px; text-align: center;">
+                <p>Hoặc nhắn tin trực tiếp qua Zalo:</p>
+                <a href="https://zalo.me/0364574555" style="color: var(--primary); font-weight: bold; font-size: 1.2em;"><i class="fas fa-comment-dots"></i> Chat Zalo Ngay</a>
+            </div>
         </div>
     </section>
 
@@ -276,12 +416,20 @@
     </div>
 
     <div class="hotline-phone-ring-wrap">
-        <div class="hotline-phone-ring"><div class="hotline-phone-ring-circle"></div><div class="hotline-phone-ring-circle-fill"></div><div class="hotline-phone-ring-img-circle"><a href="tel:0364574555" class="pps-btn-img"><i class="fas fa-phone-alt"></i></a></div></div>
-        <div class="hotline-zalo-ring"><div class="hotline-zalo-ring-circle"></div><div class="hotline-zalo-ring-circle-fill"></div><div class="hotline-zalo-ring-img-circle"><a href="https://zalo.me/0364574555" target="_blank" class="pps-btn-img"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png" alt="Chat Zalo"></a></div></div>
+        <div class="hotline-phone-ring">
+            <div class="hotline-phone-ring-circle"></div>
+            <div class="hotline-phone-ring-circle-fill"></div>
+            <div class="hotline-phone-ring-img-circle"><a href="tel:0364574555" class="pps-btn-img"><i class="fas fa-phone-alt"></i></a></div>
+        </div>
+        <div class="hotline-zalo-ring">
+            <div class="hotline-zalo-ring-circle"></div>
+            <div class="hotline-zalo-ring-circle-fill"></div>
+            <div class="hotline-zalo-ring-img-circle"><a href="https://zalo.me/0364574555" target="_blank" class="pps-btn-img"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png" alt="Chat Zalo"></a></div>
+        </div>
     </div>
 
     <script>
-        // Xử lý gửi Form
+        // 1. XỬ LÝ GỬI FORM
         var form = document.getElementById("my-form");
         async function handleSubmit(event) {
             event.preventDefault();
@@ -293,17 +441,17 @@
         }
         form.addEventListener("submit", handleSubmit);
 
-        // Xử lý Menu Mobile
+        // 2. XỬ LÝ MENU MOBILE
         function toggleMenu() { document.getElementById("navLinks").classList.toggle("active"); }
 
-        // --- XỬ LÝ 3 POPUP (VRF, TỦ ĐIỆN, KHO LẠNH) ---
+        // 3. XỬ LÝ POPUP (MODALS)
         function openModal(modalId) {
             document.getElementById(modalId).style.display = "block";
         }
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = "none";
         }
-        // Bấm ra ngoài thì đóng popup
+        // Bấm ra ngoài vùng trắng thì đóng popup
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) {
                 event.target.style.display = "none";
