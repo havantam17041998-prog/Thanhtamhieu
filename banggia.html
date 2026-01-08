@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Bảng giá sửa chữa điện lạnh, vệ sinh máy lạnh, máy giặt, tủ lạnh năm 2024 - Thanh Tâm Hiếu. Giá rẻ, minh bạch, không phát sinh.">
+    <meta name="description" content="Bảng giá sửa chữa điện lạnh, vệ sinh máy lạnh, máy giặt, tủ lạnh, HVAC, Tủ điện năm 2024 - Thanh Tâm Hiếu.">
     <title>Bảng Giá Dịch Vụ | Điện Lạnh Thanh Tâm Hiếu</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu.png">
@@ -38,7 +38,7 @@
         .nav-links { display: flex; gap: 20px; align-items: center; }
         .nav-links a { color: var(--dark); font-weight: 500; transition: 0.3s; }
         .nav-links a:hover { color: var(--primary); }
-        .nav-links a.active { color: var(--primary); font-weight: bold; border-bottom: 2px solid var(--primary); } /* Highlight mục đang chọn */
+        .nav-links a.active { color: var(--primary); font-weight: bold; border-bottom: 2px solid var(--primary); }
         
         .btn-header { background: var(--danger); color: white !important; padding: 8px 15px; border-radius: 5px; }
         .menu-toggle { display: none; font-size: 24px; cursor: pointer; color: var(--dark); }
@@ -69,11 +69,10 @@
         @keyframes ring-fill { 0% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.6; } 50% { transform: rotate(0) scale(1) skew(1deg); opacity: 0.6; } 100% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.6; } }
         @keyframes ring-img { 0% { transform: rotate(0) scale(1) skew(1deg); } 10% { transform: rotate(-25deg) scale(1) skew(1deg); } 20% { transform: rotate(25deg) scale(1) skew(1deg); } 30% { transform: rotate(-25deg) scale(1) skew(1deg); } 40% { transform: rotate(25deg) scale(1) skew(1deg); } 50% { transform: rotate(0) scale(1) skew(1deg); } 100% { transform: rotate(0) scale(1) skew(1deg); } }
 
-        /* RESPONSIVE CHUNG */
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             .menu-toggle { display: block; }
-            .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: white; box-shadow: 0 5px 10px rgba(0,0,0,0.1); padding: 20px; text-align: center; }
-            .nav-links.active-mobile { display: flex; } /* Class này sẽ được JS toggle */
+            .nav-links { display: none; }
             .logo img { height: 40px; } 
             .company-name { font-size: 15px; } 
             .company-slogan { display: none; }
@@ -137,7 +136,8 @@
                 <a href="index.html">Trang chủ</a>
                 <a href="index.html#ve-chung-toi">Về chúng tôi</a>
                 <a href="index.html#dich-vu">Dịch vụ</a>
-                <a href="banggia.html" class="active">Bảng giá</a> <a href="index.html#faq">Hỏi đáp</a>
+                <a href="banggia.html" class="active">Bảng giá</a>
+                <a href="index.html#faq">Hỏi đáp</a>
                 <a href="tel:0364574555" class="btn-header"><i class="fas fa-phone"></i> 0364.574.555</a>
             </div>
         </div>
@@ -150,7 +150,7 @@
 
     <div class="price-section">
 
-        <div class="price-category"><i class="fas fa-snowflake"></i> 1. Dịch Vụ Máy Lạnh</div>
+        <div class="price-category"><i class="fas fa-snowflake"></i> 1. Dịch Vụ Máy Lạnh (Dân dụng)</div>
         <div class="price-table-wrap">
             <table>
                 <thead>
@@ -202,14 +202,19 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Vệ sinh máy giặt Cửa Trên (Lồng đứng)</td>
+                        <td>Vệ sinh máy giặt Cửa Trên</td>
                         <td class="price-col">250.000 - 350.000</td>
                         <td class="note-col">Tháo lồng giặt, vệ sinh sạch sẽ từng chi tiết.</td>
                     </tr>
                     <tr>
-                        <td>Vệ sinh máy giặt Cửa Ngang (Lồng ngang)</td>
+                        <td>Vệ sinh máy giặt Cửa Ngang</td>
                         <td class="price-col">450.000 - 600.000</td>
                         <td class="note-col">Yêu cầu kỹ thuật cao, tháo lắp phức tạp hơn.</td>
+                    </tr>
+                    <tr>
+                        <td>Thay tụ (Kapa) mô tơ</td>
+                        <td class="price-col">250.000 - 450.000</td>
+                        <td class="note-col">Thay tụ đề/tụ ngậm giúp máy chạy khỏe.</td>
                     </tr>
                     <tr>
                         <td>Thay van cấp nước / Van xả</td>
@@ -219,7 +224,7 @@
                     <tr>
                         <td>Sửa Board mạch máy giặt</td>
                         <td class="price-col">450.000 - 1.200.000</td>
-                        <td class="note-col">Bảo hành 06 tháng.</td>
+                        <td class="note-col">Tùy lỗi nguồn/khiển. Bảo hành 06 tháng.</td>
                     </tr>
                 </tbody>
             </table>
@@ -255,19 +260,93 @@
             </table>
         </div>
 
+        <div class="price-category"><i class="fas fa-industry"></i> 4. Lạnh Công Nghiệp & HVAC</div>
+        <div class="price-table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nội dung công việc</th>
+                        <th>Đơn giá (VNĐ)</th>
+                        <th>Ghi chú</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Bảo trì định kỳ hệ thống VRV / VRF</td>
+                        <td class="price-col">Khảo sát báo giá</td>
+                        <td class="note-col">Báo giá theo số lượng dàn nóng/lạnh thực tế.</td>
+                    </tr>
+                    <tr>
+                        <td>Vệ sinh, bảo trì Chiller (Nước/Gió)</td>
+                        <td class="price-col">Khảo sát báo giá</td>
+                        <td class="note-col">Bao gồm tẩy cáu cặn bình ngưng, kiểm tra dầu/gas.</td>
+                    </tr>
+                    <tr>
+                        <td>Sửa chữa kho lạnh (Mát/Đông)</td>
+                        <td class="price-col">Liên hệ</td>
+                        <td class="note-col">Xử lý sự cố mất lạnh, thay máy nén, nạp gas R404A.</td>
+                    </tr>
+                    <tr>
+                        <td>Thi công ống gió, thông gió nhà xưởng</td>
+                        <td class="price-col">Theo m2 / mét dài</td>
+                        <td class="note-col">Gia công và lắp đặt trọn gói.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="price-category"><i class="fas fa-bolt"></i> 5. Cơ Điện & Tủ Điện Công Nghiệp</div>
+        <div class="price-table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nội dung công việc</th>
+                        <th>Đơn giá (VNĐ)</th>
+                        <th>Ghi chú</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Lắp đặt tủ điện phân phối (MSB, DB)</td>
+                        <td class="price-col">Khảo sát báo giá</td>
+                        <td class="note-col">Thiết kế sơ đồ, lắp ráp thiết bị (Schneider, LS, Mitsubishi...).</td>
+                    </tr>
+                    <tr>
+                        <td>Lắp tủ ATS (Chuyển nguồn tự động)</td>
+                        <td class="price-col">Liên hệ</td>
+                        <td class="note-col">Tùy công suất máy phát điện và tải.</td>
+                    </tr>
+                    <tr>
+                        <td>Lắp tủ tụ bù công suất phản kháng</td>
+                        <td class="price-col">Liên hệ</td>
+                        <td class="note-col">Giúp doanh nghiệp tránh bị phạt tiền điện.</td>
+                    </tr>
+                    <tr>
+                        <td>Xử lý sự cố chập điện, mất pha nhà xưởng</td>
+                        <td class="price-col">Từ 500.000đ</td>
+                        <td class="note-col">Hỗ trợ khẩn cấp 24/7.</td>
+                    </tr>
+                    <tr>
+                        <td>Thi công thang máng cáp, kéo dây nguồn</td>
+                        <td class="price-col">Theo khối lượng</td>
+                        <td class="note-col">Nhân công + Vật tư.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div class="note-box">
             <h3><i class="fas fa-exclamation-triangle"></i> LƯU Ý QUAN TRỌNG:</h3>
             <ul>
-                <li>Bảng giá trên mang tính chất tham khảo, giá thực tế có thể thay đổi tùy thuộc vào: Vị trí lắp đặt (cao, khó thao tác), hãng máy, mức độ hư hỏng.</li>
-                <li>Kỹ thuật viên sẽ <strong>kiểm tra và báo giá chi tiết TRƯỚC khi làm</strong>. Khách hàng đồng ý mới tiến hành.</li>
-                <li>Giá chưa bao gồm VAT 10% (nếu quý khách cần xuất hóa đơn đỏ).</li>
-                <li>Bảo hành từ 3 - 12 tháng tùy hạng mục.</li>
+                <li>Bảng giá trên mang tính chất tham khảo. Đối với khách hàng <strong>Công Nghiệp</strong>, chúng tôi luôn có quy trình: <strong>Khảo sát -> Lên phương án -> Báo giá chi tiết</strong>.</li>
+                <li>Giá chưa bao gồm VAT 10% (Có xuất hóa đơn đỏ đầy đủ).</li>
+                <li>Cam kết bảo hành dài hạn cho các hạng mục thi công và sửa chữa.</li>
             </ul>
         </div>
 
         <div style="text-align: center; margin-top: 40px;">
             <a href="index.html#lien-he" class="cta-btn-price">
-                <i class="fas fa-phone"></i> GỌI KHẢO SÁT & BÁO GIÁ
+                <i class="fas fa-phone"></i> YÊU CẦU KHẢO SÁT & BÁO GIÁ
             </a>
         </div>
 
@@ -305,7 +384,7 @@
     </div>
 
     <script>
-        // Xử lý Menu Mobile: dùng toggle class 'active-mobile' cho đúng với CSS responsive
+        // Xử lý Menu Mobile
         function toggleMenu() { 
             var nav = document.getElementById("navLinks");
             if (window.getComputedStyle(nav).display === "none") {
