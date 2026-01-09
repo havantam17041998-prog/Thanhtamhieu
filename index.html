@@ -186,7 +186,63 @@
             .modal-image-single img { height: 200px; }
             .contact-container-grid { grid-template-columns: 1fr; } 
         }
-    </style>
+    /* --- CODE LOGO TRƯỢT (MỚI THÊM) --- */
+        .partner-wrap {
+            padding: 30px 0;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            overflow: hidden; /* Ẩn thanh cuộn ngang */
+        }
+        .partner-title-text {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .partner-track {
+            display: flex;
+            width: calc(200px * 16); /* 200px là chiều rộng 1 logo x tổng số logo (gốc + copy) */
+            animation: scrollPartner 30s linear infinite;
+        }
+        .partner-logo {
+            width: 200px; /* Chiều rộng ô logo */
+            height: 80px;
+            background: #fff;
+            border: 1px solid #eee;
+            margin: 0 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            font-weight: bold;
+            color: #555;
+            font-size: 18px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        /* Hiệu ứng trượt vô tận */
+        @keyframes scrollPartner {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-200px * 8)); } /* Trượt hết 8 logo gốc rồi lặp lại */
+        }
+	/* --- CODE CHO ẢNH LOGO (DÁN THÊM VÀO STYLE) --- */
+        .partner-logo img {
+            max-width: 80%;       /* Giới hạn chiều rộng ảnh không quá to */
+            max-height: 80%;      /* Giới hạn chiều cao */
+            object-fit: contain;  /* Giữ nguyên tỉ lệ ảnh, không bị méo */
+            filter: grayscale(100%); /* (Tùy chọn) Làm ảnh đen trắng cho sang */
+            transition: 0.3s;     /* Hiệu ứng chuyển màu mượt */
+        }
+        
+        /* Khi rê chuột vào thì ảnh hiện màu gốc */
+        .partner-logo:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.1); /* Phóng to nhẹ */
+        }
+</style>
 </head>
 <body>
 
@@ -215,7 +271,29 @@
         <p><i>"Làm việc có TÂM - Hỗ trợ tận TÌNH - Giá cả hợp LÝ"</i></p>
         <a href="#lien-he" class="cta-btn">YÊU CẦU KHẢO SÁT NGAY</a>
     </section>
+<div class="partner-wrap" style="width: 100%; background: #fff; border-bottom: 5px solid #f4f6f9;">
+        <div class="partner-title-text" style="padding-top: 20px;">ĐỐI TÁC & KHÁCH HÀNG TIÊU BIỂU</div>
+        
+        <div class="partner-track">
+            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Daikin_logo.svg/1200px-Daikin_logo.svg.png" alt="Daikin"></div>
+            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Panasonic_logo_%28Blue%29.svg/2560px-Panasonic_logo_%28Blue%29.svg.png" alt="Panasonic"></div>
+            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Toshiba_logo.svg/2560px-Toshiba_logo.svg.png" alt="Toshiba"></div>
+            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/LG_logo_%282015%29.svg/2560px-LG_logo_%282015%29.svg.png" alt="LG"></div>
+            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Schneider_Electric_200x.png/640px-Schneider_Electric_200x.png" alt="Schneider"></div>
+            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Mitsubishi_logo.svg/1200px-Mitsubishi_logo.svg.png" alt="Mitsubishi"></div>
+            <div class="partner-logo"><img src="https://vinhomesgrandparkcity.vn/wp-content/uploads/2021/04/logo-tap-doan-vingroup-vinhomesgrandparkcity-vn-7.png" alt="Vinhomes"></div>
+            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/f/ff/Casper_Logo.png" alt="Casper"></div>
 
+            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Daikin_logo.svg/1200px-Daikin_logo.svg.png" alt="Daikin"></div>
+            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Panasonic_logo_%28Blue%29.svg/2560px-Panasonic_logo_%28Blue%29.svg.png" alt="Panasonic"></div>
+            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Toshiba_logo.svg/2560px-Toshiba_logo.svg.png" alt="Toshiba"></div>
+            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/LG_logo_%282015%29.svg/2560px-LG_logo_%282015%29.svg.png" alt="LG"></div>
+            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Schneider_Electric_200x.png/640px-Schneider_Electric_200x.png" alt="Schneider"></div>
+            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Mitsubishi_logo.svg/1200px-Mitsubishi_logo.svg.png" alt="Mitsubishi"></div>
+            <div class="partner-logo"><img src="https://vinhomesgrandparkcity.vn/wp-content/uploads/2021/04/logo-tap-doan-vingroup-vinhomesgrandparkcity-vn-7.png" alt="Vinhomes"></div>
+            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/f/ff/Casper_Logo.png" alt="Casper"></div>
+        </div>
+    </div>
     <section class="section" id="ve-chung-toi">
         <div class="section-title"><h2>TẠI SAO CHỌN THANH TÂM HIẾU?</h2></div>
         <div class="features">
