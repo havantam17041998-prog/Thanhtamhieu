@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cẩm nang kiến thức điện lạnh Thanh Tâm Hiếu: Mẹo tiết kiệm điện, tư vấn mua máy lạnh, hướng dẫn kỹ thuật và tra cứu mã lỗi.">
+    <title>Kiến Thức & Cẩm Nang Điện Lạnh | Thanh Tâm Hiếu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu.png">
+    
+    <style>
+        /* --- CẤU HÌNH CHUNG --- */
+        :root { --primary: #0068ff; --secondary: #ffc107; --danger: #dc3545; --dark: #333; --light: #f4f6f9; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; scroll-behavior: smooth; /* Trượt mượt */ }
+        body { background-color: #f9f9f9; color: #333; line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+
+        /* Header */
+        header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; padding: 15px; }
+        .logo { font-weight: 900; font-size: 20px; color: var(--primary); text-transform: uppercase; }
+        .nav-links a { margin-left: 15px; font-weight: 500; } .nav-links a:hover { color: var(--primary); }
+        .btn-header { background: var(--danger); color: white !important; padding: 8px 15px; border-radius: 5px; }
+
+        /* Banner */
+        .knowledge-banner {
+            background: linear-gradient(135deg, #0068ff, #004080);
+            color: white; padding: 60px 20px; text-align: center;
+        }
+        .knowledge-banner h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .knowledge-banner p { font-size: 1.1em; opacity: 0.9; }
+        
+        /* Danh mục (Menu phụ - Đã chỉnh thành nút bấm Neo trang) */
+        .category-tabs { display: flex; justify-content: center; gap: 15px; margin: -25px auto 40px; flex-wrap: wrap; padding: 0 10px; }
+        .cat-btn { background: white; padding: 12px 25px; border-radius: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-weight: bold; color: #555; transition: 0.3s; border: 1px solid #eee; }
+        .cat-btn:hover { background: var(--secondary); color: #000; transform: translateY(-3px); border-color: var(--secondary); }
+        .cat-btn i { margin-right: 5px; }
+
+        /* Khung nội dung */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Tiêu đề từng phần */
+        .section-header { margin-top: 60px; margin-bottom: 30px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .section-header h2 { color: var(--primary); font-size: 24px; text-transform: uppercase; margin: 0; }
+        .section-icon { font-size: 24px; color: var(--secondary); }
+
+        /* Grid bài viết */
+        .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .blog-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 15px rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; border: 1px solid #eee; }
+        .blog-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-color: var(--primary); }
+        .blog-img { height: 200px; width: 100%; object-fit: cover; }
+        .blog-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        
+        /* Tag màu sắc */
+        .blog-tag { font-size: 12px; font-weight: bold; color: var(--primary); background: #e3f2fd; padding: 4px 10px; border-radius: 4px; display: inline-block; margin-bottom: 10px; width: fit-content; }
+        
+        .blog-title { font-size: 18px; font-weight: bold; margin-bottom: 10px; line-height: 1.4; color: #222; }
+        .blog-desc { font-size: 14px; color: #666; margin-bottom: 15px; flex-grow: 1; text-align: justify; }
+        .read-more { color: var(--primary); font-weight: bold; margin-top: auto; display: flex; align-items: center; gap: 5px; }
+        .read-more:hover { text-decoration: underline; }
+
+        /* Bảng mã lỗi */
+        .error-code-section { background: #fff; padding: 40px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 60px; border: 1px solid #eee; margin-top: 60px; }
+        .error-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; }
+        .error-box { text-align: center; padding: 20px; border: 1px dashed #ccc; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .error-box:hover { background: #f0f8ff; border-color: var(--primary); }
+        .error-box h4 { font-weight: bold; margin-bottom: 5px; }
+
+        /* Câu hỏi thường gặp (Q&A) - MỚI */
+        .faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 60px; }
+        .faq-item { background: white; padding: 20px; border-radius: 8px; border-left: 4px solid var(--secondary); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .faq-item h4 { margin-bottom: 10px; color: #333; font-weight: bold; }
+        .faq-item p { font-size: 14px; color: #666; }
+
+        /* Footer */
+        footer { background: #222; color: #fff; padding: 40px 20px; text-align: center; }
+        @media (max-width: 768px) { .nav-links { display: none; } .category-tabs { margin-top: 20px; } }
+    </style>
+</head>
+<body>
+
+    <header>
+          <div class="navbar">
+            <a href="index.html" class="logo">THANH TÂM HIẾU</a>
+            <div class="nav-links">
+                <a href="index.html">Trang chủ</a>
+                <a href="dandung.html">Dân dụng</a>
+                <a href="congnghiep.html">Công nghiệp</a>
+                <a href="duan.html">Dự án</a>
+                <a href="tintuc.html" style="color:var(--primary)">Kiến thức</a>
+                <a href="banggia.html">Bảng giá</a>
+                <a href="tel:0364574555" class="btn-header">0364.574.555</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="knowledge-banner">
+        <h1>CẨM NANG ĐIỆN LẠNH</h1>
+        <p>Kiến thức hữu ích - Mẹo vặt gia đình - Tư vấn mua sắm</p>
+    </div>
+
+    <div class="category-tabs">
+        <a href="#meo-vat" class="cat-btn"><i class="fas fa-home"></i> Mẹo gia đình</a>
+        <a href="#tu-van" class="cat-btn"><i class="fas fa-shopping-cart"></i> Tư vấn mua sắm</a>
+        <a href="#ky-thuat" class="cat-btn"><i class="fas fa-tools"></i> Kỹ thuật chuyên sâu</a>
+        <a href="#ma-loi" class="cat-btn"><i class="fas fa-book-medical"></i> Tra cứu lỗi</a>
+    </div>
+
+    <div class="container">
+        
+        <div id="meo-vat" class="section-header">
+            <i class="fas fa-leaf section-icon"></i>
+            <h2>MẸO HAY GIA ĐÌNH</h2>
+        </div>
+        <div class="blog-grid">
+            <article class="blog-card">
+                <img src="https://source.unsplash.com/600x400/?electricity,bill" class="blog-img" alt="Tiết kiệm điện">
+                <div class="blog-content">
+                    <span class="blog-tag">Tiết kiệm</span>
+                    <h3 class="blog-title">5 Cách dùng máy lạnh tiết kiệm 50% tiền điện</h3>
+                    <p class="blog-desc">Bật mí chế độ Dry, cách chỉnh nhiệt độ chuẩn 26 độ C và vệ sinh lưới lọc giúp hóa đơn tiền điện giảm đáng kể.</p>
+                    <a href="#" class="read-more">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+            <article class="blog-card">
+                <img src="https://source.unsplash.com/600x400/?water,leak" class="blog-img" alt="Máy chảy nước">
+                <div class="blog-content">
+                    <span class="blog-tag">Sự cố</span>
+                    <h3 class="blog-title">Tại sao máy lạnh chảy nước ướt tường?</h3>
+                    <p class="blog-desc">Nguyên nhân chủ yếu do tắc ống thoát nước hoặc máy quá bẩn. Hướng dẫn cách thông tắc nhanh tại nhà.</p>
+                    <a href="#" class="read-more">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+            <article class="blog-card">
+                <img src="https://source.unsplash.com/600x400/?air-conditioner,remote" class="blog-img" alt="Remote máy lạnh">
+                <div class="blog-content">
+                    <span class="blog-tag">Hướng dẫn</span>
+                    <h3 class="blog-title">Giải mã các ký hiệu lạ trên Remote</h3>
+                    <p class="blog-desc">Chế độ Cool, Dry, Fan, Heat khác nhau thế nào? Ý nghĩa biểu tượng hình cây thông, giọt nước là gì?</p>
+                    <a href="#" class="read-more">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+        </div>
+
+        <div id="tu-van" class="section-header">
+            <i class="fas fa-shopping-cart section-icon"></i>
+            <h2>TƯ VẤN MUA SẮM</h2>
+        </div>
+        <div class="blog-grid">
+            <article class="blog-card">
+                <img src="https://source.unsplash.com/600x400/?shopping,store" class="blog-img" alt="Mua máy lạnh">
+                <div class="blog-content">
+                    <span class="blog-tag" style="background:#fff3cd; color:#856404">Mua sắm</span>
+                    <h3 class="blog-title">Nên mua máy Inverter hay máy thường (Mono)?</h3>
+                    <p class="blog-desc">Nếu bạn dùng dưới 4 tiếng/ngày, máy thường (Mono) lại bền và rẻ hơn. Đừng lãng phí tiền nếu không hiểu rõ nhu cầu.</p>
+                    <a href="#" class="read-more">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+            <article class="blog-card">
+                <img src="https://source.unsplash.com/600x400/?brand,logo" class="blog-img" alt="Hãng máy lạnh">
+                <div class="blog-content">
+                    <span class="blog-tag" style="background:#fff3cd; color:#856404">Review</span>
+                    <h3 class="blog-title">Top 3 hãng máy lạnh "Nồi đồng cối đá" 2026</h3>
+                    <p class="blog-desc">Đánh giá thực tế Daikin, Panasonic và Casper: Hãng nào làm lạnh nhanh nhất? Hãng nào ít hỏng vặt nhất?</p>
+                    <a href="#" class="read-more">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+            <article class="blog-card">
+                <img src="https://source.unsplash.com/600x400/?calculator,math" class="blog-img" alt="Tính công suất">
+                <div class="blog-content">
+                    <span class="blog-tag" style="background:#fff3cd; color:#856404">Kinh nghiệm</span>
+                    <h3 class="blog-title">Cách tính công suất máy lạnh chuẩn theo diện tích</h3>
+                    <p class="blog-desc">Phòng 15m2 dùng 1HP hay 1.5HP? Công thức tính chuẩn để máy không bị quá tải và bền bỉ hơn.</p>
+                    <a href="#" class="read-more">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+        </div>
+
+        <div id="ky-thuat" class="section-header">
+            <i class="fas fa-cogs section-icon"></i>
+            <h2>KỸ THUẬT CÔNG NGHIỆP</h2>
+        </div>
+        <div class="blog-grid">
+            <article class="blog-card">
+                <img src="https://source.unsplash.com/600x400/?hvac,factory" class="blog-img" alt="VRV Chiller">
+                <div class="blog-content">
+                    <span class="blog-tag" style="background:#e8f5e9; color:#2e7d32">HVAC</span>
+                    <h3 class="blog-title">So sánh hệ thống VRV và Chiller cho nhà xưởng</h3>
+                    <p class="blog-desc">Phân tích chi phí đầu tư và vận hành giữa giải nhiệt gió (VRV) và giải nhiệt nước (Chiller) cho KCN.</p>
+                    <a href="#" class="read-more">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+            <article class="blog-card">
+                <img src="https://source.unsplash.com/600x400/?electric,danger" class="blog-img" alt="An toàn điện">
+                <div class="blog-content">
+                    <span class="blog-tag" style="background:#e8f5e9; color:#2e7d32">An toàn</span>
+                    <h3 class="blog-title">Tiêu chuẩn đấu nối tủ điện ATS và MSB</h3>
+                    <p class="blog-desc">Quy định về an toàn điện, tính toán tiết diện dây dẫn và thiết bị bảo vệ chống dòng rò trong công nghiệp.</p>
+                    <a href="#" class="read-more">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+            <article class="blog-card">
+                <img src="https://source.unsplash.com/600x400/?maintenance,check" class="blog-img" alt="Bảo trì">
+                <div class="blog-content">
+                    <span class="blog-tag" style="background:#e8f5e9; color:#2e7d32">Bảo trì</span>
+                    <h3 class="blog-title">Checklist 20 bước bảo trì hệ thống lạnh trung tâm</h3>
+                    <p class="blog-desc">Quy trình chuẩn để kiểm tra áp suất gas, dòng điện block nén và vệ sinh tháp giải nhiệt.</p>
+                    <a href="#" class="read-more">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+        </div>
+
+        <div id="ma-loi" class="error-code-section">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="color: var(--primary);">🔍 TRA CỨU MÃ LỖI NHANH</h2>
+                <p>Chọn hãng máy lạnh bạn đang sử dụng để xem bảng mã lỗi</p>
+            </div>
+            <div class="error-grid">
+                <div class="error-box" onclick="alert('Đang cập nhật bảng mã lỗi Daikin (U4, L5, E7...). Gọi 0364.574.555 để hỗ trợ!')">
+                    <h4 style="color: #0097e0">DAIKIN</h4>
+                    <p style="font-size: 13px;">Inverter / Mono</p>
+                </div>
+                <div class="error-box" onclick="alert('Đang cập nhật bảng mã lỗi Panasonic (H11, H99...). Gọi 0364.574.555 để hỗ trợ!')">
+                    <h4 style="color: #004080">PANASONIC</h4>
+                    <p style="font-size: 13px;">Nháy đèn Timer</p>
+                </div>
+                <div class="error-box" onclick="alert('Đang cập nhật bảng mã lỗi Toshiba. Gọi 0364.574.555 để hỗ trợ!')">
+                    <h4 style="color: #ff0000">TOSHIBA</h4>
+                    <p style="font-size: 13px;">Lỗi 04, 1C, 1D...</p>
+                </div>
+                <div class="error-box" onclick="alert('Đang cập nhật bảng mã lỗi LG. Gọi 0364.574.555 để hỗ trợ!')">
+                    <h4 style="color: #a50034">LG</h4>
+                    <p style="font-size: 13px;">Chớp đèn báo lỗi</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <i class="fas fa-question-circle section-icon"></i>
+            <h2>CÂU HỎI THƯỜNG GẶP</h2>
+        </div>
+        <div class="faq-grid">
+            <div class="faq-item">
+                <h4>Bao lâu nên vệ sinh máy lạnh 1 lần?</h4>
+                <p>Nhà ở: 4-6 tháng/lần. Công ty/Văn phòng: 2-3 tháng/lần. Nhà xưởng nhiều bụi: 1 tháng/lần.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Máy lạnh Inverter có tiết kiệm điện thật không?</h4>
+                <p>Có, nhưng bạn phải dùng liên tục trên 4 tiếng/ngày và lắp đúng công suất phòng. Nếu bật tắt liên tục thì không tiết kiệm.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Tại sao máy lạnh có mùi hôi?</h4>
+                <p>Do vi khuẩn nấm mốc tích tụ lâu ngày trong dàn lạnh hoặc đường ống nước thải bị nối chung với ống cống.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <h3>CÔNG TY TNHH TM DV THANH TÂM HIẾU</h3>
+        <p>Hotline: 0364.574.555 | Email: DLthanhtamhieu@gmail.com</p>
+        <p>Văn phòng: 1423/19/19, Khu phố 35, P. Long Bình, Đồng Nai</p>
+    </footer>
+
+</body>
+</html>

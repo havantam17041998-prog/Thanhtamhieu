@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dự án tiêu biểu Thanh Tâm Hiếu: Bảo trì VRV KCN, Vệ sinh máy lạnh căn hộ, Sửa chữa tủ điện. Hình ảnh thực tế, số liệu minh bạch.">
+    <title>Dự Án & Hồ Sơ Năng Lực | Thanh Tâm Hiếu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu.png">
+    
+    <style>
+        /* --- CẤU HÌNH CHUNG --- */
+        :root { --primary: #0068ff; --secondary: #ffc107; --danger: #dc3545; --dark: #333; --light: #f4f6f9; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+        body { background-color: #f8f9fa; color: #333; line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+
+        /* HEADER */
+        header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; padding: 15px; }
+        .logo { font-weight: 900; font-size: 20px; color: var(--primary); text-transform: uppercase; }
+        .nav-links a { margin-left: 15px; font-weight: 500; } .nav-links a:hover { color: var(--primary); }
+        .btn-header { background: var(--danger); color: white !important; padding: 8px 15px; border-radius: 5px; }
+
+        /* BANNER PARALLAX */
+        .project-banner {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://source.unsplash.com/1600x600/?engineer,blueprint');
+            background-size: cover; background-position: center; background-attachment: fixed; /* Tạo hiệu ứng chiều sâu */
+            color: white; text-align: center; padding: 100px 20px;
+        }
+        .project-banner h1 { font-size: 3em; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+        .project-banner p { font-size: 1.2em; max-width: 700px; margin: auto; opacity: 0.9; }
+        
+        /* THANH THỐNG KÊ (ANIMATION) */
+        .stats-bar {
+            background: white; max-width: 1000px; margin: -50px auto 60px; 
+            display: flex; justify-content: space-around; padding: 40px; 
+            border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            position: relative; z-index: 10; flex-wrap: wrap; gap: 20px;
+            border-bottom: 4px solid var(--primary);
+        }
+        .stat-item { text-align: center; }
+        .stat-num { font-size: 40px; font-weight: 900; color: var(--primary); display: block; line-height: 1; margin-bottom: 5px; }
+        .stat-label { font-size: 14px; color: #666; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; }
+
+        /* TIÊU ĐỀ PHẦN */
+        .section-title { text-align: center; margin-bottom: 40px; position: relative; }
+        .section-title h2 { font-size: 28px; text-transform: uppercase; color: var(--dark); font-weight: 800; }
+        .section-title::after { content: ""; display: block; width: 60px; height: 4px; background: var(--secondary); margin: 10px auto; border-radius: 2px; }
+
+        /* BỘ LỌC */
+        .filter-nav { text-align: center; margin-bottom: 50px; }
+        .filter-btn {
+            background: transparent; border: 2px solid #ddd; padding: 10px 30px; 
+            border-radius: 30px; margin: 5px; cursor: pointer; font-weight: bold; color: #555; transition: 0.3s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary); color: white; border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,104,255,0.3);
+        }
+
+        /* --- DỰ ÁN TIÊU ĐIỂM (SPOTLIGHT) - ĐỂ PHÁ VỠ BỐ CỤC ĐƠN ĐIỆU --- */
+        .spotlight-section { max-width: 1200px; margin: 0 auto 60px; padding: 0 20px; }
+        .spotlight-card {
+            display: flex; background: white; border-radius: 15px; overflow: hidden; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #eee;
+        }
+        .spotlight-img { flex: 1.5; min-height: 350px; position: relative; }
+        .spotlight-img img { width: 100%; height: 100%; object-fit: cover; }
+        .spotlight-badge { 
+            position: absolute; top: 20px; left: 20px; background: var(--danger); 
+            color: white; padding: 5px 15px; font-weight: bold; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .spotlight-content { flex: 1; padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+        .spotlight-title { font-size: 24px; font-weight: 900; margin-bottom: 15px; color: var(--primary); }
+        .spotlight-desc { color: #555; margin-bottom: 20px; }
+        .spotlight-features li { list-style: none; margin-bottom: 10px; font-weight: 500; }
+        .spotlight-features i { color: var(--success); margin-right: 10px; }
+
+        /* GRID DỰ ÁN THƯỜNG */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+
+        .project-card { 
+            background: white; border-radius: 10px; overflow: hidden; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.4s;
+            display: flex; flex-direction: column; position: relative;
+        }
+        /* Hiệu ứng Hover nâng cao */
+        .project-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        
+        .status-badge {
+            position: absolute; top: 15px; right: 15px; 
+            background: rgba(0,0,0,0.7); color: white; padding: 5px 12px; 
+            font-size: 12px; font-weight: bold; border-radius: 20px; z-index: 2; backdrop-filter: blur(5px);
+        }
+
+        .project-gallery { position: relative; height: 240px; overflow: hidden; }
+        .project-gallery img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+        .project-card:hover .project-gallery img { transform: scale(1.1); }
+
+        .project-info { padding: 25px; border-top: 4px solid transparent; transition: 0.3s; }
+        .project-card:hover .project-info { border-top-color: var(--primary); }
+        
+        .project-title { font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #222; }
+        .project-meta { font-size: 13px; color: #777; margin-bottom: 15px; display: flex; gap: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .project-meta i { color: var(--primary); }
+        
+        .work-list { font-size: 14px; background: #f8f9fa; padding: 15px; border-radius: 8px; color: #555; }
+        .work-list li { list-style: none; margin-bottom: 6px; }
+        .work-list li::before { content: "✔"; color: var(--success); margin-right: 8px; font-weight: bold; }
+
+        /* TRƯỚC - SAU (Split Image) */
+        .ba-container { display: flex; height: 240px; }
+        .ba-item { flex: 1; position: relative; overflow: hidden; border-right: 2px solid white; }
+        .ba-item img { width: 100%; height: 100%; object-fit: cover; }
+        .ba-label { 
+            position: absolute; bottom: 0; left: 0; width: 100%; 
+            background: rgba(0,0,0,0.7); color: white; text-align: center; 
+            font-size: 11px; padding: 5px; font-weight: bold;
+        }
+
+        /* KHÁCH HÀNG REVIEW (Testimonials) - MỚI */
+        .review-section { background: #fff; padding: 60px 20px; margin-top: 80px; border-top: 1px solid #eee; }
+        .review-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: auto; }
+        .review-card { background: #f9f9f9; padding: 30px; border-radius: 10px; position: relative; }
+        .review-card i { font-size: 40px; color: #ddd; position: absolute; top: 20px; right: 20px; }
+        .review-text { font-style: italic; color: #555; margin-bottom: 20px; font-size: 15px; }
+        .review-author { display: flex; align-items: center; gap: 15px; }
+        .avatar { width: 50px; height: 50px; background: #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 20px; }
+        .a-1 { background: #ff9800; } .a-2 { background: #9c27b0; } .a-3 { background: #2196f3; }
+
+        /* CTA CUỐI TRANG */
+        .cta-footer { 
+            background: linear-gradient(135deg, var(--primary), #004080); 
+            color: white; text-align: center; padding: 60px 20px; margin-top: 0;
+        }
+        .cta-footer h2 { margin-bottom: 15px; }
+        .cta-btn-white { 
+            background: white; color: var(--primary); padding: 12px 35px; 
+            border-radius: 30px; font-weight: bold; font-size: 18px; margin-top: 20px; 
+            display: inline-block; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-btn-white:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+
+        footer { background: #222; color: #fff; padding: 40px 20px; text-align: center; margin-top: 0; }
+        
+        @media (max-width: 768px) { 
+            .nav-links { display: none; } 
+            .stats-bar { flex-direction: column; gap: 15px; margin-top: -30px; }
+            .spotlight-card { flex-direction: column; }
+            .spotlight-img { min-height: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+           <div class="navbar">
+            <a href="index.html" class="logo">THANH TÂM HIẾU</a>
+            <div class="nav-links">
+                <a href="index.html">Trang chủ</a>
+                <a href="dandung.html">Dân dụng</a>
+                <a href="congnghiep.html">Công nghiệp</a>
+                <a href="duan.html" style="color:var(--primary)">Dự án</a>
+                <a href="tintuc.html">Kiến thức</a>
+                <a href="banggia.html">Bảng giá</a>
+                <a href="tel:0364574555" class="btn-header">0364.574.555</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="project-banner">
+        <h1>CÔNG TRÌNH THỰC TẾ</h1>
+        <p>"Trăm nghe không bằng một thấy" - Hãy xem cách chúng tôi làm việc</p>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat-item">
+            <span class="stat-num" data-target="500">0</span>
+            <span class="stat-label">Dự án hoàn thành</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-num" data-target="15">0</span>
+            <span class="stat-label">Khu Công Nghiệp</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-num" data-target="24">0</span>
+            <span class="stat-label">Giờ hỗ trợ/ngày</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-num" data-target="100">0</span>
+            <span class="stat-label">% Cam kết hài lòng</span>
+        </div>
+    </div>
+
+    <div class="filter-nav">
+        <button class="filter-btn active" onclick="filterProject('all')">Tất cả dự án</button>
+        <button class="filter-btn" onclick="filterProject('cong-nghiep')">Công nghiệp (Nhà máy)</button>
+        <button class="filter-btn" onclick="filterProject('dan-dung')">Dân dụng (Nhà ở)</button>
+    </div>
+
+    <div class="spotlight-section">
+        <div class="section-title"><h2>DỰ ÁN TIÊU BIỂU NHẤT</h2></div>
+        <div class="spotlight-card">
+            <div class="spotlight-img">
+                <span class="spotlight-badge">QUY MÔ LỚN</span>
+                <img src="https://source.unsplash.com/800x600/?factory,hvac" alt="Dự án lớn">
+            </div>
+            <div class="spotlight-content">
+                <h3 class="spotlight-title">Bảo trì toàn diện hệ thống lạnh KCN AMATA</h3>
+                <p class="spotlight-desc">Đây là dự án trọng điểm năm 2024, Thanh Tâm Hiếu phụ trách bảo trì định kỳ cho 3 nhà xưởng rộng 5000m2.</p>
+                <ul class="spotlight-features">
+                    <li><i class="fas fa-check-circle"></i> Hệ thống: 20 cụm VRV Daikin + 5 Chiller.</li>
+                    <li><i class="fas fa-check-circle"></i> Nhân sự: 10 kỹ thuật viên tay nghề cao.</li>
+                    <li><i class="fas fa-check-circle"></i> Thời gian thi công: 03 ngày (Làm đêm để không ảnh hưởng sản xuất).</li>
+                </ul>
+                <a href="#contact" class="filter-btn active" style="text-align:center; width:fit-content; margin-top:20px;">XEM CHI TIẾT HỢP ĐỒNG</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section-title"><h2>DANH SÁCH DỰ ÁN GẦN ĐÂY</h2></div>
+        
+        <div class="project-grid">
+
+            <div class="project-card" data-type="cong-nghiep">
+                <div class="project-gallery">
+                    <span class="status-badge">Công Nghiệp</span>
+                    <img src="https://source.unsplash.com/600x400/?electric,panel" alt="Tủ điện">
+                </div>
+                <div class="project-info">
+                    <h3 class="project-title">Thi công tủ điện MSB nhà máy gỗ</h3>
+                    <div class="project-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> KCN VSIP 1, Bình Dương</span>
+                    </div>
+                    <ul class="work-list">
+                        <li>Thiết kế & Lắp đặt tủ phân phối chính 2000A.</li>
+                        <li>Đấu nối hệ thống tụ bù công suất phản kháng.</li>
+                        <li>Nghiệm thu đạt chuẩn an toàn điện.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="project-card" data-type="dan-dung">
+                <div class="ba-container">
+                    <div class="ba-item">
+                        <img src="https://source.unsplash.com/300x400/?dust,dirty" alt="Trước">
+                        <div class="ba-label">TRƯỚC</div>
+                    </div>
+                    <div class="ba-item">
+                        <img src="https://source.unsplash.com/300x400/?clean,white" alt="Sau">
+                        <div class="ba-label" style="background:#28a745">SAU</div>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3 class="project-title">Vệ sinh máy lạnh căn hộ cao cấp</h3>
+                    <div class="project-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> Vinhomes Grand Park</span>
+                    </div>
+                    <ul class="work-list">
+                        <li>Tình trạng: Máy đóng bụi dày, chảy nước, kém lạnh.</li>
+                        <li>Xử lý: Vệ sinh áp lực cao, thông ống, châm gas.</li>
+                        <li>Kết quả: Lạnh sâu, sạch như mới.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="project-card" data-type="cong-nghiep">
+                <div class="project-gallery">
+                    <span class="status-badge">Kho Lạnh</span>
+                    <img src="https://source.unsplash.com/600x400/?cold,storage" alt="Kho lạnh">
+                </div>
+                <div class="project-info">
+                    <h3 class="project-title">Lắp đặt kho lạnh bảo quản thực phẩm</h3>
+                    <div class="project-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> Long Thành, Đồng Nai</span>
+                    </div>
+                    <ul class="work-list">
+                        <li>Nhiệt độ: -18 độ C (Trữ đông thịt).</li>
+                        <li>Sử dụng cụm máy nén Tecumseh Pháp.</li>
+                        <li>Bảo hành máy nén 24 tháng.</li>
+                    </ul>
+                </div>
+            </div>
+
+             <div class="project-card" data-type="dan-dung">
+                <div class="project-gallery">
+                    <span class="status-badge" style="background:var(--danger)">Cấp cứu</span>
+                    <img src="https://source.unsplash.com/600x400/?repair,tool" alt="Sửa chữa">
+                </div>
+                <div class="project-info">
+                    <h3 class="project-title">Xử lý máy lạnh xì gas, mất lạnh</h3>
+                    <div class="project-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> P. Trảng Dài, Biên Hòa</span>
+                    </div>
+                    <ul class="work-list">
+                        <li>Tìm vết xì trên dàn nóng.</li>
+                        <li>Hàn ống đồng, hút chân không, nạp lại gas R32.</li>
+                        <li>Khách hàng kiểm tra áp suất gas trước khi thanh toán.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="review-section">
+        <div class="section-title"><h2>KHÁCH HÀNG NÓI GÌ VỀ CHÚNG TÔI?</h2></div>
+        <div class="review-grid">
+            <div class="review-card">
+                <i class="fas fa-quote-right"></i>
+                <p class="review-text">"Mình gọi lúc 7h tối vì máy lạnh chảy nước ướt hết nệm, may mà thợ Thanh Tâm Hiếu qua liền. Làm rất kỹ, dọn dẹp sạch sẽ mới về. 5 sao!"</p>
+                <div class="review-author">
+                    <div class="avatar a-1">H</div>
+                    <div>
+                        <strong>Anh Hoàng</strong><br>
+                        <span style="font-size:12px; color:#888;">Cư dân Topaz Twins</span>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <i class="fas fa-quote-right"></i>
+                <p class="review-text">"Công ty tôi ở KCN Amata đã ký hợp đồng bảo trì năm với bên này. Hồ sơ giấy tờ VAT rất chuẩn chỉ, kỹ thuật viên có đồ bảo hộ đầy đủ. Rất an tâm."</p>
+                <div class="review-author">
+                    <div class="avatar a-2">T</div>
+                    <div>
+                        <strong>Chị Thảo</strong><br>
+                        <span style="font-size:12px; color:#888;">Quản lý kho - Cty Gỗ Việt</span>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <i class="fas fa-quote-right"></i>
+                <p class="review-text">"Báo giá sao làm vậy, không vẽ vời thêm bệnh. Thích nhất khoản này. Sẽ giới thiệu cho bạn bè."</p>
+                <div class="review-author">
+                    <div class="avatar a-3">D</div>
+                    <div>
+                        <strong>Chú Dũng</strong><br>
+                        <span style="font-size:12px; color:#888;">Biên Hòa, Đồng Nai</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cta-footer" id="contact">
+        <h2>BẠN ĐÃ SẴN SÀNG CHO DỰ ÁN TIẾP THEO?</h2>
+        <p>Liên hệ ngay để được khảo sát và tư vấn phương án tối ưu nhất</p>
+        <a href="tel:0364574555" class="cta-btn-white"><i class="fas fa-phone-alt"></i> GỌI NGAY: 0364.574.555</a>
+    </div>
+
+    <footer>
+        <h3>CÔNG TY TNHH TM DV THANH TÂM HIẾU</h3>
+        <p>Hotline: 0364.574.555 | Email: DLthanhtamhieu@gmail.com</p>
+        <p>Văn phòng: 1423/19/19, Khu phố 35, P. Long Bình, Đồng Nai</p>
+    </footer>
+
+    <script>
+        // 1. Hiệu ứng số nhảy (Counter Up)
+        const counters = document.querySelectorAll('.stat-num');
+        const speed = 200; // Tốc độ nhảy
+
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const inc = target / speed;
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + inc);
+                    setTimeout(updateCount, 20);
+                } else {
+                    counter.innerText = target + "+"; // Thêm dấu + khi xong
+                }
+            };
+            updateCount();
+        });
+
+        // 2. Bộ lọc dự án
+        function filterProject(type) {
+            var buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            var cards = document.querySelectorAll('.project-card');
+            cards.forEach(card => {
+                if (type === 'all' || card.getAttribute('data-type') === type) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
