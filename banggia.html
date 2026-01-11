@@ -4,141 +4,138 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Bảng giá sửa chữa điện lạnh, vệ sinh máy lạnh, máy giặt, tủ lạnh, HVAC, Tủ điện năm 2024 - Thanh Tâm Hiếu.">
+    <meta property="og:title" content="Bảng Giá Dịch Vụ | Điện Lạnh Thanh Tâm Hiếu">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80">
+    
     <title>Bảng Giá Dịch Vụ | Điện Lạnh Thanh Tâm Hiếu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu.png">
     
     <style>
-        /* =========================================
-           1. CSS DÙNG CHUNG (ĐỒNG BỘ VỚI INDEX.HTML)
-           ========================================= */
-        :root {
-            --primary: #0068ff;
-            --secondary: #ffc107;
-            --danger: #dc3545;
-            --success: #28a745;
-            --dark: #333;
-            --light: #f4f6f9;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; scroll-behavior: smooth; }
-        body { padding-bottom: 70px; background-color: #fff; }
-        a { text-decoration: none; }
+        /* --- 1. CẤU HÌNH CHUNG (ĐỒNG BỘ) --- */
+        :root { --primary: #0068ff; --secondary: #ffc107; --danger: #dc3545; --dark: #333; --light: #f4f6f9; --success: #28a745; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background-color: #f9f9f9; color: #333; line-height: 1.6; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; }
 
-        /* HEADER */
+        /* --- HEADER ĐỒNG BỘ --- */
         header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; padding: 15px; position: relative; }
-        .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        .logo img { max-height: 55px; width: auto; object-fit: contain; }
-        .brand-text { display: flex; flex-direction: column; }
-        .company-name { font-size: 18px; font-weight: 800; color: var(--primary); text-transform: uppercase; line-height: 1.2; }
-        .company-slogan { font-size: 12px; color: #555; font-style: italic; }
-
-        .nav-links { display: flex; gap: 20px; align-items: center; }
-        .nav-links a { color: var(--dark); font-weight: 500; transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary); }
-        .nav-links a.active { color: var(--primary); font-weight: bold; border-bottom: 2px solid var(--primary); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; padding: 10px 20px; height: 80px; position: relative; }
         
+        .logo-wrap { display: flex; align-items: center; }
+        .logo-wrap img { height: 55px; margin-right: 12px; object-fit: contain; } 
+        .logo-text-area { display: flex; flex-direction: column; }
+        .logo-text { font-weight: 900; font-size: 18px; color: var(--primary); text-transform: uppercase; line-height: 1.2; }
+        .slogan { font-size: 11px; color: #666; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .nav-links { display: flex; align-items: center; }
+        .nav-links li { margin-left: 20px; }
+        .nav-links a { font-weight: 500; font-size: 15px; text-transform: uppercase; color: var(--dark); } 
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); font-weight: bold; }
         .btn-header { background: var(--danger); color: white !important; padding: 8px 15px; border-radius: 5px; }
-        .menu-toggle { display: none; font-size: 24px; cursor: pointer; color: var(--dark); }
+        .menu-toggle { display: none; font-size: 24px; cursor: pointer; color: var(--primary); }
 
-        /* FOOTER */
-        footer { background: #222; color: #fff; padding: 40px 20px; text-align: center; margin-top: 50px; }
-        footer p { margin: 10px 0; }
-        footer a { color: #fff; text-decoration: none; transition: 0.3s; }
-        footer a:hover { color: var(--secondary); }
+        /* --- 2. CSS RIÊNG CHO BẢNG GIÁ --- */
+        .page-header {
+            background: linear-gradient(rgba(0,86,179,0.9), rgba(0,86,179,0.8)), url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover; background-position: center;
+            color: white; text-align: center; padding: 80px 20px;
+        }
+        .page-header h1 { font-size: 2.5em; margin-bottom: 10px; text-transform: uppercase; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .page-header p { font-size: 1.2em; opacity: 0.95; }
 
-        /* MOBILE BAR */
-        .contact-bar-mobile { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 9999; justify-content: space-around; padding: 10px 0; border-top: 1px solid #eee; }
-        .contact-item { display: flex; flex-direction: column; align-items: center; font-size: 12px; font-weight: bold; flex: 1; color: var(--dark); }
-        .contact-item i { font-size: 20px; margin-bottom: 5px; }
+        .price-section { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .price-category { 
+            margin-top: 50px; margin-bottom: 20px; 
+            color: var(--primary); font-size: 1.5em; font-weight: bold; 
+            border-left: 5px solid var(--secondary); padding-left: 15px;
+            text-transform: uppercase; display: flex; align-items: center; gap: 10px;
+        }
+        
+        .price-table-wrap { overflow-x: auto; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #eee; }
+        table { width: 100%; border-collapse: collapse; background: white; min-width: 600px; }
+        th { background: var(--primary); color: white; padding: 15px; text-align: left; text-transform: uppercase; font-size: 14px; }
+        td { padding: 15px; border-bottom: 1px solid #eee; color: #333; font-size: 15px; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        tr:hover { background-color: #e3f2fd; }
+        
+        .price-col { font-weight: bold; color: var(--danger); width: 200px; }
+        .note-col { font-style: italic; color: #666; font-size: 0.9em; }
 
-        /* NÚT RUNG */
-        .hotline-phone-ring-wrap { position: fixed; bottom: 80px; left: 20px; z-index: 999999; }
-        .hotline-phone-ring, .hotline-zalo-ring { position: relative; width: 110px; height: 110px; cursor: pointer; z-index: 11; margin-bottom: 10px; }
-        .hotline-phone-ring-circle, .hotline-zalo-ring-circle { width: 85px; height: 85px; top: 10px; left: 10px; position: absolute; border-radius: 100%; opacity: .5; animation: ring 1.2s infinite; }
-        .hotline-phone-ring-circle { border: 2px solid #e60808; } .hotline-zalo-ring-circle { border: 2px solid #0068ff; }
-        .hotline-phone-ring-circle-fill, .hotline-zalo-ring-circle-fill { width: 55px; height: 55px; top: 25px; left: 25px; position: absolute; border-radius: 100%; animation: ring-fill 2.3s infinite; }
-        .hotline-phone-ring-circle-fill { background: rgba(230,8,8,0.7); } .hotline-zalo-ring-circle-fill { background: rgba(0,104,255,0.7); }
-        .hotline-phone-ring-img-circle, .hotline-zalo-ring-img-circle { width: 50px; height: 50px; top: 28px; left: 28px; position: absolute; border-radius: 100%; display: flex; justify-content: center; align-items: center; }
-        .hotline-phone-ring-img-circle { background: #e60808; animation: ring-img 1s infinite; } .hotline-zalo-ring-img-circle { background: #0068ff; }
-        .hotline-phone-ring-img-circle i { color: white; font-size: 20px; } .hotline-zalo-ring-img-circle img { width: 30px; height: 30px; }
+        .note-box { background: #fff3cd; border: 1px solid #ffeeba; padding: 25px; border-radius: 10px; margin-top: 50px; color: #856404; }
+        .note-box h3 { margin-bottom: 10px; }
+        .note-box li { margin-bottom: 8px; list-style: disc; margin-left: 20px; }
+        
+        .cta-btn-price {
+            background: var(--danger); color: white; padding: 15px 35px; 
+            border-radius: 30px; font-weight: bold; font-size: 1.1em; 
+            display: inline-block; transition: 0.3s; box-shadow: 0 5px 15px rgba(220,53,69,0.3);
+        }
+        .cta-btn-price:hover { transform: scale(1.05); background: #c82333; }
 
-        @keyframes ring { 0% { transform: rotate(0) scale(0.5) skew(1deg); opacity: 0.1; } 30% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.5; } 100% { transform: rotate(0) scale(1) skew(1deg); opacity: 0.1; } }
-        @keyframes ring-fill { 0% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.6; } 50% { transform: rotate(0) scale(1) skew(1deg); opacity: 0.6; } 100% { transform: rotate(0) scale(0.7) skew(1deg); opacity: 0.6; } }
-        @keyframes ring-img { 0% { transform: rotate(0) scale(1) skew(1deg); } 10% { transform: rotate(-25deg) scale(1) skew(1deg); } 20% { transform: rotate(25deg) scale(1) skew(1deg); } 30% { transform: rotate(-25deg) scale(1) skew(1deg); } 40% { transform: rotate(25deg) scale(1) skew(1deg); } 50% { transform: rotate(0) scale(1) skew(1deg); } 100% { transform: rotate(0) scale(1) skew(1deg); } }
+        /* --- FOOTER ĐỒNG BỘ --- */
+        footer { background: #222; color: #fff; padding: 50px 20px; border-top: 5px solid var(--primary); text-align: left; }
+        .footer-grid { max-width: 1200px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        .footer-col h3 { color: var(--secondary); margin-bottom: 20px; font-size: 18px; text-transform: uppercase; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col a:hover { color: var(--secondary); }
+
+        /* --- NÚT GỌI RUNG --- */
+        .phone-ring-wrap { position: fixed; bottom: 85px; left: 20px; z-index: 9999; }
+        .zalo-ring-wrap { position: fixed; bottom: 20px; left: 20px; z-index: 9999; }
+        .circle-fill { width: 60px; height: 60px; border-radius: 100%; background-color: var(--danger); opacity: 0.3; position: absolute; animation: circle-anim 1.2s infinite ease-in-out; }
+        .zalo-circle-fill { background-color: #0068ff; }
+        .circle-img { width: 45px; height: 45px; border-radius: 100%; background-color: var(--danger); display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; position: relative; animation: img-anim 1s infinite ease-in-out; }
+        .zalo-img { background-color: #0068ff; animation: none; }
+        .zalo-img img { width: 25px; }
+        
+        @keyframes circle-anim { 0% { transform: scale(1); } 50% { transform: scale(1.5); opacity: 0; } 100% { transform: scale(1); opacity: 0; } }
+        @keyframes img-anim { 0% { transform: rotate(0); } 10% { transform: rotate(-25deg); } 20% { transform: rotate(25deg); } 30% { transform: rotate(-25deg); } 40% { transform: rotate(25deg); } 50% { transform: rotate(0); } }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
             .menu-toggle { display: block; }
-            .nav-links { display: none; }
-            .logo img { height: 40px; } 
-            .company-name { font-size: 15px; } 
-            .company-slogan { display: none; }
-            .hotline-phone-ring-wrap { display: none; } 
-            .contact-bar-mobile { display: flex; }
+            .nav-links { 
+                display: none; position: absolute; top: 80px; left: 0; width: 100%; 
+                background: white; flex-direction: column; align-items: flex-start;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1); padding: 0; 
+            }
+            .nav-links.active { display: flex; }
+            .nav-links li { width: 100%; margin: 0; }
+            .nav-links a { display: block; padding: 15px 20px; border-bottom: 1px solid #eee; width: 100%; }
+            .nav-links .btn-header { display: block; text-align: center; width: 90%; margin: 10px auto; }
+            .page-header h1 { font-size: 1.8em; }
         }
-
-        /* =========================================
-           2. CSS RIÊNG CHO TRANG BẢNG GIÁ
-           ========================================= */
-        .page-header {
-            background: linear-gradient(rgba(0,86,179,0.9), rgba(0,86,179,0.9)), url('https://source.unsplash.com/1600x900/?calculator,money');
-            background-size: cover; background-position: center;
-            color: white; text-align: center; padding: 60px 20px;
-        }
-        .page-header h1 { font-size: 2.2em; margin-bottom: 10px; text-transform: uppercase; }
-
-        .price-section { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-        .price-category { 
-            margin-top: 40px; margin-bottom: 20px; 
-            color: var(--primary); font-size: 1.5em; font-weight: bold; 
-            border-left: 5px solid var(--secondary); padding-left: 15px;
-            text-transform: uppercase;
-        }
-        
-        .price-table-wrap { overflow-x: auto; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        table { width: 100%; border-collapse: collapse; background: white; min-width: 600px; }
-        th { background: var(--primary); color: white; padding: 15px; text-align: left; }
-        td { padding: 15px; border-bottom: 1px solid #eee; color: #333; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        tr:hover { background-color: #f1f1f1; }
-        .price-col { font-weight: bold; color: var(--danger); width: 180px; }
-        .note-col { font-style: italic; color: #666; font-size: 0.9em; }
-
-        .note-box { background: #fff3cd; border: 1px solid #ffeeba; padding: 20px; border-radius: 10px; margin-top: 40px; color: #856404; }
-        
-        .cta-btn-price {
-            background: var(--danger); color: white; padding: 15px 30px; 
-            border-radius: 30px; font-weight: bold; font-size: 1.1em; 
-            display: inline-block; transition: 0.3s;
-        }
-        .cta-btn-price:hover { transform: scale(1.05); background: #c82333; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-
     </style>
 </head>
 <body>
 
     <header>
         <div class="navbar">
-            <a href="index.html" class="logo">
+            <a href="index.html" class="logo-wrap">
                 <img src="logo-thanh-tam-hieu.png" alt="Logo Thanh Tâm Hiếu">
-                <div class="brand-text">
-                    <span class="company-name">THANH TÂM HIẾU</span>
-                    <span class="company-slogan">Uy Tín - Tận Tâm - Chuyên Nghiệp</span>
+                <div class="logo-text-area">
+                    <span class="logo-text">Thanh Tâm Hiếu</span>
+                    <span class="slogan">Uy Tín - Tận Tâm - Chuyên Nghiệp</span>
                 </div>
             </a>
             
-            <div class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
-            
-           <div class="nav-links" id="navLinks">
-                <a href="index.html">Trang chủ</a>
-                <a href="dandung.html">Dân dụng</a>
-                <a href="congnghiep.html">Công nghiệp</a>
-                <a href="duan.html">Dự án</a>  <a href="tintuc.html">Kiến thức</a> <a href="banggia.html">Bảng giá</a>
-                <a href="tel:0364574555" class="btn-header"><i class="fas fa-phone"></i> 0364.574.555</a>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
             </div>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Trang chủ</a></li>
+                <li><a href="dandung.html">Dân dụng</a></li>
+                <li><a href="congnghiep.html">Công nghiệp</a></li>
+                <li><a href="duan.html">Dự án</a></li>
+                <li><a href="tintuc.html">Kiến thức</a></li>
+                <li><a href="banggia.html" class="active">Bảng giá</a></li>
+                <li><a href="tel:0364574555" class="btn-header"><i class="fas fa-phone-alt"></i> 0364.574.555</a></li>
+            </ul>
         </div>
     </header>
 
@@ -163,7 +160,7 @@
                     <tr>
                         <td>Vệ sinh máy lạnh treo tường (1HP - 2.5HP)</td>
                         <td class="price-col">150.000 - 200.000</td>
-                        <td class="note-col">Bao gồm xịt rửa dàn nóng, dàn lạnh, kiểm tra gas.</td>
+                        <td class="note-col">Bao gồm xịt rửa dàn nóng, dàn lạnh, châm gas bổ sung.</td>
                     </tr>
                     <tr>
                         <td>Vệ sinh máy Âm trần / Áp trần</td>
@@ -308,7 +305,7 @@
                     <tr>
                         <td>Lắp đặt tủ điện phân phối (MSB, DB)</td>
                         <td class="price-col">Khảo sát báo giá</td>
-                        <td class="note-col">Thiết kế sơ đồ, lắp ráp thiết bị (Schneider, LS, Mitsubishi...).</td>
+                        <td class="note-col">Thiết kế sơ đồ, lắp ráp thiết bị (Schneider, LS...).</td>
                     </tr>
                     <tr>
                         <td>Lắp tủ ATS (Chuyển nguồn tự động)</td>
@@ -321,14 +318,9 @@
                         <td class="note-col">Giúp doanh nghiệp tránh bị phạt tiền điện.</td>
                     </tr>
                     <tr>
-                        <td>Xử lý sự cố chập điện, mất pha nhà xưởng</td>
+                        <td>Xử lý sự cố chập điện, mất pha</td>
                         <td class="price-col">Từ 500.000đ</td>
                         <td class="note-col">Hỗ trợ khẩn cấp 24/7.</td>
-                    </tr>
-                    <tr>
-                        <td>Thi công thang máng cáp, kéo dây nguồn</td>
-                        <td class="price-col">Theo khối lượng</td>
-                        <td class="note-col">Nhân công + Vật tư.</td>
                     </tr>
                 </tbody>
             </table>
@@ -343,8 +335,8 @@
             </ul>
         </div>
 
-        <div style="text-align: center; margin-top: 40px;">
-            <a href="index.html#lien-he" class="cta-btn-price">
+        <div style="text-align: center; margin-top: 50px;">
+            <a href="tel:0364574555" class="cta-btn-price">
                 <i class="fas fa-phone"></i> YÊU CẦU KHẢO SÁT & BÁO GIÁ
             </a>
         </div>
@@ -352,53 +344,48 @@
     </div>
 
     <footer>
-        <h3>CÔNG TY TNHH TM DV THANH TÂM HIẾU</h3>
-        <p>
-            <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.494793836272!2d106.87786447480598!3d10.93247945935032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174e7c3e5a5b5b5%3A0x1234567890abcdef!2zMTQyMy8xOS8xOSwgS2h1IHBo4buS IDM1LCBQLiBMb25nIELDrG5oLCDEkOG7k25nIE5haQ!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s" target="_blank">
-                <i class="fas fa-map-marker-alt"></i> Văn phòng: 1423/19/19, Khu phố 35, P. Long Bình, Đồng Nai
-            </a>
-        </p>
-        <p><i class="fas fa-phone"></i> Hotline: 0364.574.555</p>
-        <p><i class="fas fa-envelope"></i> Email: DLthanhtamhieu@gmail.com</p>
-        <br><p>© 2026 Thanh Tâm Hiếu. All rights reserved.</p>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>VỀ CHÚNG TÔI</h3>
+                <p>Thanh Tâm Hiếu cam kết mang đến dịch vụ điện lạnh Chất lượng - Uy tín - Giá cả hợp lý nhất tại Đồng Nai.</p>
+            </div>
+            <div class="footer-col">
+                <h3>LIÊN HỆ</h3>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> 1423/19/19, KP 35, P. Long Bình, Đồng Nai</li>
+                    <li><i class="fas fa-phone-alt"></i> 0364.574.555</li>
+                    <li><i class="fas fa-envelope"></i> DLthanhtamhieu@gmail.com</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>ĐƯỜNG DẪN</h3>
+                <ul>
+                    <li><a href="dandung.html">Dịch vụ Dân dụng</a></li>
+                    <li><a href="congnghiep.html">Dịch vụ Công nghiệp</a></li>
+                    <li><a href="banggia.html">Bảng giá</a></li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 40px; border-top: 1px solid #444; padding-top: 20px; font-size: 13px;">
+            &copy; 2026 Thanh Tâm Hiếu. All rights reserved.
+        </div>
     </footer>
 
-    <div class="contact-bar-mobile">
-        <a href="tel:0364574555" class="contact-item" style="color: var(--success);"><i class="fas fa-phone-alt"></i> <span>Gọi Ngay</span></a>
-        <a href="https://zalo.me/0364574555" class="contact-item" style="color: var(--primary);"><i class="fas fa-comment-dots"></i> <span>Chat Zalo</span></a>
-        <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.494793836272!2d106.87786447480598!3d10.93247945935032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174e7c3e5a5b5b5%3A0x1234567890abcdef!2zMTQyMy8xOS8xOSwgS2h1IHBo4buS IDM1LCBQLiBMb25nIELDrG5oLCDEkOG7k25nIE5haQ!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s" target="_blank" class="contact-item" style="color: var(--danger);"><i class="fas fa-map-marker-alt"></i> <span>Chỉ Đường</span></a>
+    <div class="phone-ring-wrap">
+        <div class="circle-fill"></div>
+        <a href="tel:0364574555" class="circle-img"><i class="fas fa-phone-alt"></i></a>
     </div>
-
-    <div class="hotline-phone-ring-wrap">
-        <div class="hotline-phone-ring">
-            <div class="hotline-phone-ring-circle"></div>
-            <div class="hotline-phone-ring-circle-fill"></div>
-            <div class="hotline-phone-ring-img-circle"><a href="tel:0364574555" class="pps-btn-img"><i class="fas fa-phone-alt"></i></a></div>
-        </div>
-        <div class="hotline-zalo-ring">
-            <div class="hotline-zalo-ring-circle"></div>
-            <div class="hotline-zalo-ring-circle-fill"></div>
-            <div class="hotline-zalo-ring-img-circle"><a href="https://zalo.me/0364574555" target="_blank" class="pps-btn-img"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png" alt="Chat Zalo"></a></div>
-        </div>
+    <div class="zalo-ring-wrap">
+        <div class="circle-fill zalo-circle-fill"></div>
+        <a href="https://zalo.me/0364574555" target="_blank" class="circle-img zalo-img">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png" alt="Zalo">
+        </a>
     </div>
 
     <script>
-        // Xử lý Menu Mobile
-        function toggleMenu() { 
+        function toggleMenu() {
             var nav = document.getElementById("navLinks");
-            if (window.getComputedStyle(nav).display === "none") {
-                nav.style.display = "flex";
-                nav.style.flexDirection = "column";
-                nav.style.position = "absolute";
-                nav.style.top = "70px";
-                nav.style.left = "0";
-                nav.style.width = "100%";
-                nav.style.background = "white";
-                nav.style.padding = "20px";
-                nav.style.boxShadow = "0 5px 10px rgba(0,0,0,0.1)";
-            } else {
-                nav.style.display = "none";
-            }
+            nav.classList.toggle("active");
         }
     </script>
 </body>

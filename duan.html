@@ -10,28 +10,40 @@
     <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu.png">
     
     <style>
-        /* --- CẤU HÌNH CHUNG --- */
-        :root { --primary: #0068ff; --secondary: #ffc107; --danger: #dc3545; --dark: #333; --light: #f4f6f9; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+        /* --- 1. CẤU HÌNH CHUNG (ĐỒNG BỘ 100% INDEX) --- */
+        :root { --primary: #0068ff; --secondary: #ffc107; --danger: #dc3545; --light: #f4f6f9; --dark: #333; --success: #28a745; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; scroll-behavior: smooth; }
         body { background-color: #f8f9fa; color: #333; line-height: 1.6; }
         a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
 
-        /* HEADER */
+        /* HEADER CHUẨN (ĐÃ CẬP NHẬT LOGO ẢNH) */
         header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; padding: 15px; }
-        .logo { font-weight: 900; font-size: 20px; color: var(--primary); text-transform: uppercase; }
-        .nav-links a { margin-left: 15px; font-weight: 500; } .nav-links a:hover { color: var(--primary); }
-        .btn-header { background: var(--danger); color: white !important; padding: 8px 15px; border-radius: 5px; }
+        nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; padding: 10px 20px; height: 80px; }
+        
+        .logo-wrap { display: flex; align-items: center; }
+        .logo-wrap img { height: 55px; margin-right: 12px; }
+        .logo-text-area { display: flex; flex-direction: column; }
+        .logo-text { font-weight: 900; font-size: 18px; color: var(--primary); text-transform: uppercase; line-height: 1.2; }
+        .slogan { font-size: 11px; color: #666; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .nav-links { display: flex; align-items: center; }
+        .nav-links li { margin-left: 20px; }
+        .nav-links a { font-weight: 500; font-size: 14px; text-transform: uppercase; transition: 0.3s; color: var(--dark); }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); font-weight: bold; }
+        .btn-contact { background: var(--danger); color: white !important; padding: 8px 15px; border-radius: 5px; }
+        
+        .menu-toggle { display: none; font-size: 24px; cursor: pointer; color: var(--primary); }
 
         /* BANNER PARALLAX */
         .project-banner {
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://source.unsplash.com/1600x600/?engineer,blueprint');
-            background-size: cover; background-position: center; background-attachment: fixed; /* Tạo hiệu ứng chiều sâu */
+            background-size: cover; background-position: center; background-attachment: fixed;
             color: white; text-align: center; padding: 100px 20px;
         }
         .project-banner h1 { font-size: 3em; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
         .project-banner p { font-size: 1.2em; max-width: 700px; margin: auto; opacity: 0.9; }
-        
+
         /* THANH THỐNG KÊ (ANIMATION) */
         .stats-bar {
             background: white; max-width: 1000px; margin: -50px auto 60px; 
@@ -59,7 +71,7 @@
             background: var(--primary); color: white; border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,104,255,0.3);
         }
 
-        /* --- DỰ ÁN TIÊU ĐIỂM (SPOTLIGHT) - ĐỂ PHÁ VỠ BỐ CỤC ĐƠN ĐIỆU --- */
+        /* SPOTLIGHT SECTION */
         .spotlight-section { max-width: 1200px; margin: 0 auto 60px; padding: 0 20px; }
         .spotlight-card {
             display: flex; background: white; border-radius: 15px; overflow: hidden; 
@@ -77,7 +89,7 @@
         .spotlight-features li { list-style: none; margin-bottom: 10px; font-weight: 500; }
         .spotlight-features i { color: var(--success); margin-right: 10px; }
 
-        /* GRID DỰ ÁN THƯỜNG */
+        /* PROJECT GRID */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
 
@@ -86,7 +98,6 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.4s;
             display: flex; flex-direction: column; position: relative;
         }
-        /* Hiệu ứng Hover nâng cao */
         .project-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
         
         .status-badge {
@@ -120,7 +131,7 @@
             font-size: 11px; padding: 5px; font-weight: bold;
         }
 
-        /* KHÁCH HÀNG REVIEW (Testimonials) - MỚI */
+        /* REVIEWS */
         .review-section { background: #fff; padding: 60px 20px; margin-top: 80px; border-top: 1px solid #eee; }
         .review-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: auto; }
         .review-card { background: #f9f9f9; padding: 30px; border-radius: 10px; position: relative; }
@@ -130,7 +141,7 @@
         .avatar { width: 50px; height: 50px; background: #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 20px; }
         .a-1 { background: #ff9800; } .a-2 { background: #9c27b0; } .a-3 { background: #2196f3; }
 
-        /* CTA CUỐI TRANG */
+        /* CTA */
         .cta-footer { 
             background: linear-gradient(135deg, var(--primary), #004080); 
             color: white; text-align: center; padding: 60px 20px; margin-top: 0;
@@ -143,10 +154,28 @@
         }
         .cta-btn-white:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
 
-        footer { background: #222; color: #fff; padding: 40px 20px; text-align: center; margin-top: 0; }
-        
+        /* FOOTER CHUẨN (3 CỘT) */
+        footer { background: #222; color: #fff; padding: 50px 20px; margin-top: 0; }
+        .footer-grid { max-width: 1200px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        .footer-col h3 { color: var(--secondary); margin-bottom: 20px; font-size: 18px; text-transform: uppercase; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col a:hover { color: var(--secondary); }
+
+        /* NÚT RUNG CHUẨN */
+        .phone-ring-wrap { position: fixed; bottom: 85px; left: 20px; z-index: 9999; }
+        .zalo-ring-wrap { position: fixed; bottom: 20px; left: 20px; z-index: 9999; }
+        .circle-fill { width: 60px; height: 60px; border-radius: 100%; background-color: var(--danger); opacity: 0.3; position: absolute; animation: circle-anim 1.2s infinite ease-in-out; }
+        .zalo-circle-fill { background-color: #0068ff; }
+        .circle-img { width: 45px; height: 45px; border-radius: 100%; background-color: var(--danger); display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; position: relative; animation: img-anim 1s infinite ease-in-out; }
+        .zalo-img { background-color: #0068ff; animation: none; }
+        .zalo-img img { width: 25px; }
+        @keyframes circle-anim { 0% { transform: scale(1); } 50% { transform: scale(1.5); opacity: 0; } 100% { transform: scale(1); opacity: 0; } }
+        @keyframes img-anim { 0% { transform: rotate(0); } 10% { transform: rotate(-25deg); } 20% { transform: rotate(25deg); } 30% { transform: rotate(-25deg); } 40% { transform: rotate(25deg); } 50% { transform: rotate(0); } }
+
         @media (max-width: 768px) { 
-            .nav-links { display: none; } 
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 80px; left: 0; width: 100%; background: white; padding: 20px; box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
+            .nav-links.active { display: flex; }
+            .menu-toggle { display: block; }
             .stats-bar { flex-direction: column; gap: 15px; margin-top: -30px; }
             .spotlight-card { flex-direction: column; }
             .spotlight-img { min-height: 200px; }
@@ -156,18 +185,25 @@
 <body>
 
     <header>
-           <div class="navbar">
-            <a href="index.html" class="logo">THANH TÂM HIẾU</a>
-            <div class="nav-links">
-                <a href="index.html">Trang chủ</a>
-                <a href="dandung.html">Dân dụng</a>
-                <a href="congnghiep.html">Công nghiệp</a>
-                <a href="duan.html" style="color:var(--primary)">Dự án</a>
-                <a href="tintuc.html">Kiến thức</a>
-                <a href="banggia.html">Bảng giá</a>
-                <a href="tel:0364574555" class="btn-header">0364.574.555</a>
-            </div>
-        </div>
+        <nav>
+            <a href="index.html" class="logo-wrap">
+                <img src="logo-thanh-tam-hieu.png" alt="Logo">
+                <div class="logo-text-area">
+                    <span class="logo-text">Thanh Tâm Hiếu</span>
+                    <span class="slogan">Uy Tín - Tận Tâm - Chuyên Nghiệp</span>
+                </div>
+            </a>
+            <div class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Trang Chủ</a></li>
+                <li><a href="dandung.html">Dân Dụng</a></li>
+                <li><a href="congnghiep.html">Công Nghiệp</a></li>
+                <li><a href="banggia.html">Bảng Giá</a></li>
+                <li><a href="duan.html" class="active">Dự Án</a></li>
+                <li><a href="tintuc.html">Cẩm Nang</a></li>
+                <li><a href="tel:0364574555" class="btn-contact">Liên Hệ</a></li>
+            </ul>
+        </nav>
     </header>
 
     <div class="project-banner">
@@ -215,7 +251,7 @@
                     <li><i class="fas fa-check-circle"></i> Nhân sự: 10 kỹ thuật viên tay nghề cao.</li>
                     <li><i class="fas fa-check-circle"></i> Thời gian thi công: 03 ngày (Làm đêm để không ảnh hưởng sản xuất).</li>
                 </ul>
-                <a href="#contact" class="filter-btn active" style="text-align:center; width:fit-content; margin-top:20px;">XEM CHI TIẾT HỢP ĐỒNG</a>
+                <a href="tel:0364574555" class="filter-btn active" style="text-align:center; width:fit-content; margin-top:20px;">LIÊN HỆ KHẢO SÁT NGAY</a>
             </div>
         </div>
     </div>
@@ -224,7 +260,6 @@
         <div class="section-title"><h2>DANH SÁCH DỰ ÁN GẦN ĐÂY</h2></div>
         
         <div class="project-grid">
-
             <div class="project-card" data-type="cong-nghiep">
                 <div class="project-gallery">
                     <span class="status-badge">Công Nghiệp</span>
@@ -352,15 +387,51 @@
     </div>
 
     <footer>
-        <h3>CÔNG TY TNHH TM DV THANH TÂM HIẾU</h3>
-        <p>Hotline: 0364.574.555 | Email: DLthanhtamhieu@gmail.com</p>
-        <p>Văn phòng: 1423/19/19, Khu phố 35, P. Long Bình, Đồng Nai</p>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>VỀ CHÚNG TÔI</h3>
+                <p>Thanh Tâm Hiếu cam kết mang đến dịch vụ điện lạnh Chất lượng - Uy tín - Giá cả hợp lý nhất tại Đồng Nai.</p>
+            </div>
+            <div class="footer-col">
+                <h3>LIÊN HỆ</h3>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> 1423/19/19, KP 35, P. Long Bình, Đồng Nai</li>
+                    <li><i class="fas fa-phone-alt"></i> 0364.574.555</li>
+                    <li><i class="fas fa-envelope"></i> DLthanhtamhieu@gmail.com</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>ĐƯỜNG DẪN</h3>
+                <ul>
+                    <li><a href="dandung.html">Dịch vụ Dân dụng</a></li>
+                    <li><a href="congnghiep.html">Dịch vụ Công nghiệp</a></li>
+                    <li><a href="banggia.html">Bảng giá</a></li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 40px; border-top: 1px solid #444; padding-top: 20px; font-size: 13px;">
+            &copy; 2024 Thanh Tâm Hiếu. All rights reserved.
+        </div>
     </footer>
 
+    <div class="phone-ring-wrap">
+        <div class="circle-fill"></div>
+        <a href="tel:0364574555" class="circle-img"><i class="fas fa-phone-alt"></i></a>
+    </div>
+    <div class="zalo-ring-wrap">
+        <div class="circle-fill zalo-circle-fill"></div>
+        <a href="https://zalo.me/0364574555" target="_blank" class="circle-img zalo-img">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/1200px-Icon_of_Zalo.svg.png" alt="Zalo">
+        </a>
+    </div>
+
     <script>
-        // 1. Hiệu ứng số nhảy (Counter Up)
+        // 1. MENU MOBILE
+        function toggleMenu() { document.getElementById("navLinks").classList.toggle("active"); }
+
+        // 2. HIỆU ỨNG SỐ NHẢY
         const counters = document.querySelectorAll('.stat-num');
-        const speed = 200; // Tốc độ nhảy
+        const speed = 200; 
 
         counters.forEach(counter => {
             const updateCount = () => {
@@ -372,13 +443,13 @@
                     counter.innerText = Math.ceil(count + inc);
                     setTimeout(updateCount, 20);
                 } else {
-                    counter.innerText = target + "+"; // Thêm dấu + khi xong
+                    counter.innerText = target + "+"; 
                 }
             };
             updateCount();
         });
 
-        // 2. Bộ lọc dự án
+        // 3. BỘ LỌC DỰ ÁN
         function filterProject(type) {
             var buttons = document.querySelectorAll('.filter-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
