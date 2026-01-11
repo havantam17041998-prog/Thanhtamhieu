@@ -4,22 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Công ty Thanh Tâm Hiếu chuyên sửa chữa máy lạnh, bảo trì HVAC, thi công điện nhà xưởng tại Đồng Nai, Bình Dương, Vũng Tàu, TP.HCM.">
-    <meta property="og:title" content="Điện Lạnh Thanh Tâm Hiếu | Uy Tín - Tận Tâm - Chuyên Nghiệp">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&q=80">
-    
-    <title>Điện Lạnh Thanh Tâm Hiếu | Trang Chủ</title>
+    <title>Điện Lạnh Thanh Tâm Hiếu | Uy Tín - Tận Tâm - Chuyên Nghiệp</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu.png">
     
     <style>
-        /* --- 1. CẤU HÌNH CHUNG (ĐỒNG BỘ) --- */
+        /* --- 1. CẤU HÌNH CƠ BẢN --- */
         :root { --primary: #0068ff; --secondary: #ffc107; --danger: #dc3545; --success: #28a745; --dark: #333; --light: #f4f6f9; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; scroll-behavior: smooth; }
-        body { padding-bottom: 0; background-color: #fff; } /* Fix padding bottom */
+        body { padding-bottom: 70px; background-color: #fff; }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; }
 
-        /* --- HEADER ĐỒNG BỘ --- */
+        /* --- 2. HEADER & MENU (ĐỒNG BỘ MỚI) --- */
         header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
         .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; padding: 10px 20px; height: 80px; position: relative; }
         
@@ -36,7 +33,7 @@
         .btn-header { background: var(--danger); color: white !important; padding: 8px 15px; border-radius: 5px; }
         .menu-toggle { display: none; font-size: 24px; cursor: pointer; color: var(--primary); }
 
-        /* --- HERO SECTION --- */
+        /* --- 3. BANNER (HERO SECTION) --- */
         .hero {
             background: linear-gradient(rgba(0, 30, 80, 0.85), rgba(0, 30, 80, 0.7)), url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=1600&auto=format&fit=crop');
             background-size: cover; background-position: center; background-attachment: fixed;
@@ -51,32 +48,24 @@
         }
         .cta-btn:hover { transform: translateY(-3px) scale(1.05); background: white; color: var(--primary); border-color: var(--primary); }
 
-        /* --- PARTNER SLIDER --- */
-        .partner-wrap { padding: 30px 0; background: #fff; border-bottom: 1px solid #eee; overflow: hidden; }
-        .partner-title-text { text-align: center; color: #777; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; margin-bottom: 20px; }
-        .partner-track { display: flex; width: calc(200px * 14); animation: scrollPartner 30s linear infinite; }
-        .partner-logo { width: 200px; height: 80px; margin: 0 15px; display: flex; justify-content: center; align-items: center; border: 1px solid #f0f0f0; border-radius: 8px; background: #fff; flex-shrink: 0; }
-        .partner-logo img { max-width: 80%; max-height: 80%; object-fit: contain; filter: grayscale(100%); transition: 0.3s; }
-        .partner-logo:hover img { filter: grayscale(0%); transform: scale(1.1); }
-        @keyframes scrollPartner { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-200px * 7)); } }
-
-        /* --- GENERAL SECTIONS --- */
+        /* --- 4. SECTION CHUNG --- */
         .section { padding: 60px 20px; max-width: 1200px; margin: auto; }
         .section-title { text-align: center; margin-bottom: 40px; }
         .section-title h2 { color: var(--primary); font-size: 2.2em; margin-bottom: 10px; }
 
-        /* --- FEATURES & SERVICES --- */
+        /* --- 5. FEATURES & SERVICES --- */
         .features, .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         .feature-box { text-align: center; padding: 30px; background: var(--light); border-radius: 10px; transition: 0.3s; height: 100%; }
         .feature-box:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .feature-box i { font-size: 40px; color: var(--primary); margin-bottom: 15px; }
+        .feature-box p { line-height: 1.6; color: #555; }
         .service-card { border: 1px solid #eee; border-radius: 10px; overflow: hidden; height: 100%; display: flex; flex-direction: column; }
         .service-head { background: var(--primary); color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 1.2em; }
         .service-body { padding: 20px; flex-grow: 1; }
         .service-body ul li { margin-bottom: 12px; padding-left: 25px; position: relative; line-height: 1.5; }
         .service-body ul li::before { content: "✔"; color: var(--success); position: absolute; left: 0; font-weight: bold; }
 
-        /* --- GALLERY --- */
+        /* --- 6. GALLERY --- */
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .gallery-item { position: relative; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); cursor: pointer; background: #fff; }
         .gallery-item img { width: 100%; height: 250px; object-fit: cover; transition: transform 0.3s; display: block; }
@@ -85,52 +74,61 @@
         .click-hint { position: absolute; top: 10px; right: 10px; background: var(--secondary); color: var(--dark); padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; animation: pulse 2s infinite; z-index: 2; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-        /* --- MODAL --- */
+        /* --- 7. MODAL --- */
         .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
         .modal-content { background-color: #fefefe; margin: 5% auto; padding: 25px; border: 1px solid #888; width: 90%; max-width: 800px; border-radius: 10px; position: relative; animation: slideDown 0.4s; }
         @keyframes slideDown { from { top: -100px; opacity: 0; } to { top: 0; opacity: 1; } }
         .close-modal { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close-modal:hover { color: var(--danger); }
         .modal-body { display: flex; flex-direction: column; gap: 20px; }
         .modal-image-single img { width: 100%; height: 350px; object-fit: cover; border-radius: 8px; }
         .modal-images { display: flex; gap: 10px; }
         .modal-images img { width: 50%; height: 250px; object-fit: cover; border-radius: 8px; }
         .modal-steps { background: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 5px solid var(--primary); }
-        .modal-steps ul li { margin-bottom: 10px; padding-left: 25px; position: relative; }
+        .modal-steps h3 { color: var(--primary); margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+        .modal-steps ul li { margin-bottom: 10px; padding-left: 25px; position: relative; line-height: 1.5; }
         .modal-steps ul li::before { content: "🔹"; position: absolute; left: 0; font-size: 14px; top: 2px; }
 
-        /* --- FAQ --- */
+        /* --- 8. FAQ SECTION --- */
         .faq-item { background: white; border-bottom: 1px solid #ddd; padding: 15px; cursor: pointer; transition: 0.3s; }
         .faq-item:hover { background: #f9f9f9; }
         .faq-question { display: flex; justify-content: space-between; align-items: center; font-weight: bold; color: var(--dark); font-size: 16px; }
         .faq-answer { display: none; margin-top: 10px; color: #555; line-height: 1.6; border-top: 1px dashed #eee; padding-top: 10px; }
         .faq-item.active .faq-answer { display: block; animation: fadeIn 0.5s; }
+        .faq-icon { transition: transform 0.3s; }
         .faq-item.active .faq-icon { transform: rotate(180deg); color: var(--primary); }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- REVIEWS --- */
+        /* --- 9. REVIEWS --- */
         .review-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .review-card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--secondary); display: flex; flex-direction: column; justify-content: space-between; }
         .stars { color: #ffc107; font-size: 20px; margin-bottom: 15px; }
+        .review-text { font-style: italic; color: #555; margin-bottom: 20px; line-height: 1.6; }
         .review-author { display: flex; align-items: center; border-top: 1px solid #eee; padding-top: 15px; }
-        .author-avatar { width: 40px; height: 40px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 18px; }
+        .author-avatar { width: 50px; height: 50px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; color: #888; font-size: 20px; flex-shrink: 0; }
+        .author-info { display: flex; flex-direction: column; }
+        .author-info strong { display: block; color: var(--dark); font-size: 15px; margin-bottom: 2px; }
+        .author-info span { font-size: 13px; color: #666; font-weight: normal; }
 
-        /* --- CONTACT --- */
+        /* --- 10. LIÊN HỆ & MAP --- */
         .contact-container-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         .map-box { height: 100%; min-height: 350px; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .map-box iframe { width: 100%; height: 100%; border: 0; }
+        .contact-section { background: var(--light); }
         .form-container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
         .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
         .form-control { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; }
         .submit-btn { width: 100%; background: var(--primary); color: white; padding: 15px; border: none; border-radius: 5px; font-size: 18px; font-weight: bold; cursor: pointer; }
 
-        /* --- FOOTER ĐỒNG BỘ --- */
+        /* --- FOOTER ĐỒNG BỘ MỚI --- */
         footer { background: #222; color: #fff; padding: 50px 20px; border-top: 5px solid var(--primary); text-align: left; }
         .footer-grid { max-width: 1200px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
         .footer-col h3 { color: var(--secondary); margin-bottom: 20px; font-size: 18px; text-transform: uppercase; }
         .footer-col ul li { margin-bottom: 10px; }
         .footer-col a:hover { color: var(--secondary); }
 
-        /* --- NÚT GỌI RUNG --- */
+        /* --- NÚT GỌI RUNG ĐỒNG BỘ MỚI --- */
         .phone-ring-wrap { position: fixed; bottom: 85px; left: 20px; z-index: 9999; }
         .zalo-ring-wrap { position: fixed; bottom: 20px; left: 20px; z-index: 9999; }
         .circle-fill { width: 60px; height: 60px; border-radius: 100%; background-color: var(--danger); opacity: 0.3; position: absolute; animation: circle-anim 1.2s infinite ease-in-out; }
@@ -138,6 +136,7 @@
         .circle-img { width: 45px; height: 45px; border-radius: 100%; background-color: var(--danger); display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; position: relative; animation: img-anim 1s infinite ease-in-out; }
         .zalo-img { background-color: #0068ff; animation: none; }
         .zalo-img img { width: 25px; }
+        
         @keyframes circle-anim { 0% { transform: scale(1); } 50% { transform: scale(1.5); opacity: 0; } 100% { transform: scale(1); opacity: 0; } }
         @keyframes img-anim { 0% { transform: rotate(0); } 10% { transform: rotate(-25deg); } 20% { transform: rotate(25deg); } 30% { transform: rotate(-25deg); } 40% { transform: rotate(25deg); } 50% { transform: rotate(0); } }
 
@@ -153,11 +152,27 @@
             .nav-links li { width: 100%; margin: 0; }
             .nav-links a { display: block; padding: 15px 20px; border-bottom: 1px solid #eee; width: 100%; }
             .nav-links .btn-header { display: block; text-align: center; width: 90%; margin: 10px auto; }
-            
+
             .modal-images { flex-direction: column; } 
-            .modal-images img, .modal-image-single img { width: 100%; height: 200px; }
-            .hero h1 { font-size: 1.8em; }
+            .modal-images img { width: 100%; height: 200px; }
+            .modal-image-single img { height: 200px; }
+            .contact-container-grid { grid-template-columns: 1fr; } 
         }
+
+        /* --- CODE CHO LOGO ĐỐI TÁC TRƯỢT --- */
+        .partner-wrap { padding: 20px 0; background: #fff; border-bottom: 1px solid #eee; overflow: hidden; margin-bottom: 20px; }
+        .partner-title-text { text-align: center; color: #777; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; margin-bottom: 20px; }
+        .partner-track { display: flex; width: calc(200px * 16); animation: scrollPartner 30s linear infinite; }
+        .partner-logo { width: 200px; height: 80px; margin: 0 15px; display: flex; justify-content: center; align-items: center; border: 1px solid #f0f0f0; border-radius: 8px; background: #fff; }
+        .partner-logo img { max-width: 80%; max-height: 80%; object-fit: contain; filter: grayscale(100%); transition: 0.3s; }
+        .partner-logo:hover img { filter: grayscale(0%); transform: scale(1.1); }
+        @keyframes scrollPartner { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-200px * 8)); } }
+        
+        /* MOBILE CONTACT BAR */
+        .contact-bar-mobile { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 9999; justify-content: space-around; padding: 10px 0; border-top: 1px solid #eee; }
+        .contact-item { display: flex; flex-direction: column; align-items: center; font-size: 12px; font-weight: bold; flex: 1; color: var(--dark); }
+        .contact-item i { font-size: 20px; margin-bottom: 5px; }
+
     </style>
 </head>
 <body>
@@ -177,7 +192,7 @@
             </div>
 
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html" class="active">Trang chủ</a></li>
+                <li><a href="index.html">Trang chủ</a></li>
                 <li><a href="dandung.html">Dân dụng</a></li>
                 <li><a href="congnghiep.html">Công nghiệp</a></li>
                 <li><a href="duan.html">Dự án</a></li>
@@ -198,21 +213,23 @@
     <div class="partner-wrap">
         <div class="partner-title-text">ĐỐI TÁC & KHÁCH HÀNG TIÊU BIỂU</div>
         <div class="partner-track">
-            <div class="partner-logo"><img src="https://cdn.iconscout.com/icon/free/png-256/free-daikin-3442898-2875359.png" alt="Daikin"></div>
-            <div class="partner-logo"><img src="https://cdn.iconscout.com/icon/free/png-256/free-panasonic-2-282601.png" alt="Panasonic"></div>
-            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Toshiba_logo.svg/2560px-Toshiba_logo.svg.png" alt="Toshiba"></div>
-            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/LG_logo_%282015%29.svg/2560px-LG_logo_%282015%29.svg.png" alt="LG"></div>
-            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Mitsubishi_Electric_logo.svg/2560px-Mitsubishi_Electric_logo.svg.png" alt="Mitsubishi"></div>
-            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Casper_logo.png" alt="Casper"></div>
-            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/95/Samsung_Logo.svg/1200px-Samsung_Logo.svg.png" alt="Samsung"></div>
             
-            <div class="partner-logo"><img src="https://cdn.iconscout.com/icon/free/png-256/free-daikin-3442898-2875359.png" alt="Daikin"></div>
-            <div class="partner-logo"><img src="https://cdn.iconscout.com/icon/free/png-256/free-panasonic-2-282601.png" alt="Panasonic"></div>
-            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Toshiba_logo.svg/2560px-Toshiba_logo.svg.png" alt="Toshiba"></div>
-            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/LG_logo_%282015%29.svg/2560px-LG_logo_%282015%29.svg.png" alt="LG"></div>
-            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Mitsubishi_Electric_logo.svg/2560px-Mitsubishi_Electric_logo.svg.png" alt="Mitsubishi"></div>
-            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Casper_logo.png" alt="Casper"></div>
-            <div class="partner-logo"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/95/Samsung_Logo.svg/1200px-Samsung_Logo.svg.png" alt="Samsung"></div>
+            <div class="partner-logo"><img src="logo-daikin.png" alt="Daikin"></div>
+            <div class="partner-logo"><img src="logo-panasonic.png" alt="Panasonic"></div>
+            <div class="partner-logo"><img src="logo-toshiba.png" alt="Toshiba"></div>
+            <div class="partner-logo"><img src="logo-lg.png" alt="LG"></div>
+            <div class="partner-logo"><img src="logo-mitsubishi.png" alt="Mitsubishi"></div>
+            <div class="partner-logo"><img src="logo-casper.png" alt="Casper"></div>
+            <div class="partner-logo"><img src="logo-vsip.png" alt="KCN VSIP"></div>
+
+            <div class="partner-logo"><img src="logo-daikin.png" alt="Daikin"></div>
+            <div class="partner-logo"><img src="logo-panasonic.png" alt="Panasonic"></div>
+            <div class="partner-logo"><img src="logo-toshiba.png" alt="Toshiba"></div>
+            <div class="partner-logo"><img src="logo-lg.png" alt="LG"></div>
+            <div class="partner-logo"><img src="logo-mitsubishi.png" alt="Mitsubishi"></div>
+            <div class="partner-logo"><img src="logo-casper.png" alt="Casper"></div>
+            <div class="partner-logo"><img src="logo-vsip.png" alt="KCN VSIP"></div>
+            
         </div>
     </div>
    
@@ -285,32 +302,32 @@
             
             <div class="gallery-item" onclick="openModal('vrfModal')">
                 <div class="click-hint"><i class="fas fa-hand-pointer"></i> Quy trình chi tiết</div>
-                <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=600&q=80" alt="Vệ sinh hệ thống VRF">
+                <img src="vrf-dan-nong.jpg" alt="Vệ sinh hệ thống VRF" onerror="this.src='https://source.unsplash.com/600x400/?hvac,outdoor'">
                 <div class="gallery-caption">QUY TRÌNH BẢO DƯỠNG VRF - KCN BIÊN HÒA</div>
             </div>
 
             <div class="gallery-item" onclick="openModal('tudienModal')">
                 <div class="click-hint"><i class="fas fa-hand-pointer"></i> Quy trình chi tiết</div>
-                <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80" alt="Lắp tủ điện điều khiển">
+                <img src="tu-dien.jpg" alt="Lắp tủ điện điều khiển" onerror="this.src='https://source.unsplash.com/600x400/?electric,panel'">
                 <div class="gallery-caption">QUY TRÌNH LẮP TỦ ĐIỆN - BÌNH DƯƠNG</div>
             </div>
 
             <div class="gallery-item" onclick="openModal('kholanhModal')">
                 <div class="click-hint"><i class="fas fa-hand-pointer"></i> Quy trình chi tiết</div>
-                <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=600&q=80" alt="Sửa chữa kho lạnh">
+                <img src="kho-lanh.jpg" alt="Sửa chữa kho lạnh" onerror="this.src='https://source.unsplash.com/600x400/?cold,storage'">
                 <div class="gallery-caption">QUY TRÌNH BẢO TRÌ KHO LẠNH - VŨNG TÀU</div>
             </div>
 
             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1513159446162-54eb8bdaa79b?auto=format&fit=crop&w=600&q=80" alt="Sửa Chiller">
+                <img src="https://source.unsplash.com/600x400/?chiller,industrial" alt="Sửa Chiller">
                 <div class="gallery-caption">Sửa chữa cụm máy Chiller - KCN Long Đức</div>
             </div>
             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80" alt="Điện văn phòng">
+                <img src="https://source.unsplash.com/600x400/?office,electric" alt="Điện văn phòng">
                 <div class="gallery-caption">Thi công điện nhẹ văn phòng công ty</div>
             </div>
             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1599407358172-cd41416955a4?auto=format&fit=crop&w=600&q=80" alt="Máy lạnh giấu trần">
+                <img src="https://source.unsplash.com/600x400/?air-conditioner,indoor" alt="Máy lạnh giấu trần">
                 <div class="gallery-caption">Lắp đặt máy lạnh giấu trần - TP.HCM</div>
             </div>
 
@@ -400,7 +417,7 @@
             </div>
 
             <div class="map-box">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.9069176311684!2d106.8837385757396!3d10.970535389189917!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174df1020786523%3A0xa90333d8a7f7194f!2zMTQyMy8xOS8xOSwgS3AgMzUsIFAuIExvbmcgQsOsbmgsIFRQLiBCacOqbiBIw7JhLCDEkOG7k25nIE5haQ!5e0!3m2!1svi!2s!4v1714880000000!5m2!1svi!2s" 
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.494793836272!2d106.87786447480598!3d10.93247945935032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174e7c3e5a5b5b5%3A0x1234567890abcdef!2zMTQyMy8xOS8xOSwgS2h1IHBo4buS IDM1LCBQLiBMb25nIELDrG5oLCDEkOG7k25nIE5haQ!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s" 
                 style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
@@ -439,6 +456,12 @@
         </div>
     </footer>
 
+    <div class="contact-bar-mobile">
+        <a href="tel:0364574555" class="contact-item" style="color: var(--success);"><i class="fas fa-phone-alt"></i> <span>Gọi Ngay</span></a>
+        <a href="https://zalo.me/0364574555" class="contact-item" style="color: var(--primary);"><i class="fas fa-comment-dots"></i> <span>Chat Zalo</span></a>
+        <a href="https://goo.gl/maps/placeholder" class="contact-item" style="color: var(--danger);"><i class="fas fa-map-marker-alt"></i> <span>Chỉ Đường</span></a>
+    </div>
+
     <div class="phone-ring-wrap">
         <div class="circle-fill"></div>
         <a href="tel:0364574555" class="circle-img"><i class="fas fa-phone-alt"></i></a>
@@ -450,11 +473,11 @@
         </a>
     </div>
 
-    <div id="vrfModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('vrfModal')">×</span><h2 style="color: var(--primary); text-align: center;">QUY TRÌNH BẢO DƯỠNG VRF</h2><div class="modal-body"><div class="modal-images"><img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=600&q=80" alt="Dàn nóng"><img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=600&q=80" alt="Dàn lạnh"></div><div class="modal-steps"><h3>5 Bước thực hiện:</h3><ul><li>B1: Kiểm tra thông số vận hành.</li><li>B2: Vệ sinh Dàn Lạnh (Che chắn kỹ).</li><li>B3: Vệ sinh Dàn Nóng.</li><li>B4: Thông tắc nước ngưng.</li><li>B5: Chạy thử máy.</li></ul></div></div></div></div>
+    <div id="vrfModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('vrfModal')">×</span><h2 style="color: var(--primary); text-align: center;">QUY TRÌNH BẢO DƯỠNG VRF</h2><div class="modal-body"><div class="modal-images"><img src="vrf-dan-nong.jpg" alt="Dàn nóng" onerror="this.src='https://source.unsplash.com/600x400/?hvac,outdoor'"><img src="vrf-dan-lanh.jpg" alt="Dàn lạnh" onerror="this.src='https://source.unsplash.com/600x400/?hvac,indoor'"></div><div class="modal-steps"><h3>5 Bước thực hiện:</h3><ul><li>B1: Kiểm tra thông số vận hành.</li><li>B2: Vệ sinh Dàn Lạnh (Che chắn kỹ).</li><li>B3: Vệ sinh Dàn Nóng.</li><li>B4: Thông tắc nước ngưng.</li><li>B5: Chạy thử máy.</li></ul></div></div></div></div>
 
-    <div id="tudienModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('tudienModal')">×</span><h2 style="color: var(--primary); text-align: center;">QUY TRÌNH LẮP TỦ ĐIỆN</h2><div class="modal-body"><div class="modal-image-single"><img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80" alt="Tủ điện"></div><div class="modal-steps"><h3>Các bước thi công:</h3><ul><li>B1: Khảo sát tải, thiết kế.</li><li>B2: Gia công vỏ, đột lỗ.</li><li>B3: Đấu nối dây, bấm cos.</li><li>B4: Kiểm tra nguội.</li><li>B5: Đóng điện bàn giao.</li></ul></div></div></div></div>
+    <div id="tudienModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('tudienModal')">×</span><h2 style="color: var(--primary); text-align: center;">QUY TRÌNH LẮP TỦ ĐIỆN</h2><div class="modal-body"><div class="modal-image-single"><img src="tu-dien.jpg" alt="Tủ điện" onerror="this.src='https://source.unsplash.com/600x400/?electric,panel'"></div><div class="modal-steps"><h3>Các bước thi công:</h3><ul><li>B1: Khảo sát tải, thiết kế.</li><li>B2: Gia công vỏ, đột lỗ.</li><li>B3: Đấu nối dây, bấm cos.</li><li>B4: Kiểm tra nguội.</li><li>B5: Đóng điện bàn giao.</li></ul></div></div></div></div>
 
-    <div id="kholanhModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('kholanhModal')">×</span><h2 style="color: var(--primary); text-align: center;">QUY TRÌNH BẢO TRÌ KHO LẠNH</h2><div class="modal-body"><div class="modal-image-single"><img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=600&q=80" alt="Kho lạnh"></div><div class="modal-steps"><h3>Nội dung bảo trì:</h3><ul><li>B1: Kiểm tra độ kín vỏ kho.</li><li>B2: Vệ sinh dàn lạnh/nóng.</li><li>B3: Kiểm tra máy nén.</li><li>B4: Kiểm tra gas, dầu lạnh.</li><li>B5: Vận hành thử.</li></ul></div></div></div></div>
+    <div id="kholanhModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('kholanhModal')">×</span><h2 style="color: var(--primary); text-align: center;">QUY TRÌNH BẢO TRÌ KHO LẠNH</h2><div class="modal-body"><div class="modal-image-single"><img src="kho-lanh.jpg" alt="Kho lạnh" onerror="this.src='https://source.unsplash.com/600x400/?cold,storage'"></div><div class="modal-steps"><h3>Nội dung bảo trì:</h3><ul><li>B1: Kiểm tra độ kín vỏ kho.</li><li>B2: Vệ sinh dàn lạnh/nóng.</li><li>B3: Kiểm tra máy nén.</li><li>B4: Kiểm tra gas, dầu lạnh.</li><li>B5: Vận hành thử.</li></ul></div></div></div></div>
 
     <script>
         // 1. XỬ LÝ GỬI FORM
@@ -469,15 +492,18 @@
         }
         form.addEventListener("submit", handleSubmit);
 
-        // 2. XỬ LÝ MENU MOBILE
-        function toggleMenu() { document.getElementById("navLinks").classList.toggle("active"); }
+        // 2. XỬ LÝ MENU MOBILE (Đã chỉnh lại cho khớp với Header mới)
+        function toggleMenu() { 
+            var nav = document.getElementById("navLinks");
+            nav.classList.toggle("active");
+        }
 
         // 3. XỬ LÝ POPUP
         function openModal(id) { document.getElementById(id).style.display = "block"; }
         function closeModal(id) { document.getElementById(id).style.display = "none"; }
         window.onclick = function(e) { if (e.target.classList.contains('modal')) e.target.style.display = "none"; }
 
-        // 4. XỬ LÝ FAQ
+        // 4. XỬ LÝ FAQ (CLICK ĐỂ MỞ)
         function toggleFAQ(element) { element.classList.toggle("active"); }
     </script>
 </body>
