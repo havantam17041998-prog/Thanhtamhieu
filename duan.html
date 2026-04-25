@@ -7,37 +7,37 @@
     <title>Dự Án & Hồ Sơ Năng Lực | Thanh Tâm Hiếu</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu.png">
+    <!-- Đã đồng bộ tên file logo -->
+    <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu1.png">
     
     <style>
         /* --- 1. CẤU HÌNH CHUNG (ĐỒNG BỘ 100% INDEX) --- */
         :root { --primary: #0068ff; --secondary: #ffc107; --danger: #dc3545; --light: #f4f6f9; --dark: #333; --success: #28a745; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; scroll-behavior: smooth; }
-        body { background-color: #f8f9fa; color: #333; line-height: 1.6; }
-        a { text-decoration: none; color: inherit; }
+        body { background-color: #f8f9fa; color: #333; line-height: 1.6; padding-bottom: 70px; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; }
 
-        /* HEADER CHUẨN (ĐÃ CẬP NHẬT LOGO ẢNH) */
+        /* --- HEADER ĐỒNG BỘ --- */
         header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; padding: 10px 20px; height: 80px; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; padding: 10px 20px; height: 80px; position: relative; }
         
         .logo-wrap { display: flex; align-items: center; }
-        .logo-wrap img { height: 55px; margin-right: 12px; }
+        .logo-wrap img { height: 55px; margin-right: 12px; object-fit: contain; } 
         .logo-text-area { display: flex; flex-direction: column; }
         .logo-text { font-weight: 900; font-size: 18px; color: var(--primary); text-transform: uppercase; line-height: 1.2; }
         .slogan { font-size: 11px; color: #666; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
-        
+
         .nav-links { display: flex; align-items: center; }
         .nav-links li { margin-left: 20px; }
-        .nav-links a { font-weight: 500; font-size: 14px; text-transform: uppercase; transition: 0.3s; color: var(--dark); }
+        .nav-links a { font-weight: 500; font-size: 15px; text-transform: uppercase; color: var(--dark); } 
         .nav-links a:hover, .nav-links a.active { color: var(--primary); font-weight: bold; }
-        .btn-contact { background: var(--danger); color: white !important; padding: 8px 15px; border-radius: 5px; }
-        
+        .btn-header { background: var(--danger); color: white !important; padding: 8px 15px; border-radius: 5px; }
         .menu-toggle { display: none; font-size: 24px; cursor: pointer; color: var(--primary); }
 
         /* BANNER PARALLAX */
         .project-banner {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://source.unsplash.com/1600x600/?engineer,blueprint');
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1600&q=80');
             background-size: cover; background-position: center; background-attachment: fixed;
             color: white; text-align: center; padding: 100px 20px;
         }
@@ -154,56 +154,81 @@
         }
         .cta-btn-white:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
 
-        /* FOOTER CHUẨN (3 CỘT) */
-        footer { background: #222; color: #fff; padding: 50px 20px; margin-top: 0; }
+        /* --- FOOTER ĐỒNG BỘ --- */
+        footer { background: #222; color: #fff; padding: 50px 20px; border-top: 5px solid var(--primary); text-align: left; }
         .footer-grid { max-width: 1200px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
         .footer-col h3 { color: var(--secondary); margin-bottom: 20px; font-size: 18px; text-transform: uppercase; }
         .footer-col ul li { margin-bottom: 10px; }
         .footer-col a:hover { color: var(--secondary); }
 
-        /* NÚT RUNG CHUẨN */
-        .phone-ring-wrap { position: fixed; bottom: 85px; left: 20px; z-index: 9999; }
-        .zalo-ring-wrap { position: fixed; bottom: 20px; left: 20px; z-index: 9999; }
-        .circle-fill { width: 60px; height: 60px; border-radius: 100%; background-color: var(--danger); opacity: 0.3; position: absolute; animation: circle-anim 1.2s infinite ease-in-out; }
+        /* --- NÚT GỌI RUNG ĐỒNG BỘ --- */
+        .phone-ring-wrap { position: fixed; bottom: 85px; left: 20px; z-index: 9999; display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; }
+        .zalo-ring-wrap { position: fixed; bottom: 20px; left: 20px; z-index: 9999; display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; }
+        .circle-fill { width: 90px; height: 90px; border-radius: 50%; background-color: var(--danger); opacity: 0.5; position: absolute; z-index: 1; animation: zoom-anim 1.5s infinite ease-in-out !important; }
         .zalo-circle-fill { background-color: #0068ff; }
-        .circle-img { width: 45px; height: 45px; border-radius: 100%; background-color: var(--danger); display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; position: relative; animation: img-anim 1s infinite ease-in-out; }
+        .circle-img { width: 50px; height: 50px; border-radius: 50%; background-color: var(--danger); display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; position: relative; z-index: 2; box-shadow: 0 4px 15px rgba(0,0,0,0.3); animation: shake-anim 1s infinite ease-in-out !important; }
         .zalo-img { background-color: #0068ff; animation: none; }
-        .zalo-img img { width: 25px; }
-        @keyframes circle-anim { 0% { transform: scale(1); } 50% { transform: scale(1.5); opacity: 0; } 100% { transform: scale(1); opacity: 0; } }
-        @keyframes img-anim { 0% { transform: rotate(0); } 10% { transform: rotate(-25deg); } 20% { transform: rotate(25deg); } 30% { transform: rotate(-25deg); } 40% { transform: rotate(25deg); } 50% { transform: rotate(0); } }
+        .zalo-img img { width: 28px; }
+        
+        @keyframes zoom-anim { 0% { transform: scale(0.5); opacity: 0.8; } 100% { transform: scale(1.4); opacity: 0; } }
+        @keyframes shake-anim { 0% { transform: rotate(0) scale(1); } 10% { transform: rotate(-25deg) scale(1.1); } 20% { transform: rotate(25deg) scale(1.1); } 30% { transform: rotate(-25deg) scale(1.1); } 40% { transform: rotate(25deg) scale(1.1); } 50% { transform: rotate(0) scale(1); } 100% { transform: rotate(0) scale(1); } }
 
+        /* MOBILE CONTACT BAR */
+        .contact-bar-mobile { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 9999; justify-content: space-around; padding: 10px 0; border-top: 1px solid #eee; }
+        .contact-item { display: flex; flex-direction: column; align-items: center; font-size: 12px; font-weight: bold; flex: 1; color: var(--dark); }
+        .contact-item i { font-size: 20px; margin-bottom: 5px; }
+
+        /* RESPONSIVE */
         @media (max-width: 768px) { 
-            .nav-links { display: none; flex-direction: column; position: absolute; top: 80px; left: 0; width: 100%; background: white; padding: 20px; box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
-            .nav-links.active { display: flex; }
             .menu-toggle { display: block; }
+            .nav-links { 
+                display: none; position: absolute; top: 80px; left: 0; width: 100%; 
+                background: white; flex-direction: column; align-items: flex-start;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1); padding: 0; 
+            }
+            .nav-links.active { display: flex; }
+            .nav-links li { width: 100%; margin: 0; }
+            .nav-links a { display: block; padding: 15px 20px; border-bottom: 1px solid #eee; width: 100%; }
+            .nav-links .btn-header { display: block; text-align: center; width: 90%; margin: 10px auto; }
+            
             .stats-bar { flex-direction: column; gap: 15px; margin-top: -30px; }
             .spotlight-card { flex-direction: column; }
             .spotlight-img { min-height: 200px; }
+
+            /* Hiện thanh liên hệ dưới cùng cho mobile và đẩy nút rung lên */
+            .contact-bar-mobile { display: flex; }
+            .phone-ring-wrap { bottom: 140px !important; }
+            .zalo-ring-wrap { bottom: 70px !important; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <nav>
+        <div class="navbar">
             <a href="index.html" class="logo-wrap">
-                <img src="logo-thanh-tam-hieu.png" alt="Logo">
+                <!-- Sửa logo -->
+                <img src="logo-thanh-tam-hieu1.png" alt="Logo Thanh Tâm Hiếu">
                 <div class="logo-text-area">
                     <span class="logo-text">Thanh Tâm Hiếu</span>
                     <span class="slogan">Uy Tín - Tận Tâm - Chuyên Nghiệp</span>
                 </div>
             </a>
-            <div class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+            
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Trang Chủ</a></li>
-                <li><a href="dandung.html">Dân Dụng</a></li>
-                <li><a href="congnghiep.html">Công Nghiệp</a></li>
-                <li><a href="duan.html" class="active">Dự Án</a></li>
-                <li><a href="tintuc.html">Kiến Thức</a></li>
-		<li><a href="banggia.html">Bảng Giá</a></li>
-                <li><a href="tel:0364574555" class="btn-contact">Liên Hệ</a></li>
+                <li><a href="index.html">Trang chủ</a></li>
+                <li><a href="dandung.html">Dân dụng</a></li>
+                <li><a href="congnghiep.html">Công nghiệp</a></li>
+                <li><a href="duan.html" class="active">Dự án</a></li>
+                <li><a href="tintuc.html">Kiến thức</a></li>
+                <li><a href="banggia.html">Bảng giá</a></li>
+                <li><a href="tel:0364574555" class="btn-header"><i class="fas fa-phone-alt"></i> 0364.574.555</a></li>
             </ul>
-        </nav>
+        </div>
     </header>
 
     <div class="project-banner">
@@ -241,11 +266,11 @@
         <div class="spotlight-card">
             <div class="spotlight-img">
                 <span class="spotlight-badge">QUY MÔ LỚN</span>
-                <img src="https://source.unsplash.com/800x600/?factory,hvac" alt="Dự án lớn">
+                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80" alt="Dự án lớn">
             </div>
             <div class="spotlight-content">
                 <h3 class="spotlight-title">Bảo trì toàn diện hệ thống lạnh KCN AMATA</h3>
-                <p class="spotlight-desc">Đây là dự án trọng điểm năm 2024, Thanh Tâm Hiếu phụ trách bảo trì định kỳ cho 3 nhà xưởng rộng 5000m2.</p>
+                <p class="spotlight-desc">Đây là dự án trọng điểm năm 2026, Thanh Tâm Hiếu phụ trách bảo trì định kỳ cho 3 nhà xưởng rộng 5000m2.</p>
                 <ul class="spotlight-features">
                     <li><i class="fas fa-check-circle"></i> Hệ thống: 20 cụm VRV Daikin + 5 Chiller.</li>
                     <li><i class="fas fa-check-circle"></i> Nhân sự: 10 kỹ thuật viên tay nghề cao.</li>
@@ -263,7 +288,7 @@
             <div class="project-card" data-type="cong-nghiep">
                 <div class="project-gallery">
                     <span class="status-badge">Công Nghiệp</span>
-                    <img src="https://source.unsplash.com/600x400/?electric,panel" alt="Tủ điện">
+                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" alt="Tủ điện">
                 </div>
                 <div class="project-info">
                     <h3 class="project-title">Thi công tủ điện MSB nhà máy gỗ</h3>
@@ -281,11 +306,11 @@
             <div class="project-card" data-type="dan-dung">
                 <div class="ba-container">
                     <div class="ba-item">
-                        <img src="https://source.unsplash.com/300x400/?dust,dirty" alt="Trước">
+                        <img src="https://images.unsplash.com/photo-1527615951564-9a8d9a24c13a?auto=format&fit=crop&w=300&q=80" alt="Trước">
                         <div class="ba-label">TRƯỚC</div>
                     </div>
                     <div class="ba-item">
-                        <img src="https://source.unsplash.com/300x400/?clean,white" alt="Sau">
+                        <img src="https://images.unsplash.com/photo-1590425316345-0d22080a202c?auto=format&fit=crop&w=300&q=80" alt="Sau">
                         <div class="ba-label" style="background:#28a745">SAU</div>
                     </div>
                 </div>
@@ -305,7 +330,7 @@
             <div class="project-card" data-type="cong-nghiep">
                 <div class="project-gallery">
                     <span class="status-badge">Kho Lạnh</span>
-                    <img src="https://source.unsplash.com/600x400/?cold,storage" alt="Kho lạnh">
+                    <img src="https://images.unsplash.com/photo-1542013936693-884638332954?auto=format&fit=crop&w=600&q=80" alt="Kho lạnh">
                 </div>
                 <div class="project-info">
                     <h3 class="project-title">Lắp đặt kho lạnh bảo quản thực phẩm</h3>
@@ -323,7 +348,7 @@
              <div class="project-card" data-type="dan-dung">
                 <div class="project-gallery">
                     <span class="status-badge" style="background:var(--danger)">Cấp cứu</span>
-                    <img src="https://source.unsplash.com/600x400/?repair,tool" alt="Sửa chữa">
+                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=600&q=80" alt="Sửa chữa">
                 </div>
                 <div class="project-info">
                     <h3 class="project-title">Xử lý máy lạnh xì gas, mất lạnh</h3>
@@ -410,9 +435,16 @@
             </div>
         </div>
         <div style="text-align: center; margin-top: 40px; border-top: 1px solid #444; padding-top: 20px; font-size: 13px;">
-            &copy; 2024 Thanh Tâm Hiếu. All rights reserved.
+            &copy; 2026 Thanh Tâm Hiếu. All rights reserved.
         </div>
     </footer>
+
+    <!-- BỔ SUNG HTML THANH LIÊN HỆ CHO MOBILE -->
+    <div class="contact-bar-mobile">
+        <a href="tel:0364574555" class="contact-item" style="color: var(--success);"><i class="fas fa-phone-alt"></i> <span>Gọi Ngay</span></a>
+        <a href="https://zalo.me/0364574555" class="contact-item" style="color: var(--primary);"><i class="fas fa-comment-dots"></i> <span>Chat Zalo</span></a>
+        <a href="https://goo.gl/maps/placeholder" class="contact-item" style="color: var(--danger);"><i class="fas fa-map-marker-alt"></i> <span>Chỉ Đường</span></a>
+    </div>
 
     <div class="phone-ring-wrap">
         <div class="circle-fill"></div>
