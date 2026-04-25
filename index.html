@@ -6,7 +6,8 @@
     <meta name="description" content="Công ty Thanh Tâm Hiếu chuyên sửa chữa máy lạnh, bảo trì HVAC, thi công điện nhà xưởng tại Đồng Nai, Bình Dương, Vũng Tàu, TP.HCM.">
     <title>Điện Lạnh Thanh Tâm Hiếu | Uy Tín - Tận Tâm - Chuyên Nghiệp</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu.png">
+    <!-- Đã đồng bộ tên file logo -->
+    <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu1.png">
     
     <style>
         /* --- 1. CẤU HÌNH CƠ BẢN --- */
@@ -35,10 +36,10 @@
 
         /* --- 3. BANNER (HERO SECTION) - ĐÃ SỬA --- */
         .hero {
-            /* Thay ảnh banner tại đây */
             background: linear-gradient(rgba(0, 30, 80, 0.85), rgba(0, 30, 80, 0.7)), url('banner-cong-ty.jpg');
-            background-size: cover; background-position: center; background-attachment: fixed;
-            color: white; text-align: center; padding: 120px 20px; position: relative;
+            /* Bỏ background-attachment: fixed; để ảnh không bị phóng to cắt góc */
+            background-size: cover; background-position: center; 
+            color: white; text-align: center; padding: 150px 20px; position: relative;
         }
         .hero h1 { font-size: 2.8em; margin-bottom: 20px; text-transform: uppercase; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); letter-spacing: 1px; }
         .hero p { font-size: 1.2em; margin-bottom: 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
@@ -181,7 +182,8 @@
     <header>
         <div class="navbar">
             <a href="index.html" class="logo-wrap">
-                <img src="logo-thanh-tam-hieu.png" alt="Logo Thanh Tâm Hiếu">
+                <!-- Đồng bộ logo1 -->
+                <img src="logo-thanh-tam-hieu1.png" alt="Logo Thanh Tâm Hiếu">
                 <div class="logo-text-area">
                     <span class="logo-text">Thanh Tâm Hiếu</span>
                     <span class="slogan">Uy Tín - Tận Tâm - Chuyên Nghiệp</span>
@@ -193,7 +195,7 @@
             </div>
 
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Trang chủ</a></li>
+                <li><a href="index.html" class="active">Trang chủ</a></li>
                 <li><a href="dandung.html">Dân dụng</a></li>
                 <li><a href="congnghiep.html">Công nghiệp</a></li>
                 <li><a href="duan.html">Dự án</a></li>
@@ -303,32 +305,33 @@
             
             <div class="gallery-item" onclick="openModal('vrfModal')">
                 <div class="click-hint"><i class="fas fa-hand-pointer"></i> Quy trình chi tiết</div>
-                <img src="vrf-dan-nong.jpg" alt="Vệ sinh hệ thống VRF" onerror="this.src='https://source.unsplash.com/600x400/?hvac,outdoor'">
+                <!-- Cập nhật link dự phòng Unsplash chuẩn -->
+                <img src="vrf-dan-nong.jpg" alt="Vệ sinh hệ thống VRF" onerror="this.src='https://images.unsplash.com/photo-1581094288338-2314dddb7903?auto=format&fit=crop&w=600&q=80'">
                 <div class="gallery-caption">QUY TRÌNH BẢO DƯỠNG VRF - KCN BIÊN HÒA</div>
             </div>
 
             <div class="gallery-item" onclick="openModal('tudienModal')">
                 <div class="click-hint"><i class="fas fa-hand-pointer"></i> Quy trình chi tiết</div>
-                <img src="tu-dien.jpg" alt="Lắp tủ điện điều khiển" onerror="this.src='https://source.unsplash.com/600x400/?electric,panel'">
+                <img src="tu-dien.jpg" alt="Lắp tủ điện điều khiển" onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80'">
                 <div class="gallery-caption">QUY TRÌNH LẮP TỦ ĐIỆN - BÌNH DƯƠNG</div>
             </div>
 
             <div class="gallery-item" onclick="openModal('kholanhModal')">
                 <div class="click-hint"><i class="fas fa-hand-pointer"></i> Quy trình chi tiết</div>
-                <img src="kho-lanh.jpg" alt="Sửa chữa kho lạnh" onerror="this.src='https://source.unsplash.com/600x400/?cold,storage'">
+                <img src="kho-lanh.jpg" alt="Sửa chữa kho lạnh" onerror="this.src='https://images.unsplash.com/photo-1542013936693-884638332954?auto=format&fit=crop&w=600&q=80'">
                 <div class="gallery-caption">QUY TRÌNH BẢO TRÌ KHO LẠNH - VŨNG TÀU</div>
             </div>
 
             <div class="gallery-item">
-                <img src="sua-chiller.jpg" alt="Sửa Chiller">
+                <img src="sua-chiller.jpg" alt="Sửa Chiller" onerror="this.src='https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=600&q=80'">
                 <div class="gallery-caption">Sửa chữa cụm máy Chiller - KCN Long Đức</div>
             </div>
             <div class="gallery-item">
-                <img src="dien-vp.jpg" alt="Điện văn phòng">
+                <img src="dien-vp.jpg" alt="Điện văn phòng" onerror="this.src='https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80'">
                 <div class="gallery-caption">Thi công điện nhẹ văn phòng công ty</div>
             </div>
             <div class="gallery-item">
-                <img src="may-lanh-giau-tran.jpg" alt="Máy lạnh giấu trần">
+                <img src="may-lanh-giau-tran.jpg" alt="Máy lạnh giấu trần" onerror="this.src='https://images.unsplash.com/photo-1527615951564-9a8d9a24c13a?auto=format&fit=crop&w=600&q=80'">
                 <div class="gallery-caption">Lắp đặt máy lạnh giấu trần - TP.HCM</div>
             </div>
 
@@ -474,11 +477,11 @@
         </a>
     </div>
 
-    <div id="vrfModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('vrfModal')">×</span><h2 style="color: var(--primary); text-align: center;">QUY TRÌNH BẢO DƯỠNG VRF</h2><div class="modal-body"><div class="modal-images"><img src="vrf-dan-nong.jpg" alt="Dàn nóng" onerror="this.src='https://source.unsplash.com/600x400/?hvac,outdoor'"><img src="vrf-dan-lanh.jpg" alt="Dàn lạnh" onerror="this.src='https://source.unsplash.com/600x400/?hvac,indoor'"></div><div class="modal-steps"><h3>5 Bước thực hiện:</h3><ul><li>B1: Kiểm tra thông số vận hành.</li><li>B2: Vệ sinh Dàn Lạnh (Che chắn kỹ).</li><li>B3: Vệ sinh Dàn Nóng.</li><li>B4: Thông tắc nước ngưng.</li><li>B5: Chạy thử máy.</li></ul></div></div></div></div>
+    <div id="vrfModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('vrfModal')">×</span><h2 style="color: var(--primary); text-align: center;">QUY TRÌNH BẢO DƯỠNG VRF</h2><div class="modal-body"><div class="modal-images"><img src="vrf-dan-nong.jpg" alt="Dàn nóng" onerror="this.src='https://images.unsplash.com/photo-1581094288338-2314dddb7903?auto=format&fit=crop&w=600&q=80'"><img src="vrf-dan-lanh.jpg" alt="Dàn lạnh" onerror="this.src='https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80'"></div><div class="modal-steps"><h3>5 Bước thực hiện:</h3><ul><li>B1: Kiểm tra thông số vận hành.</li><li>B2: Vệ sinh Dàn Lạnh (Che chắn kỹ).</li><li>B3: Vệ sinh Dàn Nóng.</li><li>B4: Thông tắc nước ngưng.</li><li>B5: Chạy thử máy.</li></ul></div></div></div></div>
 
-    <div id="tudienModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('tudienModal')">×</span><h2 style="color: var(--primary); text-align: center;">QUY TRÌNH LẮP TỦ ĐIỆN</h2><div class="modal-body"><div class="modal-image-single"><img src="tu-dien.jpg" alt="Tủ điện" onerror="this.src='https://source.unsplash.com/600x400/?electric,panel'"></div><div class="modal-steps"><h3>Các bước thi công:</h3><ul><li>B1: Khảo sát tải, thiết kế.</li><li>B2: Gia công vỏ, đột lỗ.</li><li>B3: Đấu nối dây, bấm cos.</li><li>B4: Kiểm tra nguội.</li><li>B5: Đóng điện bàn giao.</li></ul></div></div></div></div>
+    <div id="tudienModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('tudienModal')">×</span><h2 style="color: var(--primary); text-align: center;">QUY TRÌNH LẮP TỦ ĐIỆN</h2><div class="modal-body"><div class="modal-image-single"><img src="tu-dien.jpg" alt="Tủ điện" onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80'"></div><div class="modal-steps"><h3>Các bước thi công:</h3><ul><li>B1: Khảo sát tải, thiết kế.</li><li>B2: Gia công vỏ, đột lỗ.</li><li>B3: Đấu nối dây, bấm cos.</li><li>B4: Kiểm tra nguội.</li><li>B5: Đóng điện bàn giao.</li></ul></div></div></div></div>
 
-    <div id="kholanhModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('kholanhModal')">×</span><h2 style="color: var(--primary); text-align: center;">QUY TRÌNH BẢO TRÌ KHO LẠNH</h2><div class="modal-body"><div class="modal-image-single"><img src="kho-lanh.jpg" alt="Kho lạnh" onerror="this.src='https://source.unsplash.com/600x400/?cold,storage'"></div><div class="modal-steps"><h3>Nội dung bảo trì:</h3><ul><li>B1: Kiểm tra độ kín vỏ kho.</li><li>B2: Vệ sinh dàn lạnh/nóng.</li><li>B3: Kiểm tra máy nén.</li><li>B4: Kiểm tra gas, dầu lạnh.</li><li>B5: Vận hành thử.</li></ul></div></div></div></div>
+    <div id="kholanhModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('kholanhModal')">×</span><h2 style="color: var(--primary); text-align: center;">QUY TRÌNH BẢO TRÌ KHO LẠNH</h2><div class="modal-body"><div class="modal-image-single"><img src="kho-lanh.jpg" alt="Kho lạnh" onerror="this.src='https://images.unsplash.com/photo-1542013936693-884638332954?auto=format&fit=crop&w=600&q=80'"></div><div class="modal-steps"><h3>Nội dung bảo trì:</h3><ul><li>B1: Kiểm tra độ kín vỏ kho.</li><li>B2: Vệ sinh dàn lạnh/nóng.</li><li>B3: Kiểm tra máy nén.</li><li>B4: Kiểm tra gas, dầu lạnh.</li><li>B5: Vận hành thử.</li></ul></div></div></div></div>
 
     <script>
         // 1. XỬ LÝ GỬI FORM
