@@ -6,7 +6,6 @@
     <meta name="description" content="Công ty Thanh Tâm Hiếu chuyên sửa chữa máy lạnh, bảo trì HVAC, thi công điện nhà xưởng tại Đồng Nai, Bình Dương, Vũng Tàu, TP.HCM.">
     <title>Điện Lạnh Thanh Tâm Hiếu | Uy Tín - Tận Tâm - Chuyên Nghiệp</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Đã đồng bộ tên file logo -->
     <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu1.png">
     
     <style>
@@ -17,7 +16,7 @@
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; }
 
-        /* --- 2. HEADER & MENU (ĐỒNG BỘ MỚI) --- */
+        /* --- 2. HEADER & MENU --- */
         header { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
         .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: auto; padding: 10px 20px; height: 80px; position: relative; }
         
@@ -34,10 +33,9 @@
         .btn-header { background: var(--danger); color: white !important; padding: 8px 15px; border-radius: 5px; }
         .menu-toggle { display: none; font-size: 24px; cursor: pointer; color: var(--primary); }
 
-        /* --- 3. BANNER (HERO SECTION) - ĐÃ SỬA --- */
+        /* --- 3. BANNER (HERO SECTION) --- */
         .hero {
             background: linear-gradient(rgba(0, 30, 80, 0.85), rgba(0, 30, 80, 0.7)), url('banner-cong-ty.jpg');
-            /* Bỏ background-attachment: fixed; để ảnh không bị phóng to cắt góc */
             background-size: cover; background-position: center; 
             color: white; text-align: center; padding: 150px 20px; position: relative;
         }
@@ -182,7 +180,6 @@
     <header>
         <div class="navbar">
             <a href="index.html" class="logo-wrap">
-                <!-- Đồng bộ logo1 -->
                 <img src="logo-thanh-tam-hieu1.png" alt="Logo Thanh Tâm Hiếu">
                 <div class="logo-text-area">
                     <span class="logo-text">Thanh Tâm Hiếu</span>
@@ -301,41 +298,88 @@
             <h2>HÌNH ẢNH THI CÔNG THỰC TẾ</h2>
             <p>Người thật - Việc thật. Sự tỉ mỉ làm nên thương hiệu Thanh Tâm Hiếu.</p>
         </div>
+        
+        <!-- BẮT ĐẦU KHU VỰC THAY ẢNH DỰ ÁN THỰC TẾ CỦA BẠN -->
         <div class="gallery-grid">
             
+            <!-- 🌟 DỰ ÁN 1 🌟 -->
             <div class="gallery-item" onclick="openModal('vrfModal')">
                 <div class="click-hint"><i class="fas fa-hand-pointer"></i> Quy trình chi tiết</div>
-                <!-- Cập nhật link dự phòng Unsplash chuẩn -->
+                <!-- BẠN THAY TÊN FILE ẢNH VÀO CHỮ "vrf-dan-nong.jpg" BÊN DƯỚI -->
                 <img src="vrf-dan-nong.jpg" alt="Vệ sinh hệ thống VRF" onerror="this.src='https://images.unsplash.com/photo-1581094288338-2314dddb7903?auto=format&fit=crop&w=600&q=80'">
+                <!-- BẠN THAY TÊN DỰ ÁN VÀO DÒNG CHỮ BÊN DƯỚI -->
                 <div class="gallery-caption">QUY TRÌNH BẢO DƯỠNG VRF - KCN BIÊN HÒA</div>
             </div>
 
+            <!-- 🌟 DỰ ÁN 2 🌟 -->
             <div class="gallery-item" onclick="openModal('tudienModal')">
                 <div class="click-hint"><i class="fas fa-hand-pointer"></i> Quy trình chi tiết</div>
+                <!-- BẠN THAY TÊN FILE ẢNH VÀO CHỮ "tu-dien.jpg" BÊN DƯỚI -->
                 <img src="tu-dien.jpg" alt="Lắp tủ điện điều khiển" onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80'">
+                <!-- BẠN THAY TÊN DỰ ÁN VÀO DÒNG CHỮ BÊN DƯỚI -->
                 <div class="gallery-caption">QUY TRÌNH LẮP TỦ ĐIỆN - BÌNH DƯƠNG</div>
             </div>
 
+            <!-- 🌟 DỰ ÁN 3 🌟 -->
             <div class="gallery-item" onclick="openModal('kholanhModal')">
                 <div class="click-hint"><i class="fas fa-hand-pointer"></i> Quy trình chi tiết</div>
+                <!-- BẠN THAY TÊN FILE ẢNH VÀO CHỮ "kho-lanh.jpg" BÊN DƯỚI -->
                 <img src="kho-lanh.jpg" alt="Sửa chữa kho lạnh" onerror="this.src='https://images.unsplash.com/photo-1542013936693-884638332954?auto=format&fit=crop&w=600&q=80'">
+                <!-- BẠN THAY TÊN DỰ ÁN VÀO DÒNG CHỮ BÊN DƯỚI -->
                 <div class="gallery-caption">QUY TRÌNH BẢO TRÌ KHO LẠNH - VŨNG TÀU</div>
             </div>
 
+            <!-- 🌟 DỰ ÁN 4 🌟 -->
             <div class="gallery-item">
+                <!-- BẠN THAY TÊN FILE ẢNH VÀO CHỮ "sua-chiller.jpg" BÊN DƯỚI -->
                 <img src="sua-chiller.jpg" alt="Sửa Chiller" onerror="this.src='https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=600&q=80'">
+                <!-- BẠN THAY TÊN DỰ ÁN VÀO DÒNG CHỮ BÊN DƯỚI -->
                 <div class="gallery-caption">Sửa chữa cụm máy Chiller - KCN Long Đức</div>
             </div>
+
+            <!-- 🌟 DỰ ÁN 5 🌟 -->
             <div class="gallery-item">
+                <!-- BẠN THAY TÊN FILE ẢNH VÀO CHỮ "dien-vp.jpg" BÊN DƯỚI -->
                 <img src="dien-vp.jpg" alt="Điện văn phòng" onerror="this.src='https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80'">
+                <!-- BẠN THAY TÊN DỰ ÁN VÀO DÒNG CHỮ BÊN DƯỚI -->
                 <div class="gallery-caption">Thi công điện nhẹ văn phòng công ty</div>
             </div>
+
+            <!-- 🌟 DỰ ÁN 6 🌟 -->
             <div class="gallery-item">
+                <!-- BẠN THAY TÊN FILE ẢNH VÀO CHỮ "may-lanh-giau-tran.jpg" BÊN DƯỚI -->
                 <img src="may-lanh-giau-tran.jpg" alt="Máy lạnh giấu trần" onerror="this.src='https://images.unsplash.com/photo-1527615951564-9a8d9a24c13a?auto=format&fit=crop&w=600&q=80'">
+                <!-- BẠN THAY TÊN DỰ ÁN VÀO DÒNG CHỮ BÊN DƯỚI -->
                 <div class="gallery-caption">Lắp đặt máy lạnh giấu trần - TP.HCM</div>
             </div>
 
+            <!-- 🌟 DỰ ÁN 7 🌟 -->
+            <div class="gallery-item">
+                <!-- BẠN THAY TÊN FILE ẢNH VÀO CHỮ "ong-gio.jpg" BÊN DƯỚI -->
+                <img src="ong-gio.jpg" alt="Thi công ống gió" onerror="this.src='https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=600&q=80'">
+                <!-- BẠN THAY TÊN DỰ ÁN VÀO DÒNG CHỮ BÊN DƯỚI -->
+                <div class="gallery-caption">Thi công hệ thống ống gió - KCN Nhơn Trạch</div>
+            </div>
+
+            <!-- 🌟 DỰ ÁN 8 🌟 -->
+            <div class="gallery-item">
+                <!-- BẠN THAY TÊN FILE ẢNH VÀO CHỮ "ve-sinh-may-giat.jpg" BÊN DƯỚI -->
+                <img src="ve-sinh-may-giat.jpg" alt="Vệ sinh máy giặt" onerror="this.src='https://images.unsplash.com/photo-1626806827011-8f4b005698b6?auto=format&fit=crop&w=600&q=80'">
+                <!-- BẠN THAY TÊN DỰ ÁN VÀO DÒNG CHỮ BÊN DƯỚI -->
+                <div class="gallery-caption">Vệ sinh máy giặt lồng ngang - Dĩ An</div>
+            </div>
+
+            <!-- 🌟 DỰ ÁN 9 🌟 -->
+            <div class="gallery-item">
+                <!-- BẠN THAY TÊN FILE ẢNH VÀO CHỮ "vrv-biet-thu.jpg" BÊN DƯỚI -->
+                <img src="vrv-biet-thu.jpg" alt="Lắp đặt máy lạnh biệt thự" onerror="this.src='https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80'">
+                <!-- BẠN THAY TÊN DỰ ÁN VÀO DÒNG CHỮ BÊN DƯỚI -->
+                <div class="gallery-caption">Thi công máy lạnh giấu trần - Biệt thự Đồng Nai</div>
+            </div>
+
         </div>
+        <!-- KẾT THÚC KHU VỰC THAY ẢNH -->
+
     </section>
 
     <section class="section" id="faq" style="background: #fdfdfd;">
