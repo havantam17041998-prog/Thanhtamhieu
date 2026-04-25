@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nghiệm Thu & Thanh Toán - Thanh Tâm Hiếu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root { --primary: #004a99; --secondary: #ffc107; --danger: #dc3545; --dark: #333; --light: #f8f9fa; --success: #28a745; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+        body { background-color: #e9ecef; color: #333; }
+
+        /* --- PHẦN GIAO DIỆN NHẬP LIỆU --- */
+        #input-section { max-width: 1000px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .app-title { text-align: center; color: var(--success); margin-bottom: 25px; text-transform: uppercase; font-weight: 900; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; color: #555; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
+        .form-control:focus { border-color: var(--primary); outline: none; }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        .item-table-wrapper { margin-top: 30px; border-top: 2px solid #eee; padding-top: 20px; }
+        .item-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        .item-table th { background: var(--success); color: white; padding: 10px; font-size: 14px; }
+        .item-table td { padding: 5px; }
+        .item-table input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        
+        .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 14px; color: white; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
+        .btn-add { background: var(--primary); }
+        .btn-delete { background: var(--danger); padding: 8px 12px; }
+        .btn-generate { background: var(--success); font-size: 18px; padding: 15px 30px; width: 100%; margin-top: 20px; }
+        
+        /* --- PHẦN GIAO DIỆN BẢN IN --- */
+        #print-section { display: none; }
+        .action-bar { text-align: center; padding: 20px; background: #333; position: sticky; top: 0; z-index: 1000; }
+        .btn-back { background: #6c757d; }
+        .btn-print { background: var(--secondary); color: var(--dark); }
+        
+        .page { width: 21cm; min-height: 29.7cm; padding: 1.5cm 2cm; margin: 20px auto; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative; }
+        @media print {
+            body { background: none; }
+            #input-section, .action-bar { display: none !important; }
+            #print-section { display: block !important; }
+            .page { margin: 0; box-shadow: none; width: 100%; height: auto; }
+        }
+
+        /* --- STYLE BẢN IN --- */
+        .header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 20px; }
+        .logo-section { display: flex; align-items: center; }
+        .logo-section img { height: 60px; margin-right: 15px; object-fit: contain; }
+        .company-name { font-size: 20px; font-weight: 900; color: var(--primary); text-transform: uppercase; line-height: 1.2; }
+        .company-slogan { font-size: 13px; color: #666; font-weight: bold; text-transform: uppercase; }
+        .contact-section { text-align: right; font-size: 12px; color: #555; }
+        
+        .title-section { text-align: center; margin-bottom: 25px; }
+        .title-section h1 { font-size: 24px; font-weight: 900; color: #333; text-transform: uppercase; margin-bottom: 5px; }
+        .title-section p { font-size: 14px; color: #555; font-style: italic; }
+
+        .client-section { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 20px; line-height: 1.6; }
+        
+        .table-section { margin-bottom: 20px; }
+        .quote-table { width: 100%; border-collapse: collapse; border: 1px solid #333; font-size: 14px; }
+        .quote-table th { background: #eee; color: #333; padding: 8px; text-align: center; font-weight: bold; border: 1px solid #333; }
+        .quote-table td { padding: 8px; border: 1px solid #333; }
+        .quote-table .center { text-align: center; }
+        .quote-table .right { text-align: right; }
+        .quote-table .desc-col { font-weight: 500; }
+        .total-row td { font-weight: bold; background: #f9f9f9; }
+        .final-total td { font-weight: 900; font-size: 16px; color: var(--danger); background: #eee; }
+
+        /* Phần xác nhận nghiệm thu */
+        .acceptance-check { margin-bottom: 20px; font-size: 14px; line-height: 1.6; }
+        .acceptance-check ul { margin-left: 20px; }
+
+        .signature-section { display: flex; justify-content: space-between; text-align: center; margin-top: 30px; font-size: 14px; font-weight: bold; }
+        .signature-col p { font-weight: normal; font-style: italic; font-size: 13px; color: #555; margin-top: 3px; }
+        .sign-box { height: 90px; }
+        
+        .footer { border-top: 1px solid #ccc; padding-top: 10px; font-size: 11px; color: #777; text-align: center; margin-top: 40px; }
+    </style>
+</head>
+<body>
+
+    <!-- 1. GIAO DIỆN NHẬP LIỆU -->
+    <div id="input-section">
+        <h2 class="app-title"><i class="fas fa-check-circle"></i> LẬP BIÊN BẢN NGHIỆM THU & HÓA ĐƠN</h2>
+        
+        <div class="grid-2">
+            <div>
+                <h3 style="margin-bottom: 10px;">Đại diện khách hàng (Bên A)</h3>
+                <div class="form-group">
+                    <label>Tên Khách Hàng / Công ty:</label>
+                    <input type="text" id="inp-client-name" class="form-control" value="">
+                </div>
+                <div class="form-group">
+                    <label>Địa chỉ công trình:</label>
+                    <input type="text" id="inp-client-address" class="form-control" value="">
+                </div>
+                <div class="form-group">
+                    <label>Số điện thoại:</label>
+                    <input type="text" id="inp-client-phone" class="form-control" value="">
+                </div>
+                <div class="form-group">
+                    <label>Người lập biên bản / KTV (Bên B):</label>
+                    <input type="text" id="inp-staff-name" class="form-control" value="Nguyễn Minh Hiếu">
+                </div>
+            </div>
+
+            <div>
+                <h3 style="margin-bottom: 10px;">Thông tin chứng từ</h3>
+                <div class="form-group">
+                    <label>Loại chứng từ:</label>
+                    <select id="inp-doc-type" class="form-control">
+                        <option value="BIÊN BẢN NGHIỆM THU & ĐỀ NGHỊ THANH TOÁN">Biên bản nghiệm thu & Hóa đơn</option>
+                        <option value="HÓA ĐƠN BÁN LẺ / PHIẾU THANH TOÁN">Chỉ in Hóa đơn / Phiếu thanh toán</option>
+                        <option value="BIÊN BẢN NGHIỆM THU BÀN GIAO">Chỉ in Biên bản nghiệm thu (Không có tiền)</option>
+                    </select>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Ngày nghiệm thu:</label>
+                        <input type="text" id="inp-date" class="form-control" value="Hôm nay">
+                    </div>
+                    <div class="form-group">
+                        <label>Đã tạm ứng (VNĐ):</label>
+                        <input type="number" id="inp-deposit" class="form-control" value="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Thuế VAT (%):</label>
+                    <select id="inp-vat-rate" class="form-control">
+                        <option value="0">Không xuất hóa đơn đỏ (0%)</option>
+                        <option value="8">Thuế VAT 8%</option>
+                        <option value="10">Thuế VAT 10%</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="item-table-wrapper">
+            <h3 style="margin-bottom: 10px;">Chi tiết công việc / Vật tư đã hoàn thành:</h3>
+            <table class="item-table">
+                <thead>
+                    <tr>
+                        <th style="width: 45%;">Hạng mục công việc / Vật tư</th>
+                        <th style="width: 10%;">ĐVT</th>
+                        <th style="width: 10%;">SL</th>
+                        <th style="width: 20%;">Đơn giá</th>
+                        <th style="width: 10%;"><i class="fas fa-cog"></i></th>
+                    </tr>
+                </thead>
+                <tbody id="items-body">
+                    <tr class="item-row">
+                        <td><input type="text" class="i-desc" placeholder="VD: Vệ sinh máy lạnh âm trần"></td>
+                        <td><input type="text" class="i-unit" placeholder="Bộ"></td>
+                        <td><input type="number" class="i-qty" placeholder="1" min="1" step="0.5"></td>
+                        <td><input type="number" class="i-price" placeholder="0" step="1000"></td>
+                        <td class="center"><button class="btn btn-delete" onclick="removeRow(this)"><i class="fas fa-trash"></i></button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-add" onclick="addRow()"><i class="fas fa-plus"></i> Thêm hạng mục</button>
+        </div>
+
+        <button class="btn btn-generate" onclick="generateDocument()"><i class="fas fa-file-signature"></i> TẠO BIÊN BẢN / HÓA ĐƠN</button>
+    </div>
+
+    <!-- 2. GIAO DIỆN BẢN IN -->
+    <div id="print-section">
+        <div class="action-bar no-print">
+            <button class="btn btn-back" onclick="showInputForm()"><i class="fas fa-arrow-left"></i> Quay lại</button>
+            <button class="btn btn-print" onclick="window.print()"><i class="fas fa-print"></i> LƯU / IN FILE PDF</button>
+        </div>
+
+        <div class="page">
+            <div class="header">
+                <div class="logo-section">
+                    <img src="logo-thanh-tam-hieu1.png" alt="Logo">
+                    <div class="logo-text-area" style="display: flex; align-items: baseline; gap: 8px;">
+                        <span class="company-name">Cơ điện lạnh Thanh Tâm Hiếu</span>
+                    </div>
+                </div>
+                <div class="contact-section">
+                    <p>Hotline: 0364.574.555 | 0961.751.705</p>
+                    <p>Web: DLthanhtamhieu.com.vn</p>
+                </div>
+            </div>
+
+            <div class="title-section">
+                <h1 id="out-doc-title">BIÊN BẢN NGHIỆM THU & THANH TOÁN</h1>
+                <p>Ngày: <span id="out-date"></span></p>
+            </div>
+
+            <div class="client-section">
+                <div style="width: 50%;">
+                    <strong>ĐẠI DIỆN BÊN A (KHÁCH HÀNG):</strong><br>
+                    - Khách hàng: <span id="out-client-name"></span><br>
+                    - Địa chỉ: <span id="out-client-address"></span><br>
+                    - Điện thoại: <span id="out-client-phone"></span>
+                </div>
+                <div style="width: 50%;">
+                    <strong>ĐẠI DIỆN BÊN B (THANH TÂM HIẾU):</strong><br>
+                    - Người lập / KTV: <span id="out-staff-name">Nguyễn Minh Hiếu</span><br>
+                    - Bộ phận: Thi công / Bảo trì<br>
+                    - Điện thoại LH: 0364.574.555 | 0961.751.705
+                </div>
+            </div>
+
+            <div class="acceptance-check">
+                <strong>Hai bên cùng tiến hành nghiệm thu các hạng mục công việc sau:</strong>
+            </div>
+
+            <div class="table-section">
+                <table class="quote-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">STT</th>
+                            <th style="width: 45%;">HẠNG MỤC HOÀN THÀNH</th>
+                            <th style="width: 8%;">ĐVT</th>
+                            <th style="width: 8%;">SL</th>
+                            <th style="width: 17%;">ĐƠN GIÁ</th>
+                            <th style="width: 17%;">THÀNH TIỀN</th>
+                        </tr>
+                    </thead>
+                    <tbody id="out-items-body"></tbody>
+                </table>
+            </div>
+
+            <div class="acceptance-check">
+                <strong>Đánh giá kết quả công việc:</strong>
+                <ul>
+                    <li>Hệ thống thiết bị vận hành bình thường, dòng điện/áp suất gas ổn định, không rò rỉ.</li>
+                    <li>Chất lượng thi công đạt tiêu chuẩn kỹ thuật. Khu vực thi công đã được vệ sinh sạch sẽ.</li>
+                    <li>Bên A đồng ý nghiệm thu và thanh toán toàn bộ chi phí cho Bên B.</li>
+                </ul>
+            </div>
+
+            <div class="signature-section">
+                <div class="signature-col" style="width: 25%;">
+                    KHÁCH HÀNG (BÊN A)
+                    <p>(Ký, ghi rõ họ tên)</p>
+                    <div class="sign-box"></div>
+                </div>
+                <div class="signature-col" style="width: 25%;">
+                    NGƯỜI LẬP BIÊN BẢN
+                    <p>(Ký, ghi rõ họ tên)</p>
+                    <div class="sign-box"></div>
+                </div>
+                <div class="signature-col" style="width: 25%;">
+                    KỸ THUẬT VIÊN (BÊN B)
+                    <p>(Ký, ghi rõ họ tên)</p>
+                    <div class="sign-box"></div>
+                </div>
+                <div class="signature-col" style="width: 25%;">
+                    THỦ QUỸ CÔNG TY
+                    <p>(Ký, xác nhận thu tiền)</p>
+                    <div class="sign-box"></div>
+                </div>
+            </div>
+
+            <div class="footer">
+                Bản quyền phần mềm nội bộ thuộc Cơ Điện Lạnh Thanh Tâm Hiếu. Chúc quý khách một ngày làm việc vui vẻ!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function formatMoney(amount) {
+            return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function addRow() {
+            const tbody = document.getElementById('items-body');
+            const tr = document.createElement('tr');
+            tr.className = 'item-row';
+            tr.innerHTML = `
+                <td><input type="text" class="i-desc" placeholder="Nội dung..."></td>
+                <td><input type="text" class="i-unit" placeholder="ĐVT"></td>
+                <td><input type="number" class="i-qty" placeholder="1" min="1" step="0.5"></td>
+                <td><input type="number" class="i-price" placeholder="0" step="1000"></td>
+                <td class="center"><button class="btn btn-delete" onclick="removeRow(this)"><i class="fas fa-trash"></i></button></td>
+            `;
+            tbody.appendChild(tr);
+        }
+
+        function removeRow(btn) {
+            if(document.querySelectorAll('.item-row').length > 1) {
+                btn.parentNode.parentNode.remove();
+            }
+        }
+
+        function showInputForm() {
+            document.getElementById('print-section').style.display = 'none';
+            document.getElementById('input-section').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function generateDocument() {
+            // Thông tin chung
+            document.getElementById('out-doc-title').innerText = document.getElementById('inp-doc-type').value;
+            let dateVal = document.getElementById('inp-date').value;
+            if(dateVal === "Hôm nay" || dateVal === "") {
+                const today = new Date();
+                dateVal = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear();
+            }
+            document.getElementById('out-date').innerText = dateVal;
+            
+            document.getElementById('out-client-name').innerText = document.getElementById('inp-client-name').value || '................................';
+            document.getElementById('out-client-address').innerText = document.getElementById('inp-client-address').value || '................................';
+            document.getElementById('out-client-phone').innerText = document.getElementById('inp-client-phone').value || '................................';
+            document.getElementById('out-staff-name').innerText = document.getElementById('inp-staff-name').value || 'Nguyễn Minh Hiếu';
+
+            // Check xem người dùng có chọn in "Không có tiền" (Nghiệm thu đơn thuần) không
+            const docType = document.getElementById('inp-doc-type').value;
+            const hideMoney = docType === "BIÊN BẢN NGHIỆM THU BÀN GIAO";
+
+            const rows = document.querySelectorAll('.item-row');
+            const outTbody = document.getElementById('out-items-body');
+            outTbody.innerHTML = ''; 
+            
+            let subTotal = 0;
+            let stt = 1;
+
+            rows.forEach(row => {
+                const desc = row.querySelector('.i-desc').value;
+                const unit = row.querySelector('.i-unit').value || '-';
+                const qty = parseFloat(row.querySelector('.i-qty').value) || 0;
+                const price = parseFloat(row.querySelector('.i-price').value) || 0;
+                
+                if(desc.trim() !== "") {
+                    const lineTotal = qty * price;
+                    subTotal += lineTotal;
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="center">${stt}</td>
+                        <td class="desc-col">${desc}</td>
+                        <td class="center">${unit}</td>
+                        <td class="center">${qty}</td>
+                        <td class="right">${hideMoney ? '-' : formatMoney(price)}</td>
+                        <td class="right">${hideMoney ? '-' : formatMoney(lineTotal)}</td>
+                    `;
+                    outTbody.appendChild(tr);
+                    stt++;
+                }
+            });
+
+            if (!hideMoney) {
+                const vatRate = parseInt(document.getElementById('inp-vat-rate').value);
+                const deposit = parseFloat(document.getElementById('inp-deposit').value) || 0;
+                
+                let vatAmount = 0;
+                if (vatRate > 0) {
+                    vatAmount = subTotal * (vatRate / 100);
+                    outTbody.innerHTML += `
+                        <tr class="total-row">
+                            <td colspan="5" class="right">Tổng cộng tiền hàng:</td>
+                            <td class="right">${formatMoney(subTotal)}</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="5" class="right">Thuế GTGT (${vatRate}%):</td>
+                            <td class="right">${formatMoney(vatAmount)}</td>
+                        </tr>
+                    `;
+                }
+
+                let finalTotal = subTotal + vatAmount;
+
+                if(deposit > 0) {
+                    outTbody.innerHTML += `
+                        <tr class="total-row" style="color: blue;">
+                            <td colspan="5" class="right">Đã thanh toán (Tạm ứng):</td>
+                            <td class="right">- ${formatMoney(deposit)}</td>
+                        </tr>
+                    `;
+                }
+
+                let remain = finalTotal - deposit;
+
+                outTbody.innerHTML += `
+                    <tr class="final-total">
+                        <td colspan="5" class="right">SỐ TIỀN CẦN THANH TOÁN:</td>
+                        <td class="right">${formatMoney(remain)}</td>
+                    </tr>
+                `;
+            }
+
+            document.getElementById('input-section').style.display = 'none';
+            document.getElementById('print-section').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
