@@ -7,13 +7,14 @@
     <title>Dịch Vụ Điện Lạnh Dân Dụng | Thanh Tâm Hiếu</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu.png">
+    <!-- Đã đồng bộ tên logo -->
+    <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu1.png">
     
     <style>
         /* --- 1. CẤU HÌNH CHUNG (ĐỒNG BỘ) --- */
         :root { --primary: #0068ff; --secondary: #ffc107; --danger: #dc3545; --light: #f4f6f9; --dark: #333; --success: #28a745; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; scroll-behavior: smooth; }
-        body { background-color: #fff; color: #333; line-height: 1.6; }
+        body { background-color: #fff; color: #333; line-height: 1.6; padding-bottom: 70px; }
         ul { list-style: none; }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
 
@@ -140,6 +141,11 @@
         @keyframes circle-anim { 0% { transform: scale(1); } 50% { transform: scale(1.5); opacity: 0; } 100% { transform: scale(1); opacity: 0; } }
         @keyframes img-anim { 0% { transform: rotate(0); } 10% { transform: rotate(-25deg); } 20% { transform: rotate(25deg); } 30% { transform: rotate(-25deg); } 40% { transform: rotate(25deg); } 50% { transform: rotate(0); } }
 
+        /* MOBILE CONTACT BAR */
+        .contact-bar-mobile { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 9999; justify-content: space-around; padding: 10px 0; border-top: 1px solid #eee; }
+        .contact-item { display: flex; flex-direction: column; align-items: center; font-size: 12px; font-weight: bold; flex: 1; color: var(--dark); }
+        .contact-item i { font-size: 20px; margin-bottom: 5px; }
+
         @media (max-width: 768px) {
             .menu-toggle { display: block; }
             .nav-links { 
@@ -158,6 +164,11 @@
             /* Responsive slider ảnh */
             .ba-slider-container { height: 300px; } 
             .img-clean-inner { max-width: 100vw; }
+
+            /* Hiện thanh liên hệ dưới cùng cho mobile và đẩy nút rung lên */
+            .contact-bar-mobile { display: flex; }
+            .phone-ring-wrap { bottom: 130px; }
+            .zalo-ring-wrap { bottom: 65px; }
         }
     </style>
 </head>
@@ -166,7 +177,8 @@
     <header>
         <div class="navbar">
             <a href="index.html" class="logo-wrap">
-                <img src="logo-thanh-tam-hieu.png" alt="Logo Thanh Tâm Hiếu">
+                <!-- Đã đồng bộ tên logo -->
+                <img src="logo-thanh-tam-hieu1.png" alt="Logo Thanh Tâm Hiếu">
                 <div class="logo-text-area">
                     <span class="logo-text">Thanh Tâm Hiếu</span>
                     <span class="slogan">Uy Tín - Tận Tâm - Chuyên Nghiệp</span>
@@ -211,7 +223,7 @@
         </div>
         <div class="service-detail-grid">
             <div class="service-box">
-                <img src="vs-may-lanh.jpg" class="service-img" alt="Vệ sinh máy lạnh">
+                <img src="vs-may-lanh.jpg" class="service-img" alt="Vệ sinh máy lạnh" onerror="this.src='https://images.unsplash.com/photo-1527615951564-9a8d9a24c13a?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'">
                 <div class="service-content">
                     <h3>1. Vệ Sinh Máy Lạnh</h3>
                     <p>Quy trình sạch sâu 99%:</p>
@@ -225,7 +237,7 @@
                 </div>
             </div>
             <div class="service-box">
-                <img src="sua-may-lanh.jpg" class="service-img" alt="Sửa chữa">
+                <img src="sua-may-lanh.jpg" class="service-img" alt="Sửa chữa" onerror="this.src='https://images.unsplash.com/photo-1590425316345-0d22080a202c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'">
                 <div class="service-content">
                     <h3>2. Sửa Chữa Chuyên Sâu</h3>
                     <p>Xử lý triệt để lỗi kỹ thuật:</p>
@@ -239,7 +251,7 @@
                 </div>
             </div>
             <div class="service-box">
-                <img src="thao-may-lanh.jpg" class="service-img" alt="Tháo lắp">
+                <img src="thao-may-lanh.jpg" class="service-img" alt="Tháo lắp" onerror="this.src='https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'">
                 <div class="service-content">
                     <h3>3. Tháo Lắp - Di Dời</h3>
                     <p>Lắp đặt chuẩn kỹ thuật hãng:</p>
@@ -252,7 +264,7 @@
                 </div>
             </div>
             <div class="service-box">
-                <img src="may-giat.jpg" class="service-img" alt="Máy giặt tủ lạnh">
+                <img src="may-giat.jpg" class="service-img" alt="Máy giặt tủ lạnh" onerror="this.src='https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'">
                 <div class="service-content">
                     <h3>4. Máy Giặt & Tủ Lạnh</h3>
                     <p>Bảo trì thiết bị gia dụng:</p>
@@ -370,6 +382,13 @@
         </div>
     </footer>
 
+    <!-- ĐÃ BỔ SUNG HTML THANH LIÊN HỆ CHO MOBILE -->
+    <div class="contact-bar-mobile">
+        <a href="tel:0364574555" class="contact-item" style="color: var(--success);"><i class="fas fa-phone-alt"></i> <span>Gọi Ngay</span></a>
+        <a href="https://zalo.me/0364574555" class="contact-item" style="color: var(--primary);"><i class="fas fa-comment-dots"></i> <span>Chat Zalo</span></a>
+        <a href="https://goo.gl/maps/placeholder" class="contact-item" style="color: var(--danger);"><i class="fas fa-map-marker-alt"></i> <span>Chỉ Đường</span></a>
+    </div>
+
     <div class="phone-ring-wrap">
         <div class="circle-fill"></div>
         <a href="tel:0364574555" class="circle-img"><i class="fas fa-phone-alt"></i></a>
@@ -419,5 +438,4 @@
         document.addEventListener('touchmove', move);
     </script>
 </body>
-
 </html>
