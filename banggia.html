@@ -10,14 +10,15 @@
     <title>Bảng Giá Dịch Vụ | Điện Lạnh Thanh Tâm Hiếu</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu.png">
+    <!-- Đã đồng bộ tên file logo -->
+    <link rel="icon" type="image/x-icon" href="logo-thanh-tam-hieu1.png">
     
     <style>
         /* --- 1. CẤU HÌNH CHUNG (ĐỒNG BỘ) --- */
         :root { --primary: #0068ff; --secondary: #ffc107; --danger: #dc3545; --dark: #333; --light: #f4f6f9; --success: #28a745; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
         html { scroll-behavior: smooth; }
-        body { background-color: #f9f9f9; color: #333; line-height: 1.6; }
+        body { background-color: #f9f9f9; color: #333; line-height: 1.6; padding-bottom: 70px; }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; }
 
@@ -84,16 +85,21 @@
         .footer-col a:hover { color: var(--secondary); }
 
         /* --- NÚT GỌI RUNG --- */
-        .phone-ring-wrap { position: fixed; bottom: 85px; left: 20px; z-index: 9999; }
-        .zalo-ring-wrap { position: fixed; bottom: 20px; left: 20px; z-index: 9999; }
-        .circle-fill { width: 60px; height: 60px; border-radius: 100%; background-color: var(--danger); opacity: 0.3; position: absolute; animation: circle-anim 1.2s infinite ease-in-out; }
+        .phone-ring-wrap { position: fixed; bottom: 85px; left: 20px; z-index: 9999; display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; }
+        .zalo-ring-wrap { position: fixed; bottom: 20px; left: 20px; z-index: 9999; display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; }
+        .circle-fill { width: 90px; height: 90px; border-radius: 50%; background-color: var(--danger); opacity: 0.5; position: absolute; z-index: 1; animation: zoom-anim 1.5s infinite ease-in-out !important; }
         .zalo-circle-fill { background-color: #0068ff; }
-        .circle-img { width: 45px; height: 45px; border-radius: 100%; background-color: var(--danger); display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; position: relative; animation: img-anim 1s infinite ease-in-out; }
+        .circle-img { width: 50px; height: 50px; border-radius: 50%; background-color: var(--danger); display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; position: relative; z-index: 2; box-shadow: 0 4px 15px rgba(0,0,0,0.3); animation: shake-anim 1s infinite ease-in-out !important; }
         .zalo-img { background-color: #0068ff; animation: none; }
-        .zalo-img img { width: 25px; }
+        .zalo-img img { width: 28px; }
         
-        @keyframes circle-anim { 0% { transform: scale(1); } 50% { transform: scale(1.5); opacity: 0; } 100% { transform: scale(1); opacity: 0; } }
-        @keyframes img-anim { 0% { transform: rotate(0); } 10% { transform: rotate(-25deg); } 20% { transform: rotate(25deg); } 30% { transform: rotate(-25deg); } 40% { transform: rotate(25deg); } 50% { transform: rotate(0); } }
+        @keyframes zoom-anim { 0% { transform: scale(0.5); opacity: 0.8; } 100% { transform: scale(1.4); opacity: 0; } }
+        @keyframes shake-anim { 0% { transform: rotate(0) scale(1); } 10% { transform: rotate(-25deg) scale(1.1); } 20% { transform: rotate(25deg) scale(1.1); } 30% { transform: rotate(-25deg) scale(1.1); } 40% { transform: rotate(25deg) scale(1.1); } 50% { transform: rotate(0) scale(1); } 100% { transform: rotate(0) scale(1); } }
+
+        /* MOBILE CONTACT BAR */
+        .contact-bar-mobile { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 9999; justify-content: space-around; padding: 10px 0; border-top: 1px solid #eee; }
+        .contact-item { display: flex; flex-direction: column; align-items: center; font-size: 12px; font-weight: bold; flex: 1; color: var(--dark); }
+        .contact-item i { font-size: 20px; margin-bottom: 5px; }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
@@ -108,6 +114,11 @@
             .nav-links a { display: block; padding: 15px 20px; border-bottom: 1px solid #eee; width: 100%; }
             .nav-links .btn-header { display: block; text-align: center; width: 90%; margin: 10px auto; }
             .page-header h1 { font-size: 1.8em; }
+
+            /* Hiện thanh liên hệ dưới cùng cho mobile và đẩy nút rung lên */
+            .contact-bar-mobile { display: flex; }
+            .phone-ring-wrap { bottom: 140px !important; }
+            .zalo-ring-wrap { bottom: 70px !important; }
         }
     </style>
 </head>
@@ -116,7 +127,8 @@
     <header>
         <div class="navbar">
             <a href="index.html" class="logo-wrap">
-                <img src="logo-thanh-tam-hieu.png" alt="Logo Thanh Tâm Hiếu">
+                <!-- Sửa logo -->
+                <img src="logo-thanh-tam-hieu1.png" alt="Logo Thanh Tâm Hiếu">
                 <div class="logo-text-area">
                     <span class="logo-text">Thanh Tâm Hiếu</span>
                     <span class="slogan">Uy Tín - Tận Tâm - Chuyên Nghiệp</span>
@@ -371,6 +383,13 @@
         </div>
     </footer>
 
+    <!-- BỔ SUNG HTML THANH LIÊN HỆ CHO MOBILE -->
+    <div class="contact-bar-mobile">
+        <a href="tel:0364574555" class="contact-item" style="color: var(--success);"><i class="fas fa-phone-alt"></i> <span>Gọi Ngay</span></a>
+        <a href="https://zalo.me/0364574555" class="contact-item" style="color: var(--primary);"><i class="fas fa-comment-dots"></i> <span>Chat Zalo</span></a>
+        <a href="https://goo.gl/maps/placeholder" class="contact-item" style="color: var(--danger);"><i class="fas fa-map-marker-alt"></i> <span>Chỉ Đường</span></a>
+    </div>
+
     <div class="phone-ring-wrap">
         <div class="circle-fill"></div>
         <a href="tel:0364574555" class="circle-img"><i class="fas fa-phone-alt"></i></a>
@@ -389,5 +408,4 @@
         }
     </script>
 </body>
-
 </html>
