@@ -331,9 +331,9 @@ Khách hàng tạm ứng trước 50% ngay sau khi ký xác nhận đơn hàng.<
                 <div class="logo-section flex items-center">
                     <!-- Ảnh Logo (Có thể tải tùy chọn hoặc hiển thị mặc định) -->
                     <div id="print-logo-container" class="mr-4 flex items-center">
-                        <img id="print-logo-img" src="logo-thanh-tam-hieu1.png" alt="Logo" class="h-16 object-contain hidden" onerror="handleLogoError()">
-                        <!-- Logo dạng chữ tinh tế dự phòng -->
-                        <div id="print-logo-fallback" class="flex items-center gap-2 bg-[#004a99] text-white p-3 rounded-lg font-black tracking-wider text-xl shadow-sm">
+                        <img id="print-logo-img" src="logo-thanh-tam-hieu1.png" alt="Logo" class="h-16 object-contain" onerror="handleLogoError()">
+                        <!-- Logo dạng chữ tinh tế dự phòng (Mặc định ẩn, chỉ hiện khi ảnh logo chính bị lỗi) -->
+                        <div id="print-logo-fallback" class="hidden flex items-center gap-2 bg-[#004a99] text-white p-3 rounded-lg font-black tracking-wider text-xl shadow-sm">
                             <i class="fas fa-snowflake animate-spin" style="animation-duration: 6s;"></i> TTH
                         </div>
                     </div>
@@ -641,6 +641,12 @@ Khách hàng tạm ứng trước 50% ngay sau khi ký xác nhận đơn hàng.<
                         document.getElementById('logo-status').innerHTML = `<i class="fas fa-check text-emerald-500"></i> Đã nạp Logo`;
                         const printImg = document.getElementById('print-logo-img');
                         printImg.src = uploadedLogoData;
+                        printImg.classList.remove('hidden');
+                        document.getElementById('print-logo-fallback').classList.add('hidden');
+                    } else {
+                        uploadedLogoData = null;
+                        const printImg = document.getElementById('print-logo-img');
+                        printImg.src = "logo-thanh-tam-hieu1.png";
                         printImg.classList.remove('hidden');
                         document.getElementById('print-logo-fallback').classList.add('hidden');
                     }
