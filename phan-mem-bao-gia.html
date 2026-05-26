@@ -320,7 +320,7 @@ Khách hàng tạm ứng trước 50% ngay sau khi ký xác nhận đơn hàng.<
                 <i class="fas fa-arrow-left"></i> Quay lại chỉnh sửa
             </button>
             <button class="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black rounded-lg text-sm transition flex items-center gap-2 shadow-lg" onclick="window.print()">
-                <i class="fas fa-file-pdf"></i> TẢI XUỐN_ / IN FILE BÁO GIÁ (PDF)
+                <i class="fas fa-file-pdf"></i> TẢI XUỐNG / IN FILE BÁO GIÁ (PDF)
             </button>
         </div>
 
@@ -331,7 +331,8 @@ Khách hàng tạm ứng trước 50% ngay sau khi ký xác nhận đơn hàng.<
                 <div class="logo-section flex items-center">
                     <!-- Ảnh Logo (Có thể tải tùy chọn hoặc hiển thị mặc định) -->
                     <div id="print-logo-container" class="mr-4 flex items-center">
-                        <img id="print-logo-img" src="logo-thanh-tam-hieu1.png" alt="Logo" class="h-16 object-contain" onerror="handleLogoError()">
+                        <!-- Sử dụng logo bạn đã cung cấp, tên file là logo-thanh-tam-hieu1.jpg (hoặc .png đã qua xử lý) -->
+                        <img id="print-logo-img" src="logo-thanh-tam-hieu1.jpg" alt="Logo" class="h-20 object-contain" onerror="this.onerror=null; this.src='logo-thanh-tam-hieu1.png'; if(this.src==='logo-thanh-tam-hieu1.png') handleLogoError();">
                         <!-- Logo dạng chữ tinh tế dự phòng (Mặc định ẩn, chỉ hiện khi ảnh logo chính bị lỗi) -->
                         <div id="print-logo-fallback" class="hidden flex items-center gap-2 bg-[#004a99] text-white p-3 rounded-lg font-black tracking-wider text-xl shadow-sm">
                             <i class="fas fa-snowflake animate-spin" style="animation-duration: 6s;"></i> TTH
@@ -400,8 +401,6 @@ Khách hàng tạm ứng trước 50% ngay sau khi ký xác nhận đơn hàng.<
                     <i class="fas fa-file-signature"></i> ĐIỀU KHOẢN & GHI CHÚ BÁO GIÁ:
                 </h4>
                 <ul class="list-decimal pl-5 space-y-1.5" id="out-notes-list">
-                    <li>Báo giá trên <span id="out-vat-note" class="font-semibold"></span>.</li>
-                    <li id="out-warranty-clause" class="font-semibold text-slate-950">Thời gian bảo hành: ...</li>
                     <!-- Các ghi chú bổ sung sẽ được render từ form bằng Javascript -->
                 </ul>
             </div>
@@ -559,30 +558,29 @@ Khách hàng tạm ứng trước 50% ngay sau khi ký xác nhận đơn hàng.<
                     
                     // Cập nhật thẻ ảnh trên bản in
                     const printImg = document.getElementById('print-logo-img');
-                    printImg.src = uploadedLogoData;
+                    printImg.src = uploadedLogoData; // Cập nhật src thành ảnh base64 mới tải lên
                     printImg.classList.remove('hidden');
                     document.getElementById('print-logo-fallback').classList.add('hidden');
-                    
-                    showToast("Tải Logo lên thành công");
+                    showToast("Đã nạp logo thành công");
                 };
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(file); // Phải có lệnh này để FileReader hoạt động
             }
         }
 
-        // Khôi phục Logo mặc định của thương hiệu
+        // Hàm đặt lại (reset) logo về mặc định
         function resetLogo() {
             uploadedLogoData = null;
-            document.getElementById('inp-logo').value = '';
             document.getElementById('logo-status').innerHTML = `<i class="fas fa-cloud-upload-alt text-primary"></i> Chọn ảnh logo...`;
+            document.getElementById('inp-logo').value = ''; // Reset input
             
             const printImg = document.getElementById('print-logo-img');
-            printImg.src = "logo-thanh-tam-hieu1.png";
+            printImg.src = "logo-thanh-tam-hieu1.jpg"; // Khôi phục về file logo gốc
             printImg.classList.remove('hidden');
             document.getElementById('print-logo-fallback').classList.add('hidden');
             showToast("Đã khôi phục logo mặc định");
         }
 
-        // Xử lý khi ảnh logo bị lỗi (Do không tìm thấy file logo-thanh-tam-hieu1.png cục bộ)
+        // Xử lý khi ảnh logo bị lỗi (Do không tìm thấy file logo cục bộ)
         function handleLogoError() {
             document.getElementById('print-logo-img').classList.add('hidden');
             document.getElementById('print-logo-fallback').classList.remove('hidden');
@@ -646,7 +644,7 @@ Khách hàng tạm ứng trước 50% ngay sau khi ký xác nhận đơn hàng.<
                     } else {
                         uploadedLogoData = null;
                         const printImg = document.getElementById('print-logo-img');
-                        printImg.src = "logo-thanh-tam-hieu1.png";
+                        printImg.src = "logo-thanh-tam-hieu1.jpg"; // Khôi phục về file logo gốc
                         printImg.classList.remove('hidden');
                         document.getElementById('print-logo-fallback').classList.add('hidden');
                     }
@@ -712,13 +710,13 @@ Khách hàng tạm ứng trước 50% ngay sau khi ký xác nhận đơn hàng.<
                     // Tạo dòng TR mới trên trang in
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                        <td class="text-center font-medium">${stt < 10 ? '0' + stt : stt}</td>
-                        <td class="font-semibold text-slate-800 text-left">${desc}</td>
-                        <td class="text-center text-slate-600">${unit || '-'}</td>
-                        <td class="text-center font-semibold text-slate-800">${qty}</td>
-                        <td class="text-right text-slate-700">${price > 0 ? formatMoney(price) : '-'}</td>
-                        <td class="text-right font-bold text-slate-900">${lineTotal > 0 ? formatMoney(lineTotal) : '-'}</td>
-                        <td class="text-left text-xs text-slate-500 font-normal italic">${note}</td>
+                        <td class="text-center font-medium" style="border: 1px solid #cbd5e1; padding: 8px 6px;">${stt < 10 ? '0' + stt : stt}</td>
+                        <td class="font-semibold text-slate-800 text-left" style="border: 1px solid #cbd5e1; padding: 8px 6px;">${desc}</td>
+                        <td class="text-center text-slate-600" style="border: 1px solid #cbd5e1; padding: 8px 6px;">${unit || '-'}</td>
+                        <td class="text-center font-semibold text-slate-800" style="border: 1px solid #cbd5e1; padding: 8px 6px;">${qty}</td>
+                        <td class="text-right text-slate-700" style="border: 1px solid #cbd5e1; padding: 8px 6px;">${price > 0 ? formatMoney(price) : '-'}</td>
+                        <td class="text-right font-bold text-slate-900" style="border: 1px solid #cbd5e1; padding: 8px 6px;">${lineTotal > 0 ? formatMoney(lineTotal) : '-'}</td>
+                        <td class="text-left text-xs text-slate-500 font-normal italic" style="border: 1px solid #cbd5e1; padding: 8px 6px;">${note}</td>
                     `;
                     outTbody.appendChild(tr);
                     stt++;
@@ -729,7 +727,7 @@ Khách hàng tạm ứng trước 50% ngay sau khi ký xác nhận đơn hàng.<
             if (stt === 1) {
                 outTbody.innerHTML = `
                     <tr>
-                        <td colspan="7" class="text-center py-6 text-slate-400 font-medium">Chưa có thông tin vật tư thi công. Hãy điền ít nhất một dòng phía trên.</td>
+                        <td colspan="7" class="text-center py-6 text-slate-400 font-medium" style="border: 1px solid #cbd5e1;">Chưa có thông tin vật tư thi công. Hãy điền ít nhất một dòng phía trên.</td>
                     </tr>
                 `;
             }
@@ -748,14 +746,14 @@ Khách hàng tạm ứng trước 50% ngay sau khi ký xác nhận đơn hàng.<
                 // Thêm dòng Tổng tiền hàng, tiền thuế nếu tồn tại VAT
                 outTbody.innerHTML += `
                     <tr class="font-bold bg-slate-50/70">
-                        <td colspan="5" class="text-right text-xs uppercase text-slate-500 py-2">Tổng giá trị tiền hàng:</td>
-                        <td class="text-right font-bold text-slate-800 py-2">${formatMoney(subTotal)}</td>
-                        <td></td>
+                        <td colspan="5" class="text-right text-xs uppercase text-slate-500 py-2" style="border: 1px solid #cbd5e1; padding: 8px 6px;">Tổng giá trị tiền hàng:</td>
+                        <td class="text-right font-bold text-slate-800 py-2" style="border: 1px solid #cbd5e1; padding: 8px 6px;">${formatMoney(subTotal)}</td>
+                        <td style="border: 1px solid #cbd5e1;"></td>
                     </tr>
                     <tr class="font-bold bg-slate-50/70">
-                        <td colspan="5" class="text-right text-xs uppercase text-slate-500 py-2">Thuế GTGT (${vatRate}%):</td>
-                        <td class="text-right font-bold text-slate-800 py-2">${formatMoney(vatAmount)}</td>
-                        <td></td>
+                        <td colspan="5" class="text-right text-xs uppercase text-slate-500 py-2" style="border: 1px solid #cbd5e1; padding: 8px 6px;">Thuế GTGT (${vatRate}%):</td>
+                        <td class="text-right font-bold text-slate-800 py-2" style="border: 1px solid #cbd5e1; padding: 8px 6px;">${formatMoney(vatAmount)}</td>
+                        <td style="border: 1px solid #cbd5e1;"></td>
                     </tr>
                 `;
             }
@@ -763,9 +761,9 @@ Khách hàng tạm ứng trước 50% ngay sau khi ký xác nhận đơn hàng.<
             // Dòng Tổng thanh toán quyết định
             outTbody.innerHTML += `
                 <tr class="font-black bg-blue-50/30 text-rose-600">
-                    <td colspan="5" class="text-right text-sm uppercase text-slate-800 py-3 tracking-wider">TỔNG CỘNG THÀNH TIỀN THANH TOÁN:</td>
-                    <td class="text-right font-black text-base border-r-0 py-3">${formatMoney(finalTotal)} VNĐ</td>
-                    <td class="border-l-0 text-left text-xs font-normal text-slate-400 italic">Tổng thanh toán sau thuế</td>
+                    <td colspan="5" class="text-right text-sm uppercase text-slate-800 py-3 tracking-wider" style="border: 1px solid #cbd5e1; padding: 12px 6px;">TỔNG CỘNG THÀNH TIỀN THANH TOÁN:</td>
+                    <td class="text-right font-black text-base py-3" style="border: 1px solid #cbd5e1; padding: 12px 6px;">${formatMoney(finalTotal)} VNĐ</td>
+                    <td class="text-left text-xs font-normal text-slate-400 italic" style="border: 1px solid #cbd5e1; padding: 12px 6px;">Tổng thanh toán sau thuế</td>
                 </tr>
             `;
 
@@ -774,10 +772,12 @@ Khách hàng tạm ứng trước 50% ngay sau khi ký xác nhận đơn hàng.<
 
             // 4. Đồng bộ Thời gian bảo hành & Điều khoản bổ sung mới
             const warrantyText = document.getElementById('inp-warranty').value.trim();
-            document.getElementById('out-warranty-clause').innerText = `Chính sách bảo hành: ${warrantyText || 'Theo tiêu chuẩn sản xuất hoặc thỏa thuận riêng.'}`;
 
             // Tạo các dòng điều khoản phụ động
             const outNotesList = document.getElementById('out-notes-list');
+            
+            // Xóa sạch list ghi chú cũ để tránh bị nhân đôi khi ấn quay lại
+            outNotesList.innerHTML = '';
             
             // Giữ lại hai dòng đầu mặc định (Mục thuế VAT, Mục Bảo hành)
             outNotesList.innerHTML = `
