@@ -737,11 +737,13 @@ Khách hàng tạm ứng trước 50% ngay sau khi ký xác nhận đơn hàng.<
             let vatAmount = 0;
             let finalTotal = subTotal;
             let vatText = "chưa bao gồm thuế VAT (0%)";
+            let finalNoteText = "Tổng thanh toán (chưa bao gồm VAT)";
 
             if (vatRate > 0) {
                 vatAmount = subTotal * (vatRate / 100);
                 finalTotal = subTotal + vatAmount;
                 vatText = `đã bao gồm thuế VAT (${vatRate}%)`;
+                finalNoteText = "Tổng thanh toán sau thuế";
                 
                 // Thêm dòng Tổng tiền hàng, tiền thuế nếu tồn tại VAT
                 outTbody.innerHTML += `
@@ -763,12 +765,9 @@ Khách hàng tạm ứng trước 50% ngay sau khi ký xác nhận đơn hàng.<
                 <tr class="font-black bg-blue-50/30 text-rose-600">
                     <td colspan="5" class="text-right text-sm uppercase text-slate-800 py-3 tracking-wider" style="border: 1px solid #cbd5e1; padding: 12px 6px;">TỔNG CỘNG THÀNH TIỀN THANH TOÁN:</td>
                     <td class="text-right font-black text-base py-3" style="border: 1px solid #cbd5e1; padding: 12px 6px;">${formatMoney(finalTotal)} VNĐ</td>
-                    <td class="text-left text-xs font-normal text-slate-400 italic" style="border: 1px solid #cbd5e1; padding: 12px 6px;">Tổng thanh toán sau thuế</td>
+                    <td class="text-left text-xs font-normal text-slate-400 italic" style="border: 1px solid #cbd5e1; padding: 12px 6px;">${finalNoteText}</td>
                 </tr>
             `;
-
-            // Đồng bộ Câu ghi chú thuế
-            document.getElementById('out-vat-note').innerText = vatText;
 
             // 4. Đồng bộ Thời gian bảo hành & Điều khoản bổ sung mới
             const warrantyText = document.getElementById('inp-warranty').value.trim();
