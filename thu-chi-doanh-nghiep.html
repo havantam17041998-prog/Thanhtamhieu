@@ -137,7 +137,7 @@
             <div class="flex items-center space-x-4">
                 <div class="text-right hidden sm:block">
                     <p class="text-xs text-slate-500">Hôm nay</p>
-                    <p id="currentLiveDate" class="text-sm font-semibold text-slate-700">Chủ Nhật, 12/07/2026</p>
+                    <p id="currentLiveDate" class="text-sm font-semibold text-slate-700">Đang tải...</p>
                 </div>
                 <button onclick="switchTab('input')" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-md shadow-emerald-100 transition flex items-center space-x-2">
                     <i class="fa-solid fa-plus"></i>
@@ -561,7 +561,7 @@
         // GIAI ĐOẠN 3: CẤU HÌNH KẾT NỐI API GOOGLE SHEETS
         // ====================================================================
         // => BẠN HÃY DÁN ĐƯỜNG LINK WEB APP CỦA BẠN VÀO GIỮA 2 DẤU NHÁY ĐƠN BÊN DƯỚI:
-        const GOOGLE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwn-JQKqCJX_6vdQ4FrAWYJF6seSc_jk1N_BpvpcjZfpDmlmh-R5SAFuJzVK331KJ9W/exec'; 
+        const GOOGLE_WEB_APP_URL = ''; 
         // Ví dụ: const GOOGLE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfyc.../exec';
         // ====================================================================
 
@@ -599,12 +599,19 @@
 
         // --- 2. LIFE-CYCLE INITIALIZATION ---
         window.addEventListener('DOMContentLoaded', async () => {
-            // Setup live date view
+            // Setup live date view to actual current date
+            const today = new Date();
             const opt = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' };
-            document.getElementById('currentLiveDate').innerText = new Date("2026-07-12").toLocaleDateString('vi-VN', opt);
+            document.getElementById('currentLiveDate').innerText = today.toLocaleDateString('vi-VN', opt);
             
-            // Set input default date picker to today
-            document.getElementById('txDate').value = "2026-07-12";
+            // Set dynamic badge year based on current system year
+            document.getElementById('badgeYear').innerText = `Năm ${today.getFullYear()}`;
+            
+            // Set input default date picker to actual today (format YYYY-MM-DD)
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            document.getElementById('txDate').value = `${yyyy}-${mm}-${dd}`;
 
             // Mobile menu listener
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
@@ -942,7 +949,14 @@
         function resetForm() {
             currentEditingId = null;
             document.getElementById('txId').value = '';
-            document.getElementById('txDate').value = "2026-07-12";
+            
+            // Default picker back to actual today when resetting form
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            document.getElementById('txDate').value = `${yyyy}-${mm}-${dd}`;
+            
             document.getElementById('txAmountDisplay').value = '';
             document.getElementById('txAmount').value = 0;
             document.getElementById('txContent').value = '';
