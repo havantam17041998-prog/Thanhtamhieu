@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Quản Lý Thu Chi Doanh Nghiệp</title>
+    <title>Hệ Thống Quản Lý Thu Chi Doanh Nghiệp (Cloud Sync)</title>
     <!-- Tailwind CSS for modern premium styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js for beautiful interactive financial reports -->
@@ -53,6 +53,9 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
+        /* Sync animation */
+        .sync-spin { animation: spin 2s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="h-full flex flex-col md:flex-row text-slate-800 antialiased overflow-hidden">
@@ -63,11 +66,11 @@
         <div class="p-5 flex items-center justify-between border-b border-brand-800">
             <div class="flex items-center space-x-3">
                 <div class="bg-brand-500 p-2 rounded-lg text-white shadow-md">
-                    <i class="fa-solid fa-book-bookmark text-xl"></i>
+                    <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
                 </div>
                 <div>
                     <h1 class="font-bold text-lg leading-tight">Sổ Thu Chi</h1>
-                    <span class="text-xs text-brand-300">Quản lý Doanh Nghiệp</span>
+                    <span class="text-xs text-emerald-400 font-medium">Đã kết nối Cloud</span>
                 </div>
             </div>
             <!-- Mobile Menu Toggle Button -->
@@ -111,12 +114,15 @@
         </nav>
 
         <!-- Current User Info -->
-        <div class="p-4 border-t border-brand-800 bg-brand-950 flex items-center space-x-3 text-xs text-brand-300">
-            <div class="w-8 h-8 rounded-full bg-brand-600 flex items-center justify-center font-bold text-white uppercase text-sm">DN</div>
-            <div>
-                <p class="font-semibold text-white">Doanh Nghiệp Việt</p>
-                <p class="text-[10px]">Lưu trữ thiết bị (Offline)</p>
+        <div class="p-4 border-t border-brand-800 bg-brand-950 flex items-center justify-between text-xs text-brand-300">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-full bg-brand-600 flex items-center justify-center font-bold text-white uppercase text-sm">DN</div>
+                <div>
+                    <p class="font-semibold text-white">Doanh Nghiệp</p>
+                    <p class="text-[10px] text-emerald-400" id="syncStatusText">Sẵn sàng đồng bộ</p>
+                </div>
             </div>
+            <i id="syncIcon" class="fa-solid fa-rotate text-brand-500"></i>
         </div>
     </aside>
 
@@ -141,7 +147,14 @@
         </header>
 
         <!-- Dynamic Content Body -->
-        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+        <div class="flex-1 overflow-y-auto p-6 space-y-6 relative">
+            
+            <!-- Loading Overlay -->
+            <div id="loadingOverlay" class="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center hidden">
+                <i class="fa-solid fa-circle-notch text-4xl text-brand-500 sync-spin mb-4"></i>
+                <p class="font-semibold text-slate-700">Đang đồng bộ dữ liệu với Google Sheets...</p>
+                <p class="text-xs text-slate-500 mt-1">Vui lòng chờ trong giây lát</p>
+            </div>
 
             <!-- TAB 1: DASHBOARD -->
             <section id="tab-dashboard" class="space-y-6">
@@ -317,8 +330,8 @@
                         <div class="flex items-center justify-end space-x-3 pt-4 border-t border-slate-100">
                             <button type="button" onclick="cancelForm()" class="px-6 py-3 rounded-xl text-slate-500 hover:bg-slate-50 font-semibold text-sm transition">Hủy Bỏ</button>
                             <button type="submit" class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-brand-100 transition flex items-center space-x-2">
-                                <i class="fa-solid fa-floppy-disk"></i>
-                                <span id="submitBtnText">Ghi Lại Sổ Sách</span>
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                <span id="submitBtnText">Ghi Sổ & Đồng Bộ</span>
                             </button>
                         </div>
                     </form>
@@ -427,7 +440,7 @@
                     <h5 class="font-bold flex items-center mb-1">
                         <i class="fa-solid fa-circle-info mr-2"></i>Tùy Biến Cài Đặt Doanh Nghiệp
                     </h5>
-                    <p class="text-xs">Quản lý và thiết lập các danh mục Thu/Chi cho phù hợp với loại hình kinh doanh của bạn. Bạn có thể dọn sạch dữ liệu hoặc khôi phục dữ liệu tại đây.</p>
+                    <p class="text-xs">Quản lý và thiết lập các danh mục Thu/Chi. Hệ thống đã tự động lưu trữ danh mục của bạn cục bộ để giảm tải cho Google Sheets.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -467,20 +480,19 @@
                 <!-- Database Tools Card -->
                 <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
                     <h4 class="font-bold text-slate-800 mb-4 pb-2 border-b border-slate-100 flex items-center text-sm">
-                        <i class="fa-solid fa-database mr-2 text-slate-500"></i>QUẢN LÝ DỮ LIỆU SỔ SÁCH
+                        <i class="fa-solid fa-database mr-2 text-slate-500"></i>QUẢN LÝ DỮ LIỆU ĐÁM MÂY
                     </h4>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <!-- Import File -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Tải Lại Dữ Liệu -->
                         <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 flex flex-col justify-between">
                             <div>
-                                <h5 class="font-semibold text-slate-800 text-xs">Khôi Phục từ File Backup</h5>
-                                <p class="text-[10px] text-slate-500 mt-1">Đưa tệp tin sao lưu định dạng `.json` trở lại trình duyệt.</p>
+                                <h5 class="font-semibold text-slate-800 text-xs">Đồng Bộ Lại Dữ Liệu Tự Động</h5>
+                                <p class="text-[10px] text-slate-500 mt-1">Cập nhật ngay lập tức nếu kế toán vừa sửa file Google Sheets.</p>
                             </div>
                             <div class="mt-4">
-                                <label for="uploadJsonInput" class="inline-block w-full text-center py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-lg text-xs cursor-pointer transition">
-                                    <i class="fa-solid fa-upload mr-1"></i> Chọn File Gốc
-                                </label>
-                                <input type="file" id="uploadJsonInput" onchange="importJSON(event)" class="hidden" accept=".json">
+                                <button onclick="manualSync()" class="w-full py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-lg text-xs transition">
+                                    <i class="fa-solid fa-rotate mr-1"></i> Tải Lại Từ Google Sheets
+                                </button>
                             </div>
                         </div>
 
@@ -488,24 +500,11 @@
                         <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 flex flex-col justify-between">
                             <div>
                                 <h5 class="font-semibold text-slate-800 text-xs">Xóa Hết Sổ Sách Giao Dịch</h5>
-                                <p class="text-[10px] text-slate-500 mt-1">Xóa toàn bộ các khoản phát sinh thu chi hiện hữu để nhập lại từ đầu.</p>
+                                <p class="text-[10px] text-slate-500 mt-1">Xóa toàn bộ các khoản phát sinh trên cả App và Google Sheets.</p>
                             </div>
                             <div class="mt-4">
                                 <button onclick="openModal('clearDbModal')" class="w-full py-2 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-lg text-xs transition">
-                                    <i class="fa-solid fa-trash-can mr-1"></i> Xóa Toàn Bộ Sổ
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Set Sample Data -->
-                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 flex flex-col justify-between">
-                            <div>
-                                <h5 class="font-semibold text-slate-800 text-xs">Nạp Dữ Liệu Demo Mẫu</h5>
-                                <p class="text-[10px] text-slate-500 mt-1">Lập tức tạo ra các giao dịch thu chi mẫu phục vụ xem biểu đồ trước.</p>
-                            </div>
-                            <div class="mt-4">
-                                <button onclick="loadSampleData()" class="w-full py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg text-xs transition">
-                                    <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Nạp Dữ Liệu Mẫu
+                                    <i class="fa-solid fa-trash-can mr-1"></i> Xóa Trắng Sổ Đám Mây
                                 </button>
                             </div>
                         </div>
@@ -524,7 +523,7 @@
             </div>
             <div class="text-center">
                 <h4 class="font-bold text-slate-800 text-lg">Xác Nhận Xóa Giao Dịch</h4>
-                <p class="text-slate-500 text-xs mt-1">Bạn có chắc chắn muốn xóa vĩnh viễn khoản thu chi này ra khỏi hệ thống không?</p>
+                <p class="text-slate-500 text-xs mt-1">Bạn có chắc chắn muốn xóa vĩnh viễn khoản thu chi này trên cả App và Google Sheets không?</p>
             </div>
             <input type="hidden" id="deleteTxId">
             <div class="flex items-center space-x-3 pt-2">
@@ -542,7 +541,7 @@
             </div>
             <div class="text-center">
                 <h4 class="font-bold text-slate-800 text-lg">Cảnh Báo Xóa Trắng Sổ</h4>
-                <p class="text-slate-500 text-xs mt-1">Hành động này sẽ giải phóng tất cả dòng tiền đã lưu trữ trên trình duyệt của bạn. Bạn nên sao lưu dữ liệu trước!</p>
+                <p class="text-slate-500 text-xs mt-1">Hành động này sẽ giải phóng tất cả dòng tiền đã lưu trữ. Dữ liệu trên Google Sheets cũng sẽ bị xóa sạch!</p>
             </div>
             <div class="flex items-center space-x-3 pt-2">
                 <button onclick="closeModal('clearDbModal')" class="flex-1 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:bg-slate-50 transition border border-slate-200">Bỏ Qua</button>
@@ -558,6 +557,14 @@
     </div>
 
     <script>
+        // ====================================================================
+        // GIAI ĐOẠN 3: CẤU HÌNH KẾT NỐI API GOOGLE SHEETS
+        // ====================================================================
+        // => BẠN HÃY DÁN ĐƯỜNG LINK WEB APP CỦA BẠN VÀO GIỮA 2 DẤU NHÁY ĐƠN BÊN DƯỚI:
+        const GOOGLE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwn-JQKqCJX_6vdQ4FrAWYJF6seSc_jk1N_BpvpcjZfpDmlmh-R5SAFuJzVK331KJ9W/exec'; 
+        // Ví dụ: const GOOGLE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfyc.../exec';
+        // ====================================================================
+
         // --- 1. STATE VARIABLES & CONFIGURATIONS ---
         let currentTab = 'dashboard';
         let inputType = 'thu'; // 'thu' or 'chi'
@@ -581,19 +588,7 @@
             ]
         };
 
-        // Default dynamic transactions to show at first load
-        const defaultTransactions = [
-            { id: "tx-1", date: "2026-01-05", type: "thu", category: "Thu dịch vụ sửa chữa", amount: 3500000, content: "Sửa board điều hòa trung tâm Hitachi - Biên Hòa", note: "Thu tiền mặt" },
-            { id: "tx-2", date: "2026-01-12", type: "chi", category: "Chi mua vật tư/linh kiện", amount: 1200000, content: "Mua dây cáp chuyên dụng PLC Mitsubishi", note: "Chuyển khoản ACB" },
-            { id: "tx-3", date: "2026-02-10", type: "thu", category: "Thu bảo trì định kỳ", amount: 15000000, content: "Bảo dưỡng hệ thống Chiller nhà máy Amata", note: "Nghiệm thu hoàn tất" },
-            { id: "tx-4", date: "2026-02-15", type: "chi", category: "Chi lương kỹ thuật/nhân công", amount: 4500000, content: "Tạm ứng lương phụ kho", note: "Ký sổ nhận mặt" },
-            { id: "tx-5", date: "2026-03-03", type: "chi", category: "Chi xăng xe/đi lại công trình", amount: 500000, content: "Đổ xăng xe tải đi công trình Long Thành", note: "Xăng dầu Petrolimex" },
-            { id: "tx-6", date: "2026-03-20", type: "thu", category: "Thu bán lẻ linh kiện", amount: 2800000, content: "Bán bộ Servo Encoder MR-J3ENCBL2M", note: "Khách tự lấy" },
-            { id: "tx-7", date: "2026-04-05", type: "chi", category: "Chi mặt bằng/điện nước", amount: 1800000, content: "Thanh toán tiền điện nước cửa hàng tháng 3", note: "Internet Banking" },
-            { id: "tx-8", date: "2026-05-18", type: "thu", category: "Thu dịch vụ sửa chữa", amount: 6800000, content: "Xử lý lỗi hệ thống lạnh kho đông", note: "Hẹn thanh toán 25" },
-            { id: "tx-9", date: "2026-06-10", type: "chi", category: "Chi mua vật tư/linh kiện", amount: 8500000, content: "Nhập block máy nén lạnh 5HP", note: "VAT đầy đủ" },
-            { id: "tx-10", date: "2026-07-02", type: "thu", category: "Thu dịch vụ sửa chữa", amount: 4200000, content: "Bảo trì hệ thống lạnh văn phòng ĐN", note: "Đã thu đủ" }
-        ];
+        const defaultTransactions = []; // Khởi tạo rỗng, sẽ tải từ Google Sheets về.
 
         let categories = { ...defaultCategories };
         let transactions = [];
@@ -603,16 +598,13 @@
         let categoryChartInstance = null;
 
         // --- 2. LIFE-CYCLE INITIALIZATION ---
-        window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', async () => {
             // Setup live date view
             const opt = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' };
             document.getElementById('currentLiveDate').innerText = new Date("2026-07-12").toLocaleDateString('vi-VN', opt);
             
             // Set input default date picker to today
             document.getElementById('txDate').value = "2026-07-12";
-
-            // Load data from localStorage
-            loadDataFromStorage();
 
             // Mobile menu listener
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
@@ -622,15 +614,17 @@
                 sidebarNav.classList.toggle('flex');
             });
 
+            // Tiêu chí mới: Tải dữ liệu từ CLOUD (Đồng bộ)
+            await loadDataFromStorage();
+
             // Refresh UI Views
             refreshUI();
         });
 
-        // --- 3. STORAGE & DATA OPERATIONS ---
-        function loadDataFromStorage() {
+        // --- 3. STORAGE & CLOUD DATA OPERATIONS ---
+        async function loadDataFromStorage() {
+            // 1. Danh mục (Categories) giữ nguyên ở LocalStorage để truy xuất nhanh
             const savedCats = localStorage.getItem('so_thu_chi_categories');
-            const savedTxs = localStorage.getItem('so_thu_chi_transactions');
-
             if (savedCats) {
                 categories = JSON.parse(savedCats);
             } else {
@@ -638,32 +632,88 @@
                 localStorage.setItem('so_thu_chi_categories', JSON.stringify(categories));
             }
 
-            if (savedTxs) {
-                transactions = JSON.parse(savedTxs);
+            // 2. Giao dịch (Transactions) tải trực tiếp từ Google Sheets
+            if (GOOGLE_WEB_APP_URL && GOOGLE_WEB_APP_URL.includes('script.google.com')) {
+                document.getElementById('loadingOverlay').classList.remove('hidden');
+                document.getElementById('syncStatusText').innerText = "Đang tải dữ liệu...";
+                document.getElementById('syncIcon').classList.add('sync-spin');
+
+                try {
+                    const response = await fetch(GOOGLE_WEB_APP_URL);
+                    const data = await response.json();
+                    
+                    // Convert amount chuỗi sang số từ Sheet
+                    transactions = data.map(item => ({
+                        ...item,
+                        amount: Number(item.amount) || 0
+                    }));
+                    
+                    // Lưu backup dự phòng offline
+                    localStorage.setItem('so_thu_chi_transactions', JSON.stringify(transactions));
+                    
+                    showToast("Đã tải dữ liệu mới nhất từ Google Sheets", "success");
+                    document.getElementById('syncStatusText').innerText = "Đã đồng bộ";
+                    document.getElementById('syncIcon').classList.remove('sync-spin');
+                } catch (error) {
+                    console.error("Lỗi đồng bộ:", error);
+                    showToast("Lỗi kết nối. Đang hiển thị dữ liệu lưu tạm cũ.", "error");
+                    document.getElementById('syncStatusText').innerText = "Mất kết nối";
+                    document.getElementById('syncIcon').classList.remove('sync-spin');
+                    
+                    // Khôi phục bộ nhớ tạm
+                    const savedTxs = localStorage.getItem('so_thu_chi_transactions');
+                    transactions = savedTxs ? JSON.parse(savedTxs) : [];
+                }
+                document.getElementById('loadingOverlay').classList.add('hidden');
             } else {
-                transactions = [...defaultTransactions];
-                localStorage.setItem('so_thu_chi_transactions', JSON.stringify(transactions));
+                // Chưa thiết lập link
+                showToast("Bạn chưa nhập đường link GOOGLE_WEB_APP_URL. Đang dùng bộ nhớ tạm.", "error");
+                const savedTxs = localStorage.getItem('so_thu_chi_transactions');
+                transactions = savedTxs ? JSON.parse(savedTxs) : [];
             }
         }
 
-        function saveDataToStorage() {
+        async function saveDataToStorage() {
+            // Lưu Category cục bộ
             localStorage.setItem('so_thu_chi_categories', JSON.stringify(categories));
+            
+            // Lưu Transaction cục bộ để dự phòng
             localStorage.setItem('so_thu_chi_transactions', JSON.stringify(transactions));
+
+            // Đẩy Transaction lên Google Sheets
+            if (GOOGLE_WEB_APP_URL && GOOGLE_WEB_APP_URL.includes('script.google.com')) {
+                document.getElementById('syncStatusText').innerText = "Đang ghi sổ...";
+                document.getElementById('syncIcon').classList.add('sync-spin');
+                
+                try {
+                    await fetch(GOOGLE_WEB_APP_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(transactions)
+                    });
+                    
+                    document.getElementById('syncStatusText').innerText = "Đã đồng bộ";
+                    document.getElementById('syncIcon').classList.remove('sync-spin');
+                } catch (error) {
+                    console.error("Lỗi khi ghi lên đám mây:", error);
+                    showToast("Lỗi khi lưu lên mây, dữ liệu đã lưu ở chế độ Ngoại tuyến!", "error");
+                    document.getElementById('syncStatusText').innerText = "Lưu ngoại tuyến";
+                    document.getElementById('syncIcon').classList.remove('sync-spin');
+                }
+            }
         }
 
-        // --- STREAMING_CHUNK: Implementing the form input utility logic... ---
+        async function manualSync() {
+            await loadDataFromStorage();
+            refreshUI();
+            if (currentTab === 'history') applyFilters();
+        }
+
         // --- 4. FORMATTING UTILITIES ---
         function formatCurrency(amount) {
             return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
         }
 
-        function parseAmount(formattedStr) {
-            // Strip off currency sign and dots
-            return parseInt(formattedStr.replace(/[^0-9]/g, ''), 10) || 0;
-        }
-
         function formatAmountInput(inputEl) {
-            // Keep numerical values
             let value = inputEl.value.replace(/[^0-9]/g, '');
             if (value === '') {
                 inputEl.value = '';
@@ -679,16 +729,13 @@
         function switchTab(tabId) {
             currentTab = tabId;
             
-            // Hide all tabs
             document.getElementById('tab-dashboard').classList.add('hidden');
             document.getElementById('tab-input').classList.add('hidden');
             document.getElementById('tab-history').classList.add('hidden');
             document.getElementById('tab-categories').classList.add('hidden');
 
-            // Show current active tab
             document.getElementById(`tab-${tabId}`).classList.remove('hidden');
 
-            // Update Tab Headers on Sidebar
             document.querySelectorAll('#sidebarNav button').forEach(btn => {
                 if (btn.id === `nav-${tabId}`) {
                     btn.className = "flex items-center space-x-3 px-4 py-3 rounded-xl transition duration-150 text-left bg-brand-800 text-white font-medium";
@@ -697,7 +744,6 @@
                 }
             });
 
-            // Set Title Header in UI
             const titles = {
                 dashboard: "Trang Tổng Quan Doanh Nghiệp",
                 input: "Nhập Giao Dịch Thu Chi Mới",
@@ -706,7 +752,6 @@
             };
             document.getElementById('currentTabTitle').innerText = titles[tabId];
 
-            // Specific Tab Setup
             if (tabId === 'dashboard') {
                 renderDashboardSummary();
                 renderCharts();
@@ -718,7 +763,6 @@
                 renderCategorySettings();
             }
 
-            // Close mobile menu if open
             if (window.innerWidth < 768) {
                 document.getElementById('sidebarNav').classList.add('hidden');
                 document.getElementById('sidebarNav').classList.remove('flex');
@@ -727,10 +771,8 @@
 
         // --- 6. DASHBOARD TAB LOGIC & CHARTS ---
         function renderDashboardSummary() {
-            // Sort transactions by date descending
             transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-            // Compute cumulative totals
             let incomeTotal = 0;
             let expenseTotal = 0;
 
@@ -744,7 +786,6 @@
 
             const balanceTotal = incomeTotal - expenseTotal;
 
-            // Render on DOM Cards
             document.getElementById('cardTotalIncome').innerText = formatCurrency(incomeTotal);
             document.getElementById('cardTotalExpense').innerText = formatCurrency(expenseTotal);
             
@@ -756,7 +797,6 @@
                 balCard.className = "text-2xl font-bold text-rose-600 mt-1";
             }
 
-            // Render Recent 5 Giao dịch
             const recentBody = document.getElementById('recentTransactionsTable');
             recentBody.innerHTML = '';
 
@@ -766,7 +806,7 @@
                     <tr>
                         <td colspan="5" class="px-6 py-8 text-center text-slate-400 text-xs">
                             <i class="fa-solid fa-face-meh text-2xl block mb-2 text-slate-300"></i>
-                            Sổ thu chi của bạn đang trống rỗng. Hãy thêm khoản thu chi đầu tiên!
+                            Sổ thu chi của bạn đang trống. Hãy tạo giao dịch để đồng bộ lên Sheet!
                         </td>
                     </tr>
                 `;
@@ -797,33 +837,25 @@
             });
         }
 
-        // --- STREAMING_CHUNK: Designing the financial graphs... ---
         function renderCharts() {
-            // 12 Months mapping arrays
             const monthsNames = ["Th 1", "Th 2", "Th 3", "Th 4", "Th 5", "Th 6", "Th 7", "Th 8", "Th 9", "Th 10", "Th 11", "Th 12"];
             let monthlyIncomes = Array(12).fill(0);
             let monthlyExpenses = Array(12).fill(0);
-
-            // Expense Categories distribution map
             let expenseDistribution = {};
 
             transactions.forEach(tx => {
                 const dateObj = new Date(tx.date);
-                const monthIdx = dateObj.getMonth(); // 0 to 11
+                const monthIdx = dateObj.getMonth();
 
                 if (tx.type === 'thu') {
                     monthlyIncomes[monthIdx] += tx.amount;
                 } else {
                     monthlyExpenses[monthIdx] += tx.amount;
-                    // Expense category breakdown logic
                     expenseDistribution[tx.category] = (expenseDistribution[tx.category] || 0) + tx.amount;
                 }
             });
 
-            // Render monthly bar chart
-            if (monthlyChartInstance) {
-                monthlyChartInstance.destroy();
-            }
+            if (monthlyChartInstance) monthlyChartInstance.destroy();
 
             const ctxMonthly = document.getElementById('monthlyChart').getContext('2d');
             monthlyChartInstance = new Chart(ctxMonthly, {
@@ -831,66 +863,31 @@
                 data: {
                     labels: monthsNames,
                     datasets: [
-                        {
-                            label: 'Dòng tiền Thu',
-                            data: monthlyIncomes,
-                            backgroundColor: 'rgba(16, 185, 129, 0.85)',
-                            borderRadius: 6,
-                            borderSkipped: false
-                        },
-                        {
-                            label: 'Dòng tiền Chi',
-                            data: monthlyExpenses,
-                            backgroundColor: 'rgba(244, 63, 94, 0.85)',
-                            borderRadius: 6,
-                            borderSkipped: false
-                        }
+                        { label: 'Dòng tiền Thu', data: monthlyIncomes, backgroundColor: 'rgba(16, 185, 129, 0.85)', borderRadius: 6 },
+                        { label: 'Dòng tiền Chi', data: monthlyExpenses, backgroundColor: 'rgba(244, 63, 94, 0.85)', borderRadius: 6 }
                     ]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: { boxWidth: 12, usePointStyle: true, font: { family: 'Inter', size: 11 } }
-                        }
-                    },
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, usePointStyle: true, font: { family: 'Inter', size: 11 } } } },
                     scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: { color: '#f1f5f9' },
-                            ticks: { font: { family: 'Inter', size: 10 } }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { font: { family: 'Inter', size: 10 } }
-                        }
+                        y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { font: { family: 'Inter', size: 10 } } },
+                        x: { grid: { display: false }, ticks: { font: { family: 'Inter', size: 10 } } }
                     }
                 }
             });
 
-            // Render Expense Category share
-            if (categoryChartInstance) {
-                categoryChartInstance.destroy();
-            }
+            if (categoryChartInstance) categoryChartInstance.destroy();
 
             const expLabels = Object.keys(expenseDistribution);
             const expValues = Object.values(expenseDistribution);
-
             const ctxCategory = document.getElementById('categoryChart').getContext('2d');
+
             if (expLabels.length === 0) {
                 categoryChartInstance = new Chart(ctxCategory, {
                     type: 'doughnut',
-                    data: {
-                        labels: ['Chưa phát sinh'],
-                        datasets: [{ data: [1], backgroundColor: ['#f1f5f9'] }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } }
-                    }
+                    data: { labels: ['Chưa phát sinh'], datasets: [{ data: [1], backgroundColor: ['#f1f5f9'] }] },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
                 });
             } else {
                 categoryChartInstance = new Chart(ctxCategory, {
@@ -899,29 +896,19 @@
                         labels: expLabels,
                         datasets: [{
                             data: expValues,
-                            backgroundColor: [
-                                '#f43f5e', '#fb923c', '#fbbf24', '#34d399', '#22d3ee', '#60a5fa', '#818cf8', '#a78bfa'
-                            ],
-                            borderWidth: 2,
-                            borderColor: '#ffffff'
+                            backgroundColor: ['#f43f5e', '#fb923c', '#fbbf24', '#34d399', '#22d3ee', '#60a5fa', '#818cf8', '#a78bfa'],
+                            borderWidth: 2, borderColor: '#ffffff'
                         }]
                     },
                     options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: { boxWidth: 10, usePointStyle: true, font: { family: 'Inter', size: 9 } }
-                            }
-                        },
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, usePointStyle: true, font: { family: 'Inter', size: 9 } } } },
                         cutout: '70%'
                     }
                 });
             }
         }
 
-        // --- STREAMING_CHUNK: Developing the input tab and form logic... ---
         // --- 7. TRANSACTION INPUT FORM TAB LOGIC ---
         function setInputType(type) {
             inputType = type;
@@ -960,12 +947,12 @@
             document.getElementById('txAmount').value = 0;
             document.getElementById('txContent').value = '';
             document.getElementById('txNote').value = '';
-            document.getElementById('submitBtnText').innerText = "Ghi Lại Sổ Sách";
+            document.getElementById('submitBtnText').innerText = "Ghi Sổ & Đồng Bộ";
 
             setInputType('thu');
         }
 
-        function handleFormSubmit(event) {
+        async function handleFormSubmit(event) {
             event.preventDefault();
 
             const dateVal = document.getElementById('txDate').value;
@@ -981,37 +968,20 @@
             }
 
             if (idVal) {
-                // Editing existing transaction
                 const idx = transactions.findIndex(t => t.id === idVal);
                 if (idx !== -1) {
-                    transactions[idx] = {
-                        id: idVal,
-                        date: dateVal,
-                        type: inputType,
-                        category: categoryVal,
-                        amount: amountVal,
-                        content: contentVal,
-                        note: noteVal
-                    };
-                    showToast("Cập nhật giao dịch thành công!", "success");
+                    transactions[idx] = { id: idVal, date: dateVal, type: inputType, category: categoryVal, amount: amountVal, content: contentVal, note: noteVal };
+                    showToast("Cập nhật giao dịch thành công. Đang lưu lên Sheet...", "success");
                 }
             } else {
-                // Creating a new transaction
-                const newTx = {
-                    id: "tx-" + Date.now(),
-                    date: dateVal,
-                    type: inputType,
-                    category: categoryVal,
-                    amount: amountVal,
-                    content: contentVal,
-                    note: noteVal
-                };
+                const newTx = { id: "tx-" + Date.now(), date: dateVal, type: inputType, category: categoryVal, amount: amountVal, content: contentVal, note: noteVal };
                 transactions.push(newTx);
-                showToast("Thêm mới dòng thu chi thành công!", "success");
+                showToast("Đã thêm mới. Đang đồng bộ lên Google Sheets...", "success");
             }
 
-            saveDataToStorage();
+            // Giao diện Update lập tức -> Ghi nền ngầm
             switchTab('dashboard');
+            await saveDataToStorage();
         }
 
         function cancelForm() {
@@ -1019,82 +989,52 @@
             switchTab('dashboard');
         }
 
-        // --- STREAMING_CHUNK: Coding transaction editing and deleting actions... ---
         // --- 8. TRANSACTION HISTORY ACTIONS (EDIT / DELETE) ---
         function applyFilters() {
             const query = document.getElementById('filterSearch').value.toLowerCase().trim();
             const type = document.getElementById('filterType').value;
             const month = document.getElementById('filterMonth').value;
 
-            // Sort before filtering
             transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
 
             const filtered = transactions.filter(tx => {
-                // Search Content
-                const contentMatch = tx.content.toLowerCase().includes(query) || 
-                                     tx.category.toLowerCase().includes(query) || 
-                                     (tx.note && tx.note.toLowerCase().includes(query));
-                
-                // Type filter
+                const contentMatch = tx.content.toLowerCase().includes(query) || tx.category.toLowerCase().includes(query) || (tx.note && tx.note.toLowerCase().includes(query));
                 const typeMatch = type === 'all' || tx.type === type;
-
-                // Month filter
                 let monthMatch = true;
                 if (month !== 'all') {
-                    const txMonth = new Date(tx.date).getMonth() + 1; // getMonth() is 0-11
+                    const txMonth = new Date(tx.date).getMonth() + 1;
                     monthMatch = txMonth.toString() === month;
                 }
-
                 return contentMatch && typeMatch && monthMatch;
             });
 
-            // Update Badge Count
             document.getElementById('filteredCountBadge').innerText = `${filtered.length} giao dịch`;
-
-            // Render Table Body
             const body = document.getElementById('historyTableBody');
             body.innerHTML = '';
 
             if (filtered.length === 0) {
-                body.innerHTML = `
-                    <tr>
-                        <td colspan="8" class="px-6 py-12 text-center text-slate-400">
-                            Không tìm thấy giao dịch phát sinh phù hợp bộ lọc của bạn.
-                        </td>
-                    </tr>
-                `;
+                body.innerHTML = `<tr><td colspan="8" class="px-6 py-12 text-center text-slate-400">Không tìm thấy giao dịch phù hợp.</td></tr>`;
                 return;
             }
 
             filtered.forEach((tx, idx) => {
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 transition duration-150";
-
                 const isIncome = tx.type === 'thu';
                 const formattedDate = new Date(tx.date).toLocaleDateString('vi-VN');
 
                 tr.innerHTML = `
                     <td class="px-6 py-4 text-slate-400 font-medium">${idx + 1}</td>
                     <td class="px-6 py-4 font-medium text-slate-600">${formattedDate}</td>
-                    <td class="px-6 py-4">
-                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${isIncome ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-rose-50 text-rose-600 border border-rose-100'}">
-                            ${isIncome ? 'KHOẢN THU' : 'KHOẢN CHI'}
-                        </span>
-                    </td>
+                    <td class="px-6 py-4"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${isIncome ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-rose-50 text-rose-600 border border-rose-100'}">${isIncome ? 'KHOẢN THU' : 'KHOẢN CHI'}</span></td>
                     <td class="px-6 py-4 font-semibold text-slate-700">${tx.category}</td>
                     <td class="px-6 py-4 text-slate-500 max-w-sm">${tx.content}</td>
                     <td class="px-6 py-4 text-xs text-slate-400 italic">${tx.note || '-'}</td>
-                    <td class="px-6 py-4 text-right font-bold text-base ${isIncome ? 'text-emerald-600' : 'text-slate-800'}">
-                        ${isIncome ? '+' : '-'}${formatCurrency(tx.amount)}
-                    </td>
+                    <td class="px-6 py-4 text-right font-bold text-base ${isIncome ? 'text-emerald-600' : 'text-slate-800'}">${isIncome ? '+' : '-'}${formatCurrency(tx.amount)}</td>
                     <td class="px-6 py-4 text-center">
                         <div class="flex items-center justify-center space-x-2">
-                            <button onclick="editTransaction('${tx.id}')" class="p-1 text-blue-500 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition" title="Chỉnh sửa">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <button onclick="requestDeleteTransaction('${tx.id}')" class="p-1 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition" title="Xóa bỏ">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
+                            <button onclick="editTransaction('${tx.id}')" class="p-1 text-blue-500 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition" title="Chỉnh sửa"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button onclick="requestDeleteTransaction('${tx.id}')" class="p-1 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition" title="Xóa bỏ"><i class="fa-solid fa-trash-can"></i></button>
                         </div>
                     </td>
                 `;
@@ -1113,17 +1053,11 @@
             const tx = transactions.find(t => t.id === id);
             if (!tx) return;
 
-            // Switch to form input tab
             switchTab('input');
 
-            // Populate form
             document.getElementById('txId').value = tx.id;
             document.getElementById('txDate').value = tx.date;
-            
-            // Handle type toggles
             setInputType(tx.type);
-
-            // Populate remaining values
             document.getElementById('txCategory').value = tx.category;
             
             const displayInput = document.getElementById('txAmountDisplay');
@@ -1132,9 +1066,7 @@
 
             document.getElementById('txContent').value = tx.content;
             document.getElementById('txNote').value = tx.note || '';
-
-            // Update button label
-            document.getElementById('submitBtnText').innerText = "Cập Nhật Thay Đổi";
+            document.getElementById('submitBtnText').innerText = "Cập Nhật & Đồng Bộ Lên Mây";
         }
 
         function requestDeleteTransaction(id) {
@@ -1142,18 +1074,17 @@
             openModal('deleteModal');
         }
 
-        function confirmDeleteTransaction() {
+        async function confirmDeleteTransaction() {
             const id = document.getElementById('deleteTxId').value;
             transactions = transactions.filter(tx => tx.id !== id);
             
-            saveDataToStorage();
             closeModal('deleteModal');
-            showToast("Đã xóa vĩnh viễn giao dịch phát sinh!", "success");
+            showToast("Đang xóa dữ liệu trên đám mây...", "success");
             
             applyFilters();
+            await saveDataToStorage();
         }
 
-        // --- STREAMING_CHUNK: Managing configurations, modal elements and back-up tools... ---
         // --- 9. CATEGORY SETTINGS TAB LOGIC ---
         function renderCategorySettings() {
             const containerIncome = document.getElementById('listIncomeCats');
@@ -1162,29 +1093,17 @@
             containerIncome.innerHTML = '';
             containerExpense.innerHTML = '';
 
-            // Render Income Cats
             categories.thu.forEach(cat => {
                 const item = document.createElement('div');
                 item.className = "flex items-center justify-between p-3 bg-slate-50 rounded-xl hover:bg-slate-100/50 transition";
-                item.innerHTML = `
-                    <span class="text-xs font-semibold text-slate-700">${cat}</span>
-                    <button onclick="removeCategory('thu', '${cat}')" class="text-slate-400 hover:text-rose-500 p-1 rounded-lg transition">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                `;
+                item.innerHTML = `<span class="text-xs font-semibold text-slate-700">${cat}</span><button onclick="removeCategory('thu', '${cat}')" class="text-slate-400 hover:text-rose-500 p-1 rounded-lg transition"><i class="fa-solid fa-xmark"></i></button>`;
                 containerIncome.appendChild(item);
             });
 
-            // Render Expense Cats
             categories.chi.forEach(cat => {
                 const item = document.createElement('div');
                 item.className = "flex items-center justify-between p-3 bg-slate-50 rounded-xl hover:bg-slate-100/50 transition";
-                item.innerHTML = `
-                    <span class="text-xs font-semibold text-slate-700">${cat}</span>
-                    <button onclick="removeCategory('chi', '${cat}')" class="text-slate-400 hover:text-rose-500 p-1 rounded-lg transition">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                `;
+                item.innerHTML = `<span class="text-xs font-semibold text-slate-700">${cat}</span><button onclick="removeCategory('chi', '${cat}')" class="text-slate-400 hover:text-rose-500 p-1 rounded-lg transition"><i class="fa-solid fa-xmark"></i></button>`;
                 containerExpense.appendChild(item);
             });
         }
@@ -1193,18 +1112,12 @@
             const inputEl = document.getElementById(type === 'thu' ? 'newCatIncome' : 'newCatExpense');
             const val = inputEl.value.trim();
 
-            if (!val) {
-                showToast("Tên hạng mục không được rỗng!", "error");
-                return;
-            }
-
-            if (categories[type].includes(val)) {
-                showToast("Hạng mục này đã tồn tại!", "error");
-                return;
-            }
+            if (!val) { showToast("Tên hạng mục không được rỗng!", "error"); return; }
+            if (categories[type].includes(val)) { showToast("Hạng mục này đã tồn tại!", "error"); return; }
 
             categories[type].push(val);
-            saveDataToStorage();
+            // Lưu mục categories cục bộ, không cần đẩy API
+            localStorage.setItem('so_thu_chi_categories', JSON.stringify(categories));
             inputEl.value = '';
             renderCategorySettings();
             showToast("Thêm hạng mục thành công!", "success");
@@ -1212,35 +1125,22 @@
 
         function removeCategory(type, catName) {
             categories[type] = categories[type].filter(c => c !== catName);
-            saveDataToStorage();
+            localStorage.setItem('so_thu_chi_categories', JSON.stringify(categories));
             renderCategorySettings();
             showToast("Đã xóa hạng mục tùy chỉnh!", "success");
         }
 
         // --- 10. ADVANCED DATA BACKUP & RESTORE TOOLS ---
-        function loadSampleData() {
-            categories = JSON.parse(JSON.stringify(defaultCategories));
-            transactions = [...defaultTransactions];
-            saveDataToStorage();
-            renderCategorySettings();
-            showToast("Đã nhập dữ liệu biểu diễn mẫu thành công!", "success");
-        }
-
-        function confirmClearDatabase() {
-            categories = { thu: [], chi: [] };
+        async function confirmClearDatabase() {
             transactions = [];
-            saveDataToStorage();
             closeModal('clearDbModal');
             switchTab('dashboard');
-            showToast("Toàn bộ dữ liệu của bạn đã được xóa bỏ!", "success");
+            showToast("Đang xóa dữ liệu trên Google Sheets...", "success");
+            await saveDataToStorage();
         }
 
         function backupJSON() {
-            const package = {
-                categories: categories,
-                transactions: transactions,
-                exportDate: new Date().toISOString()
-            };
+            const package = { categories: categories, transactions: transactions, exportDate: new Date().toISOString() };
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(package, null, 2));
             const dlAnchorElem = document.createElement('a');
             dlAnchorElem.setAttribute("href", dataStr);
@@ -1249,123 +1149,32 @@
             showToast("Tải tệp JSON lưu trữ hoàn tất!", "success");
         }
 
-        function importJSON(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const parsed = JSON.parse(e.target.result);
-                    if (parsed.categories && parsed.transactions) {
-                        categories = parsed.categories;
-                        transactions = parsed.transactions;
-                        saveDataToStorage();
-                        showToast("Khôi phục toàn bộ sổ thành công!", "success");
-                        switchTab('dashboard');
-                    } else {
-                        showToast("Định dạng File không hợp lệ để khôi phục!", "error");
-                    }
-                } catch (err) {
-                    showToast("Lỗi đọc File khôi phục. Vui lòng kiểm tra kỹ lại!", "error");
-                }
-            };
-            reader.readAsText(file);
-        }
-
-        // --- STREAMING_CHUNK: Coding the customized sheetjs Excel exporter... ---
         // --- 11. EXCEL EXPORTER UTILIZING SHEETJS ---
         function exportToExcel() {
-            // Check sheet array
-            if (transactions.length === 0) {
-                showToast("Sổ thu chi của bạn trống, không có dữ liệu để xuất!", "error");
-                return;
-            }
-
+            if (transactions.length === 0) { showToast("Sổ thu chi trống, không có dữ liệu để xuất!", "error"); return; }
             try {
-                // Prepare "Nhật Ký Thu Chi" raw array mapping for spreadsheet rows
                 const ledgerRows = transactions.map((tx, idx) => ({
-                    "STT": idx + 1,
-                    "Ngày Tháng": new Date(tx.date).toLocaleDateString('vi-VN'),
-                    "Loại": tx.type === 'thu' ? "Thu Nhập" : "Chi Phí",
-                    "Hạng Mục": tx.category,
-                    "Nội Dung Chi Tiết": tx.content,
-                    "Ghi Chú": tx.note || "",
-                    "Thu Nhập (VND)": tx.type === 'thu' ? tx.amount : 0,
-                    "Chi Phí (VND)": tx.type === 'chi' ? tx.amount : 0
+                    "STT": idx + 1, "Ngày Tháng": new Date(tx.date).toLocaleDateString('vi-VN'),
+                    "Loại": tx.type === 'thu' ? "Thu Nhập" : "Chi Phí", "Hạng Mục": tx.category,
+                    "Nội Dung Chi Tiết": tx.content, "Ghi Chú": tx.note || "",
+                    "Thu Nhập (VND)": tx.type === 'thu' ? tx.amount : 0, "Chi Phí (VND)": tx.type === 'chi' ? tx.amount : 0
                 }));
-
-                // Prepare "Tổng Hợp Theo Tháng" table rows
-                let monthlyIncomes = Array(12).fill(0);
-                let monthlyExpenses = Array(12).fill(0);
-
-                transactions.forEach(tx => {
-                    const monthIdx = new Date(tx.date).getMonth();
-                    if (tx.type === 'thu') {
-                        monthlyIncomes[monthIdx] += tx.amount;
-                    } else {
-                        monthlyExpenses[monthIdx] += tx.amount;
-                    }
-                });
-
-                const summaryRows = [];
-                let totalYTDIncome = 0;
-                let totalYTDExpense = 0;
-
-                for (let i = 0; i < 12; i++) {
-                    const netFlow = monthlyIncomes[i] - monthlyExpenses[i];
-                    totalYTDIncome += monthlyIncomes[i];
-                    totalYTDExpense += monthlyExpenses[i];
-
-                    summaryRows.push({
-                        "Thời Gian": `Tháng ${i + 1}`,
-                        "Tổng Thu Nhập (VND)": monthlyIncomes[i],
-                        "Tổng Chi Phí (VND)": monthlyExpenses[i],
-                        "Dòng Tiền Thuần (Lợi Nhuận)": netFlow
-                    });
-                }
-
-                // Append cumulative totals at bottom of summary tab
-                summaryRows.push({
-                    "Thời Gian": "TỔNG CỘNG CẢ NĂM YTD",
-                    "Tổng Thu Nhập (VND)": totalYTDIncome,
-                    "Tổng Chi Phí (VND)": totalYTDExpense,
-                    "Dòng Tiền Thuần (Lợi Nhuận)": totalYTDIncome - totalYTDExpense
-                });
-
-                // Create spreadsheet workbooks
                 const wb = XLSX.utils.book_new();
-
                 const wsLedger = XLSX.utils.json_to_sheet(ledgerRows);
-                const wsSummary = XLSX.utils.json_to_sheet(summaryRows);
-
-                XLSX.utils.book_append_sheet(wb, wsSummary, "Tổng Hợp Theo Tháng");
                 XLSX.utils.book_append_sheet(wb, wsLedger, "Nhật Ký Thu Chi");
-
-                // Download execution
-                XLSX.writeFile(wb, `BaoCao_DòngTien_DoanhNghiep_2026.xlsx`);
+                XLSX.writeFile(wb, `BaoCao_ThuChi.xlsx`);
                 showToast("Đã tải báo cáo Excel thành công!", "success");
-
-            } catch (err) {
-                showToast("Lỗi xử lý tạo File Excel. Xin kiểm tra lại!", "error");
-            }
+            } catch (err) { showToast("Lỗi xử lý tạo File Excel.", "error"); }
         }
 
         // --- 12. FLOATING MODALS & TOAST WINDOWS UTILITIES ---
-        function openModal(id) {
-            document.getElementById(id).classList.remove('hidden');
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.add('hidden');
-        }
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
         function showToast(msg, type = "success") {
             const toast = document.getElementById('customToast');
             const icon = document.getElementById('toastIcon');
-            const txt = document.getElementById('toastMsg');
-
-            txt.innerText = msg;
+            document.getElementById('toastMsg').innerText = msg;
 
             if (type === "success") {
                 icon.innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
@@ -1375,13 +1184,8 @@
                 icon.className = "w-6 h-6 rounded-full flex items-center justify-center font-bold bg-rose-500 text-white";
             }
 
-            // Show Toast Animation
             toast.className = "fixed bottom-6 right-6 bg-white text-slate-800 border border-slate-200 px-5 py-4 rounded-2xl shadow-xl flex items-center space-x-3 text-sm transform translate-y-0 opacity-100 transition duration-300 z-50";
-
-            // Hide Toast after 3.5 seconds
-            setTimeout(() => {
-                toast.className = "fixed bottom-6 right-6 bg-white text-slate-800 border border-slate-200 px-5 py-4 rounded-2xl shadow-xl flex items-center space-x-3 text-sm transform translate-y-20 opacity-0 transition duration-300 z-50";
-            }, 3500);
+            setTimeout(() => { toast.className = "fixed bottom-6 right-6 bg-white text-slate-800 border border-slate-200 px-5 py-4 rounded-2xl shadow-xl flex items-center space-x-3 text-sm transform translate-y-20 opacity-0 transition duration-300 z-50"; }, 3500);
         }
 
         function refreshUI() {
