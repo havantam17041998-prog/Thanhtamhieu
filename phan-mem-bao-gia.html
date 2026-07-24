@@ -737,13 +737,13 @@ Khách hàng tạm ứng trước 50% ngay sau khi ký xác nhận đơn hàng.<
             let vatAmount = 0;
             let finalTotal = subTotal;
             let vatText = "chưa bao gồm thuế VAT (0%)";
-
+            let finalNoteText = "Tổng thanh toán (chưa bao gồm VAT)";
 
             if (vatRate > 0) {
                 vatAmount = subTotal * (vatRate / 100);
                 finalTotal = subTotal + vatAmount;
                 vatText = `đã bao gồm thuế VAT (${vatRate}%)`;
-
+                finalNoteText = "Tổng thanh toán sau thuế";
 
                 // Thêm dòng Tổng tiền hàng, tiền thuế nếu tồn tại VAT
                 outTbody.innerHTML += `
@@ -765,12 +765,12 @@ Khách hàng tạm ứng trước 50% ngay sau khi ký xác nhận đơn hàng.<
                 <tr class="font-black bg-blue-50/30 text-rose-600">
                     <td colspan="5" class="text-right text-sm uppercase text-slate-800 py-3 tracking-wider" style="border: 1px solid #cbd5e1; padding: 12px 6px;">TỔNG CỘNG THÀNH TIỀN THANH TOÁN:</td>
                     <td class="text-right font-black text-base py-3" style="border: 1px solid #cbd5e1; padding: 12px 6px;">${formatMoney(finalTotal)} VNĐ</td>
-                    <td class="text-left text-xs font-normal text-slate-400 italic" style="border: 1px solid #cbd5e1; padding: 12px 6px;">Tổng thanh toán sau thuế</td>
+                    <td class="text-left text-xs font-normal text-slate-400 italic" style="border: 1px solid #cbd5e1; padding: 12px 6px;">${finalNoteText}</td>
                 </tr>
             `;
 
-            // Đồng bộ Câu ghi chú thuế
-            document.getElementById('out-vat-note').innerText = vatText;
+
+
 
             // 4. Đồng bộ Thời gian bảo hành & Điều khoản bổ sung mới
             const warrantyText = document.getElementById('inp-warranty').value.trim();
@@ -805,76 +805,6 @@ Khách hàng tạm ứng trước 50% ngay sau khi ký xác nhận đơn hàng.<
 
             showToast("Bản in đã được thiết lập thành công!");
         }
-        // Thay URL Web App của anh vào đây
-const GOOGLE_APP_SCRIPT_URL = "DAN_URL_WEB_APP_CUA_ANH_VAO_DAY";
-
-// 1. HÀM LƯU BÁO GIÁ LÊN GOOGLE SHEETS
-async function saveQuoteToSheets() {
-  // Gom dữ liệu từ các ô input trên giao diện HTML của anh
-  const quoteData = {
-    id: document.getElementById("quoteId").value || "BG-" + Date.now(), // Tạo mã nếu chưa có
-    date: document.getElementById("quoteDate").value || new Date().toISOString().split('T')[0],
-    customerName: document.getElementById("customerName").value,
-    phone: document.getElementById("customerPhone").value,
-    address: document.getElementById("customerAddress").value,
-    items: getItemsFromTable(), // Hàm lấy danh sách vật tư từ bảng HTML
-    totalAmount: calculateTotal(), // Hàm tính tổng tiền
-    note: document.getElementById("note") ? document.getElementById("note").value : ""
-  };
-
-  try {
-    alert("Đang lưu báo giá lên hệ thống...");
-    const response = await fetch(GOOGLE_APP_SCRIPT_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" }, // Dùng text/plain để tránh lỗi CORS
-      body: JSON.stringify({ action: "save", quote: quoteData })
-    });
-
-    const result = await response.json();
-    if (result.status === "success") {
-      alert("Đã lưu báo giá thành công! Mã đơn: " + result.id);
-    } else {
-      alert("Có lỗi xảy ra: " + result.message);
-    }
-  } catch (err) {
-    console.error(err);
-    alert("Không thể kết nối với Google Sheets.");
-  }
-}
-
-// 2. HÀM TÌM VÀ TẢI LẠI BÁO GIÁ CŨ
-async function loadHistoryQuotes() {
-  try {
-    const response = await fetch(GOOGLE_APP_SCRIPT_URL);
-    const result = await response.json();
-
-    if (result.status === "success") {
-      const allQuotes = result.data;
-      console.log("Danh sách báo giá cũ:", allQuotes);
-      
-      // Anh có thể hiển thị danh sách này vào một Bảng (Table) hoặc Đơn sổ (Select/Modal)
-      // Khi chọn 1 báo giá, gọi hàm fillDataToForm(quoteSelected) bên dưới
-      return allQuotes;
-    }
-  } catch (err) {
-    console.error(err);
-    alert("Không tải được danh sách báo giá cũ.");
-  }
-}
-
-// 3. HÀM ĐIỀN DỮ LIỆU CŨ NGƯỢC LẠI VÀO FORM HTML
-function fillDataToForm(quote) {
-  document.getElementById("quoteId").value = quote.id;
-  document.getElementById("quoteDate").value = quote.date;
-  document.getElementById("customerName").value = quote.customerName;
-  document.getElementById("customerPhone").value = quote.phone;
-  document.getElementById("customerAddress").value = quote.address;
-  
-  // Vẽ lại bảng vật tư từ quote.items
-  renderTableItems(quote.items);
-  
-  alert("Đã tải dữ liệu báo giá: " + quote.id);
-}
     </script>
 </body>
 </html>
