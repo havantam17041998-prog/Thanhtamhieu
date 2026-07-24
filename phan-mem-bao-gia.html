@@ -3,12 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phần Mềm Báo Giá - Thanh Tâm Hiếu</title>
-    <!-- Nạp Google Fonts (Roboto và Dancing Script cho nét chữ ký/mỹ thuật) -->
+    <title>Phần Mềm Báo Giá Cloud - Thanh Tâm Hiếu</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
-    <!-- Nạp FontAwesome để hiển thị icon sinh động -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Nạp Tailwind CSS để dựng giao diện hiện đại, dễ responsive -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <script>
@@ -18,10 +15,6 @@
                     colors: {
                         primary: '#004a99',
                         secondary: '#ffc107',
-                        success: '#28a745',
-                        danger: '#dc3545',
-                        dark: '#333333',
-                        light: '#f8f9fa',
                     }
                 }
             }
@@ -29,210 +22,139 @@
     </script>
 
     <style>
-        /* CSS tùy chỉnh bổ sung cho các thành phần in ấn chuyên sâu */
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f1f5f9;
-        }
+        body { font-family: 'Roboto', sans-serif; background-color: #f1f5f9; }
         
-        /* ĐỊNH DẠNG KHỔ GIẤY A4 CHUẨN IN ẤN */
+        /* Ẩn / Hiện Loader Loading */
+        #loader-overlay { display: none; }
+        #loader-overlay.active { display: flex; }
+
         .page {
-            width: 21cm;
-            min-height: 29.7cm;
-            padding: 1.2cm 1.5cm;
-            margin: 20px auto;
-            background: #fff;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            position: relative;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            width: 21cm; min-height: 29.7cm; padding: 1.2cm 1.5cm;
+            margin: 20px auto; background: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            position: relative; box-sizing: border-box; display: flex;
+            flex-direction: column; justify-content: space-between;
         }
+        #print-section.screen-hidden { display: none; }
 
-        /* Ẩn xem trước bản in khi ở chế độ nhập liệu */
-        #print-section.screen-hidden {
-            display: none;
-        }
-
-        /* Tối ưu hóa cho chế độ In (Ctrl + P) */
         @media print {
-            body {
-                background: none;
-                margin: 0;
-                padding: 0;
-            }
-            #input-section, .no-print {
-                display: none !important;
-            }
-            #print-section {
-                display: block !important;
-            }
-            .page {
-                margin: 0;
-                border: none;
-                box-shadow: none;
-                width: 21cm;
-                height: 29.7cm;
-                padding: 1cm 1.2cm;
-                page-break-after: always;
-            }
+            body { background: none; margin: 0; padding: 0; }
+            #input-section, .no-print { display: none !important; }
+            #print-section { display: block !important; }
+            .page { margin: 0; border: none; box-shadow: none; width: 21cm; height: 29.7cm; padding: 1cm 1.2cm; page-break-after: always; }
         }
 
-        /* Định dạng bảng báo giá in ấn cực kỳ sắc nét */
-        .quote-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12.5px;
-        }
-        .quote-table th {
-            background-color: #004a99;
-            color: #ffffff;
-            font-weight: 700;
-            text-transform: uppercase;
-            padding: 8px 6px;
-            border: 1px solid #003875;
-            text-align: center;
-        }
-        .quote-table td {
-            padding: 7px 6px;
-            border: 1px solid #cbd5e1;
-            color: #334155;
-            vertical-align: middle;
-        }
-        .quote-table tr:nth-child(even) {
-            background-color: #f8fafc;
-        }
-
-        /* Thiết kế hiệu ứng hover mượt mà cho form nhập liệu */
-        .input-card {
-            transition: all 0.3s ease;
-        }
-        .input-card:hover {
-            box-shadow: 0 8px 30px rgba(0, 74, 153, 0.08);
-        }
-
-        /* Custom scrollbar cho thẩm mỹ */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
+        .quote-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+        .quote-table th { background-color: #004a99; color: #ffffff; font-weight: 700; text-transform: uppercase; padding: 8px 6px; border: 1px solid #003875; text-align: center; }
+        .quote-table td { padding: 7px 6px; border: 1px solid #cbd5e1; color: #334155; vertical-align: middle; }
+        .quote-table tr:nth-child(even) { background-color: #f8fafc; }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     </style>
 </head>
-<body class="text-slate-800 antialiased">
+<body class="text-slate-800 antialiased relative">
+
+    <!-- Loading Overlay -->
+    <div id="loader-overlay" class="fixed inset-0 bg-slate-900/60 z-[100] items-center justify-center backdrop-blur-sm">
+        <div class="bg-white p-6 rounded-2xl flex flex-col items-center gap-3 shadow-2xl">
+            <i class="fas fa-spinner fa-spin text-4xl text-primary"></i>
+            <p class="font-bold text-slate-700" id="loader-text">Đang đồng bộ dữ liệu...</p>
+        </div>
+    </div>
 
     <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
     <!-- KHỐI NHẬP LIỆU BÁO GIÁ -->
     <div id="input-section" class="max-w-6xl mx-auto px-4 py-8">
+        
+        <!-- Thanh công cụ CLOUD SAVE / LOAD -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-cloud text-blue-500 text-2xl"></i>
+                <div>
+                    <h3 class="font-bold text-slate-800 text-sm">Lưu Trữ Google Sheets</h3>
+                    <p class="text-[11px] text-slate-500">Đồng bộ dữ liệu báo giá để mở lại sau này</p>
+                </div>
+            </div>
+            
+            <div class="flex flex-wrap items-center gap-3">
+                <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg overflow-hidden">
+                    <input type="text" id="search-quote-id" placeholder="Nhập Mã Báo Giá..." class="px-3 py-2 outline-none text-sm w-40 bg-transparent font-medium">
+                    <button onclick="loadFromCloud()" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 transition text-sm font-bold border-l border-slate-300">
+                        <i class="fas fa-search"></i> Tải Lại
+                    </button>
+                </div>
+                
+                <button onclick="saveToCloud()" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg text-sm font-bold shadow-md shadow-emerald-500/20 transition flex items-center gap-2">
+                    <i class="fas fa-cloud-upload-alt"></i> Lưu Lên Cloud
+                </button>
+            </div>
+        </div>
+
         <!-- Tiêu đề phần mềm -->
         <div class="text-center mb-8">
             <h2 class="text-3xl font-black text-[#004a99] uppercase tracking-wide flex items-center justify-center gap-3">
-                <i class="fas fa-file-invoice-dollar text-[#ffc107]"></i> PHẦN MỀM TẠO BÁO GIÁ NHANH
+                <i class="fas fa-file-invoice-dollar text-[#ffc107]"></i> PHẦN MỀM TẠO BÁO GIÁ
             </h2>
-            <p class="text-slate-500 mt-2 font-medium">Cơ Điện Lạnh Thanh Tâm Hiếu - Tự động hóa báo giá & xuất file PDF chuyên nghiệp</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
-            <!-- Cột 1 & 2: Thông tin khách hàng & Chi tiết vật tư -->
             <div class="lg:col-span-2 space-y-6">
                 <!-- Thông tin khách hàng -->
-                <div class="input-card bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                     <div class="flex items-center gap-2 mb-4 border-b border-slate-100 pb-3">
                         <span class="w-2 h-6 bg-[#004a99] rounded"></span>
                         <h3 class="font-bold text-lg text-slate-800 uppercase">Thông tin khách hàng</h3>
                     </div>
-                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="md:col-span-2">
                             <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Tên Công ty / Khách hàng <span class="text-red-500">*</span></label>
-                            <input type="text" id="inp-client-name" class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-[#004a99]/20 focus:border-[#004a99] outline-none transition text-sm" placeholder="Nhập tên khách hàng hoặc đơn vị cần báo giá...">
+                            <input type="text" id="inp-client-name" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:border-[#004a99] outline-none text-sm">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Mã số thuế (nếu có)</label>
-                            <input type="text" id="inp-client-tax" class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-[#004a99]/20 focus:border-[#004a99] outline-none transition text-sm" placeholder="Nhập mã số thuế...">
+                            <input type="text" id="inp-client-tax" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:border-[#004a99] outline-none text-sm">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Điện thoại liên hệ</label>
-                            <input type="text" id="inp-client-phone" class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-[#004a99]/20 focus:border-[#004a99] outline-none transition text-sm" placeholder="Nhập số điện thoại...">
+                            <input type="text" id="inp-client-phone" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:border-[#004a99] outline-none text-sm">
                         </div>
                         <div class="md:col-span-2">
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Địa chỉ giao dịch / Công trình</label>
-                            <input type="text" id="inp-client-address" class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-[#004a99]/20 focus:border-[#004a99] outline-none transition text-sm" placeholder="Nhập địa chỉ của đối tác...">
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Địa chỉ</label>
+                            <input type="text" id="inp-client-address" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:border-[#004a99] outline-none text-sm">
                         </div>
                         <div class="md:col-span-2">
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Email nhận báo giá</label>
-                            <input type="email" id="inp-client-email" class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-[#004a99]/20 focus:border-[#004a99] outline-none transition text-sm" placeholder="Nhập địa chỉ email...">
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Email</label>
+                            <input type="email" id="inp-client-email" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:border-[#004a99] outline-none text-sm">
                         </div>
                     </div>
                 </div>
 
-                <!-- Khối nhập liệu danh sách vật tư / thi công -->
-                <div class="input-card bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <!-- Bảng vật tư -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                     <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
-                        <div class="flex items-center gap-2">
-                            <span class="w-2 h-6 bg-[#004a99] rounded"></span>
-                            <h3 class="font-bold text-lg text-slate-800 uppercase">Chi tiết hạng mục vật tư & thi công</h3>
-                        </div>
-                        <button type="button" onclick="addRow()" class="px-3 py-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-lg text-xs font-bold transition flex items-center gap-1">
-                            <i class="fas fa-plus"></i> Thêm dòng
-                        </button>
+                        <h3 class="font-bold text-lg text-slate-800 uppercase flex items-center gap-2"><span class="w-2 h-6 bg-[#004a99] rounded"></span> Chi tiết hạng mục</h3>
+                        <button type="button" onclick="addRow()" class="px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg text-xs font-bold"><i class="fas fa-plus"></i> Thêm dòng</button>
                     </div>
-
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse" id="input-items-table">
                             <thead>
-                                <tr class="border-b border-slate-100 text-xs font-black text-slate-400 uppercase">
-                                    <th class="pb-3 w-[38%]">Nội dung công việc / Vật tư</th>
+                                <tr class="border-b text-xs font-black text-slate-400 uppercase">
+                                    <th class="pb-3 w-[38%]">Nội dung</th>
                                     <th class="pb-3 w-[10%] px-2">ĐVT</th>
-                                    <th class="pb-3 w-[12%] px-2">Số lượng</th>
-                                    <th class="pb-3 w-[18%] px-2">Đơn giá (VNĐ)</th>
+                                    <th class="pb-3 w-[12%] px-2">SL</th>
+                                    <th class="pb-3 w-[18%] px-2">Đơn giá</th>
                                     <th class="pb-3 w-[17%] px-2">Ghi chú</th>
                                     <th class="pb-3 w-[5%] text-center"></th>
                                 </tr>
                             </thead>
                             <tbody id="items-body" class="divide-y divide-slate-100">
-                                <!-- Dòng mẫu ban đầu -->
-                                <tr class="item-row group">
-                                    <td class="py-3 pr-2">
-                                        <input type="text" class="i-desc w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:border-primary outline-none" placeholder="VD: Lắp đặt máy lạnh âm trần 2.5 HP">
-                                    </td>
-                                    <td class="py-3 px-1">
-                                        <input type="text" class="i-unit w-full px-2 py-2 border border-slate-200 rounded-lg text-sm focus:border-primary outline-none text-center" placeholder="Bộ">
-                                    </td>
-                                    <td class="py-3 px-1">
-                                        <input type="number" class="i-qty w-full px-2 py-2 border border-slate-200 rounded-lg text-sm focus:border-primary outline-none text-center" placeholder="1" value="1" min="0" step="any" oninput="calculateRowTotal()">
-                                    </td>
-                                    <td class="py-3 px-1">
-                                        <input type="number" class="i-price w-full px-2 py-2 border border-slate-200 rounded-lg text-sm focus:border-primary outline-none text-right" placeholder="0" min="0" step="1000" oninput="calculateRowTotal()">
-                                    </td>
-                                    <td class="py-3 px-1">
-                                        <input type="text" class="i-note w-full px-2 py-2 border border-slate-200 rounded-lg text-sm focus:border-primary outline-none" placeholder="VD: Máy mới 100%">
-                                    </td>
-                                    <td class="py-3 text-center">
-                                        <button class="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition" onclick="removeRow(this)">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+                                <!-- Dòng tự động thêm -->
                             </tbody>
                         </table>
                     </div>
-                    
-                    <div class="mt-4 pt-4 border-t border-slate-100 flex justify-between items-center">
-                        <button class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm rounded-lg transition flex items-center gap-2" onclick="addRow()">
-                            <i class="fas fa-plus-circle"></i> Thêm một dòng mới
-                        </button>
+                    <div class="mt-4 pt-4 border-t flex justify-end">
                         <div class="text-right">
                             <span class="text-xs font-semibold text-slate-400 uppercase block">Tạm tính sơ bộ:</span>
                             <span id="temp-subtotal" class="text-lg font-black text-[#004a99]">0 VNĐ</span>
@@ -241,514 +163,360 @@
                 </div>
             </div>
 
-            <!-- Cột 3: Cấu hình báo giá chung & Điều khoản -->
+            <!-- Khối cấu hình -->
             <div class="space-y-6">
-                <!-- Khối cấu hình chung -->
-                <div class="input-card bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <div class="flex items-center gap-2 mb-4 border-b border-slate-100 pb-3">
-                        <span class="w-2 h-6 bg-[#ffc107] rounded"></span>
-                        <h3 class="font-bold text-lg text-slate-800 uppercase">Thông tin chung báo giá</h3>
-                    </div>
-
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-lg text-slate-800 uppercase mb-4 flex items-center gap-2"><span class="w-2 h-6 bg-[#ffc107] rounded"></span> Thông tin chung</h3>
                     <div class="space-y-4">
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Hạng mục thi công</label>
-                            <input type="text" id="inp-project-name" class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-[#004a99]/20 focus:border-[#004a99] outline-none transition text-sm" placeholder="VD: Thi công lắp đặt hệ thống máy lạnh...">
+                            <input type="text" id="inp-project-name" class="w-full px-4 py-2 border border-slate-200 rounded-lg text-sm">
                         </div>
                         <div class="grid grid-cols-2 gap-3">
                             <div>
-                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Số báo giá</label>
-                                <input type="text" id="inp-quote-no" class="w-full px-3 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-[#004a99]/20 focus:border-[#004a99] outline-none transition text-sm" placeholder="BG-2026/TTH-01">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Số báo giá <span class="text-red-500">*</span></label>
+                                <input type="text" id="inp-quote-no" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold text-primary">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Ngày lập</label>
-                                <input type="text" id="inp-quote-date" class="w-full px-3 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-[#004a99]/20 focus:border-[#004a99] outline-none transition text-sm" placeholder="DD/MM/YYYY">
+                                <input type="text" id="inp-quote-date" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm">
                             </div>
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Thuế suất VAT (%)</label>
-                            <select id="inp-vat-rate" class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-[#004a99]/20 focus:border-[#004a99] outline-none transition text-sm bg-white" onchange="calculateRowTotal()">
+                            <select id="inp-vat-rate" class="w-full px-4 py-2 border border-slate-200 rounded-lg text-sm" onchange="calculateRowTotal()">
                                 <option value="0">Không có thuế (0%)</option>
                                 <option value="8">Thuế VAT 8%</option>
                                 <option value="10">Thuế VAT 10%</option>
                             </select>
                         </div>
-                        <!-- Tải Logo -->
-                        <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Tải logo công ty (nếu có)</label>
-                            <div class="flex items-center gap-3">
-                                <label class="flex-1 flex flex-col items-center justify-center py-2 px-3 border border-dashed border-slate-300 rounded-lg cursor-pointer hover:bg-slate-50 transition">
-                                    <span class="text-xs text-slate-500 flex items-center gap-1" id="logo-status">
-                                        <i class="fas fa-cloud-upload-alt text-primary"></i> Chọn ảnh logo...
-                                    </span>
-                                    <input type="file" id="inp-logo" class="hidden" accept="image/*" onchange="handleLogoUpload(this)">
-                                </label>
-                                <button type="button" onclick="resetLogo()" class="px-2.5 py-2 text-rose-500 bg-rose-50 hover:bg-rose-100 rounded-lg transition text-xs font-bold" title="Xóa logo, khôi phục mặc định">
-                                    <i class="fas fa-sync-alt"></i>
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
-                <!-- Khối quản lý bảo hành & điều khoản -->
-                <div class="input-card bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <div class="flex items-center gap-2 mb-4 border-b border-slate-100 pb-3">
-                        <span class="w-2 h-6 bg-emerald-500 rounded"></span>
-                        <h3 class="font-bold text-lg text-slate-800 uppercase">Bảo hành & Điều khoản</h3>
-                    </div>
-
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-lg text-slate-800 uppercase mb-4 flex items-center gap-2"><span class="w-2 h-6 bg-emerald-500 rounded"></span> Điều khoản</h3>
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Chế độ bảo hành <span class="text-[#004a99] font-black">*</span></label>
-                            <input type="text" id="inp-warranty" class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-[#004a99]/20 focus:border-[#004a99] outline-none transition text-sm" value="Bảo hành kỹ thuật lắp đặt từ 06 - 12 tháng kể từ ngày bàn giao nghiệm thu.">
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Bảo hành</label>
+                            <input type="text" id="inp-warranty" class="w-full px-4 py-2 border border-slate-200 rounded-lg text-sm" value="Bảo hành kỹ thuật lắp đặt 12 tháng.">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Điều khoản bổ sung (Mỗi dòng là 1 mục)</label>
-                            <textarea id="inp-notes" rows="4" class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-[#004a99]/20 focus:border-[#004a99] outline-none transition text-sm font-normal" placeholder="Nhập các điều khoản thanh toán, hiệu lực báo giá...">Khối lượng vật tư phụ phát sinh (ống đồng, dây điện...) thanh toán dựa trên đo đạc thực tế nghiệm thu.
-Báo giá có giá trị hiệu lực trong vòng 30 ngày kể từ ngày ban hành.
-Khách hàng tạm ứng trước 50% ngay sau khi ký xác nhận đơn hàng.</textarea>
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Ghi chú thêm</label>
+                            <textarea id="inp-notes" rows="4" class="w-full px-4 py-2 border border-slate-200 rounded-lg text-sm">Báo giá có hiệu lực 30 ngày. Khách hàng tạm ứng 50%.</textarea>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Nút Tạo bản in -->
         <div class="mt-8">
-            <button class="w-full bg-[#004a99] hover:bg-[#003875] text-white font-extrabold text-lg py-4 px-6 rounded-2xl shadow-lg transition duration-200 transform active:scale-[0.99] flex items-center justify-center gap-3" onclick="generateQuotation()">
-                <i class="fas fa-print text-[#ffc107] text-2xl"></i> XUẤT BẢN IN BÁO GIÁ (XEM TRƯỚC / IN PDF)
+            <button class="w-full bg-[#004a99] text-white font-extrabold text-lg py-4 rounded-2xl shadow-lg hover:bg-[#003875] transition" onclick="generateQuotation()">
+                <i class="fas fa-print"></i> XUẤT BẢN IN BÁO GIÁ
             </button>
         </div>
     </div>
 
 
-    <!-- KHỐI BẢN IN A4 (PREVIEW & PRINT) -->
+    <!-- KHỐI BẢN IN (Tương tự phiên bản trước, giữ nguyên cấu trúc khổ A4) -->
     <div id="print-section" class="screen-hidden">
-        <!-- Thanh công cụ phía trên bản in (không in ra giấy) -->
-        <div class="action-bar no-print flex justify-center items-center gap-4 py-4 bg-slate-900 border-b border-slate-800 sticky top-0 z-40">
-            <button class="px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-lg text-sm transition flex items-center gap-2" onclick="showInputForm()">
-                <i class="fas fa-arrow-left"></i> Quay lại chỉnh sửa
-            </button>
-            <button class="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black rounded-lg text-sm transition flex items-center gap-2 shadow-lg" onclick="window.print()">
-                <i class="fas fa-file-pdf"></i> TẢI XUỐNG / IN FILE BÁO GIÁ (PDF)
-            </button>
+        <div class="action-bar no-print flex justify-center items-center gap-4 py-4 bg-slate-900 sticky top-0 z-40">
+            <button class="px-5 py-2.5 bg-slate-700 text-white rounded-lg" onclick="showInputForm()">Quay lại chỉnh sửa</button>
+            <button class="px-6 py-2.5 bg-amber-500 font-black rounded-lg" onclick="window.print()"><i class="fas fa-file-pdf"></i> TẢI PDF / IN</button>
         </div>
-
-        <!-- KHỔ GIẤY IN A4 -->
         <div class="page">
             <div>
-                <!-- Header công ty -->
-                <div class="header flex justify-between items-start border-b-2 border-slate-100 pb-4">
-                    <div class="logo-section flex items-center">
-                        <div id="print-logo-container" class="mr-4 flex items-center">
-                            <img id="print-logo-img" src="logo-thanh-tam-hieu1.jpg" alt="Logo" class="h-20 object-contain" onerror="handleLogoError()">
-                            <div id="print-logo-fallback" class="hidden flex items-center gap-2 bg-[#004a99] text-white p-3 rounded-lg font-black tracking-wider text-xl shadow-sm">
-                                <i class="fas fa-snowflake animate-spin" style="animation-duration: 6s;"></i> TTH
-                            </div>
-                        </div>
-                        <div>
-                            <div class="logo-text-area flex flex-col">
-                                <span class="company-name text-xl font-black text-[#004a99] tracking-tight">Cơ Điện Lạnh Thanh Tâm Hiếu</span>
-                                <span class="company-slogan text-[11px] text-slate-500 font-bold uppercase tracking-wider mt-0.5">Chuyên nghiệp - Tận tâm - Uy tín</span>
-                            </div>
-                        </div>
+                <!-- Header -->
+                <div class="header flex justify-between items-start border-b-2 pb-4">
+                    <div class="flex flex-col">
+                        <span class="text-xl font-black text-[#004a99]">Cơ Điện Lạnh Thanh Tâm Hiếu</span>
+                        <span class="text-[11px] text-slate-500 font-bold uppercase">Chuyên nghiệp - Tận tâm - Uy tín</span>
                     </div>
-                    <!-- Thông tin liên hệ góc phải -->
-                    <div class="contact-section text-right text-xs text-slate-600 space-y-1">
-                        <p><i class="fas fa-phone-alt text-primary"></i> <span class="font-semibold">Hotline:</span> 0961.751.705 - 0364.574.555</p>
-                        <p><i class="fas fa-envelope text-primary"></i> <span class="font-semibold">Email:</span> DLthanhtamhieu@gmail.com</p>
-                        <p><i class="fas fa-globe text-primary"></i> <span class="font-semibold">Website:</span> DLthanhtamhieu.com.vn</p>
+                    <div class="text-right text-xs text-slate-600">
+                        <p>Hotline: 0961.751.705</p>
+                        <p>Email: DLthanhtamhieu@gmail.com</p>
                     </div>
                 </div>
 
-                <!-- Tiêu đề lớn -->
-                <div class="title-section text-center my-5">
-                    <h1 class="text-2xl font-black text-slate-800 tracking-wide inline-block border-b-4 border-amber-400 pb-1">BẢNG BÁO GIÁ CHI TIẾT</h1>
-                    <p class="text-sm text-slate-500 font-medium mt-1.5">Hạng mục: <span id="out-project" class="font-bold text-slate-800"></span></p>
+                <div class="text-center my-5">
+                    <h1 class="text-2xl font-black text-slate-800 pb-1">BẢNG BÁO GIÁ CHI TIẾT</h1>
+                    <p class="text-sm font-medium">Hạng mục: <span id="out-project" class="font-bold"></span></p>
                 </div>
 
-                <!-- Khối thông tin khách hàng & Báo giá -->
-                <div class="client-section flex justify-between bg-slate-50 p-3.5 rounded-xl border-l-4 border-primary my-4">
-                    <div class="client-info space-y-1">
-                        <h3 class="text-xs font-extrabold text-primary uppercase tracking-wider mb-1">Kính gửi Quý Khách Hàng:</h3>
-                        <p class="text-sm"><strong class="text-slate-600">Khách Hàng / Đơn Vị:</strong> <span id="out-client-name" class="font-bold text-slate-900"></span></p>
-                        <p id="out-tax-row" class="text-sm"><strong class="text-slate-600">Mã số thuế:</strong> <span id="out-client-tax" class="font-mono"></span></p>
-                        <p class="text-sm"><strong class="text-slate-600">Địa Chỉ:</strong> <span id="out-client-address"></span></p>
-                        <p id="out-phone-row" class="text-sm"><strong class="text-slate-600">Điện Thoại:</strong> <span id="out-client-phone" class="font-semibold"></span></p>
-                        <p id="out-email-row" class="text-sm"><strong class="text-slate-600">Email:</strong> <span id="out-client-email" class="text-slate-700"></span></p>
+                <div class="flex justify-between bg-slate-50 p-3.5 rounded-xl border-l-4 border-primary my-4">
+                    <div class="space-y-1 text-sm">
+                        <p><strong>Khách Hàng:</strong> <span id="out-client-name" class="font-bold"></span></p>
+                        <p id="out-tax-row"><strong>MST:</strong> <span id="out-client-tax"></span></p>
+                        <p><strong>Địa Chỉ:</strong> <span id="out-client-address"></span></p>
+                        <p id="out-phone-row"><strong>SĐT:</strong> <span id="out-client-phone"></span></p>
                     </div>
-                    <div class="quote-info text-right text-sm space-y-1">
-                        <p class="text-slate-500"><strong>Số báo giá:</strong> <span id="out-quote-no" class="font-mono font-bold text-slate-800"></span></p>
-                        <p class="text-slate-500"><strong>Ngày lập:</strong> <span id="out-quote-date" class="font-semibold text-slate-800"></span></p>
+                    <div class="text-right text-sm">
+                        <p><strong>Số BG:</strong> <span id="out-quote-no" class="font-bold text-slate-800"></span></p>
+                        <p><strong>Ngày:</strong> <span id="out-quote-date"></span></p>
                     </div>
                 </div>
 
-                <!-- Bảng vật tư chi tiết phục vụ in -->
-                <div class="table-section my-4">
-                    <table class="quote-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 5%;">STT</th>
-                                <th style="width: 33%;">NỘI DUNG / HẠNG MỤC CÔNG VIỆC</th>
-                                <th style="width: 8%;">ĐVT</th>
-                                <th style="width: 7%;">SL</th>
-                                <th style="width: 15%;">ĐƠN GIÁ (VNĐ)</th>
-                                <th style="width: 16%;">THÀNH TIỀN (VNĐ)</th>
-                                <th style="width: 16%;">GHI CHÚ</th>
-                            </tr>
-                        </thead>
-                        <tbody id="out-items-body">
-                            <!-- Được điền tự động bằng JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
+                <!-- Bảng -->
+                <table class="quote-table my-4">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">STT</th>
+                            <th style="width: 35%;">NỘI DUNG</th>
+                            <th style="width: 8%;">ĐVT</th>
+                            <th style="width: 7%;">SL</th>
+                            <th style="width: 15%;">ĐƠN GIÁ</th>
+                            <th style="width: 15%;">THÀNH TIỀN</th>
+                            <th style="width: 15%;">GHI CHÚ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="out-items-body"></tbody>
+                </table>
 
-                <!-- Điều khoản bảo hành & Ghi chú bổ sung -->
-                <div class="notes-section bg-blue-50/40 p-3.5 rounded-xl border border-dashed border-blue-200 text-xs text-slate-700 my-4 space-y-1.5">
-                    <h4 class="font-bold text-[#004a99] uppercase tracking-wider text-xs flex items-center gap-1.5">
-                        <i class="fas fa-file-signature"></i> ĐIỀU KHOẢN & GHI CHÚ BÁO GIÁ:
-                    </h4>
-                    <ul class="list-decimal pl-5 space-y-1" id="out-notes-list">
-                        <!-- Nội dung ghi chú được chèn từ JavaScript -->
-                    </ul>
+                <div class="bg-blue-50/40 p-3.5 border border-dashed border-blue-200 text-xs text-slate-700 my-4">
+                    <h4 class="font-bold text-[#004a99] uppercase mb-1">ĐIỀU KHOẢN:</h4>
+                    <ul class="list-decimal pl-5 space-y-1" id="out-notes-list"></ul>
                 </div>
             </div>
-
-            <div>
-                <!-- Chữ ký xác nhận và dấu công ty -->
-                <div class="signature-section flex justify-around text-center my-4 text-xs font-bold uppercase text-slate-700">
-                    <div class="signature-col">
-                        XÁC NHẬN ĐƠN HÀNG
-                        <p class="text-[11px] text-slate-400 italic normal-case font-normal mt-0.5">(Ký, ghi rõ họ tên và đóng dấu)</p>
-                        <div class="sign-box h-20"></div>
-                    </div>
-                    
-                    <div class="signature-col">
-                        NGƯỜI LẬP BÁO GIÁ
-                        <p class="text-[11px] text-slate-400 italic normal-case font-normal mt-0.5">(Ký, đóng dấu và ghi rõ họ tên)</p>
-                        <div class="sign-box h-20 flex items-center justify-center"></div>
-                        <div class="full-name text-sm font-black text-slate-900">Cơ Điện Lạnh Thanh Tâm Hiếu</div>
-                    </div>
-                </div>
-
-                <!-- Footer chân trang in -->
-                <div class="footer border-t-2 border-amber-400 pt-2 text-[10px] text-slate-400 flex justify-between items-center">
-                    <p>© 2026 - Cơ Điện Lạnh Thanh Tâm Hiếu. Chuyên gia tư vấn và thiết kế công trình lạnh.</p>
-                    <div class="footer-logo-icon flex gap-1.5 text-primary text-xs">
-                        <i class="fas fa-cog"></i>
-                        <i class="fas fa-snowflake"></i>
-                    </div>
-                </div>
+            
+            <div class="flex justify-around text-center my-4 text-xs font-bold">
+                <div>XÁC NHẬN<br><span class="font-normal italic text-slate-400">(Ký, đóng dấu)</span></div>
+                <div>NGƯỜI LẬP<br><span class="font-normal italic text-slate-400">(Ký, đóng dấu)</span><br><br><br>Thanh Tâm Hiếu</div>
             </div>
         </div>
     </div>
 
-    <!-- SCRIPT XỬ LÝ LOGIC CHÍNH -->
+
     <script>
-        // Khởi tạo các giá trị mặc định khi tải trang
+        // ==========================================
+        // CẤU HÌNH API APP SCRIPT GOOGLE SHEETS
+        // CHÚ Ý: DÁN ĐƯỜNG LINK WEB APP URL CỦA BẠN VÀO ĐÂY SAU KHI DEPLOY
+        const SCRIPT_URL = "YOUR_WEB_APP_URL_HERE"; 
+        // VD: "https://script.google.com/macros/s/AKfycby.../exec"
+        // ==========================================
+
         document.addEventListener('DOMContentLoaded', () => {
             const today = new Date();
-            const dd = String(today.getDate()).padStart(2, '0');
-            const mm = String(today.getMonth() + 1).padStart(2, '0');
-            const yyyy = today.getFullYear();
-            
-            // Tự động điền ngày lập hiện tại
-            document.getElementById('inp-quote-date').value = `${dd}/${mm}/${yyyy}`;
-            
-            // Tự động tạo mã số báo giá ngẫu nhiên
-            const randomCode = Math.floor(100 + Math.random() * 900);
-            document.getElementById('inp-quote-no').value = `BG-${yyyy}/TTH-${randomCode}`;
+            document.getElementById('inp-quote-date').value = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+            document.getElementById('inp-quote-no').value = `BG-${today.getFullYear()}/TTH-${Math.floor(100 + Math.random() * 900)}`;
+            addRow(); // Thêm 1 dòng trống mặc định
         });
 
-        // Hàm thêm một dòng vật tư mới
-        function addRow() {
+        // ----- CÁC HÀM XỬ LÝ BẢNG NHẬP LIỆU -----
+        function addRow(data = null) {
             const tbody = document.getElementById('items-body');
-            const newRow = document.createElement('tr');
-            newRow.className = 'item-row group';
-            newRow.innerHTML = `
-                <td class="py-3 pr-2">
-                    <input type="text" class="i-desc w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:border-primary outline-none" placeholder="Tên công việc / vật tư...">
-                </td>
-                <td class="py-3 px-1">
-                    <input type="text" class="i-unit w-full px-2 py-2 border border-slate-200 rounded-lg text-sm focus:border-primary outline-none text-center" placeholder="Cái/Bộ">
-                </td>
-                <td class="py-3 px-1">
-                    <input type="number" class="i-qty w-full px-2 py-2 border border-slate-200 rounded-lg text-sm focus:border-primary outline-none text-center" placeholder="1" value="1" min="0" step="any" oninput="calculateRowTotal()">
-                </td>
-                <td class="py-3 px-1">
-                    <input type="number" class="i-price w-full px-2 py-2 border border-slate-200 rounded-lg text-sm focus:border-primary outline-none text-right" placeholder="0" min="0" step="1000" oninput="calculateRowTotal()">
-                </td>
-                <td class="py-3 px-1">
-                    <input type="text" class="i-note w-full px-2 py-2 border border-slate-200 rounded-lg text-sm focus:border-primary outline-none" placeholder="Ghi chú...">
-                </td>
-                <td class="py-3 text-center">
-                    <button class="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition" onclick="removeRow(this)">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </td>
+            const tr = document.createElement('tr');
+            tr.className = 'item-row';
+            tr.innerHTML = `
+                <td class="py-2 pr-2"><input type="text" class="i-desc w-full px-2 py-1.5 border rounded text-sm" value="${data ? data.desc : ''}"></td>
+                <td class="py-2 px-1"><input type="text" class="i-unit w-full px-2 py-1.5 border rounded text-sm text-center" value="${data ? data.unit : 'Bộ'}"></td>
+                <td class="py-2 px-1"><input type="number" class="i-qty w-full px-2 py-1.5 border rounded text-sm text-center" value="${data ? data.qty : '1'}" oninput="calculateRowTotal()"></td>
+                <td class="py-2 px-1"><input type="number" class="i-price w-full px-2 py-1.5 border rounded text-sm text-right" value="${data ? data.price : ''}" oninput="calculateRowTotal()"></td>
+                <td class="py-2 px-1"><input type="text" class="i-note w-full px-2 py-1.5 border rounded text-sm" value="${data ? data.note : ''}"></td>
+                <td class="py-2 text-center"><button class="text-rose-500" onclick="this.closest('tr').remove(); calculateRowTotal();"><i class="fas fa-trash"></i></button></td>
             `;
-            tbody.appendChild(newRow);
+            tbody.appendChild(tr);
         }
 
-        // Hàm xóa dòng vật tư
-        function removeRow(btn) {
-            const rows = document.querySelectorAll('.item-row');
-            if (rows.length > 1) {
-                btn.closest('tr').remove();
-                calculateRowTotal();
-            } else {
-                showToast('Báo giá phải có ít nhất 1 dòng hạng mục!');
-            }
-        }
-
-        // Hàm định dạng tiền tệ VNĐ
-        function formatVND(amount) {
-            return new Intl.NumberFormat('vi-VN').format(amount) + ' VNĐ';
-        }
-
-        // Tính tạm tính sơ bộ ở giao diện nhập
         function calculateRowTotal() {
-            let subtotal = 0;
-            const rows = document.querySelectorAll('.item-row');
-            rows.forEach(row => {
-                const qty = parseFloat(row.querySelector('.i-qty').value) || 0;
-                const price = parseFloat(row.querySelector('.i-price').value) || 0;
-                subtotal += qty * price;
+            let sub = 0;
+            document.querySelectorAll('.item-row').forEach(row => {
+                sub += (parseFloat(row.querySelector('.i-qty').value) || 0) * (parseFloat(row.querySelector('.i-price').value) || 0);
             });
-            document.getElementById('temp-subtotal').innerText = formatVND(subtotal);
+            document.getElementById('temp-subtotal').innerText = sub.toLocaleString('vi-VN') + ' VNĐ';
+            return sub;
         }
 
-        // Xử lý khi tải logo tùy chỉnh lên
-        function handleLogoUpload(input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = document.getElementById('print-logo-img');
-                    const fallback = document.getElementById('print-logo-fallback');
-                    img.src = e.target.result;
-                    img.classList.remove('hidden');
-                    fallback.classList.add('hidden');
-                    document.getElementById('logo-status').innerHTML = `<i class="fas fa-check text-emerald-500"></i> Đã nạp logo`;
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
+
+        // ----- CÁC HÀM LƯU VÀ TẢI DỮ LIỆU CLOUD -----
+        
+        function showLoader(text) {
+            document.getElementById('loader-text').innerText = text;
+            document.getElementById('loader-overlay').classList.add('active');
+        }
+        function hideLoader() {
+            document.getElementById('loader-overlay').classList.remove('active');
+        }
+        function showToast(msg) {
+            alert(msg); // Có thể thay bằng custom Toast html
         }
 
-        // Đặt lại logo mặc định
-        function resetLogo() {
-            const img = document.getElementById('print-logo-img');
-            const fallback = document.getElementById('print-logo-fallback');
-            document.getElementById('inp-logo').value = '';
-            img.src = 'logo-thanh-tam-hieu1.jpg';
-            img.classList.remove('hidden');
-            fallback.classList.add('hidden');
-            document.getElementById('logo-status').innerHTML = `<i class="fas fa-cloud-upload-alt text-primary"></i> Chọn ảnh logo...`;
+        // Đóng gói toàn bộ form thành JSON
+        function getFormData() {
+            const items = [];
+            document.querySelectorAll('.item-row').forEach(row => {
+                items.push({
+                    desc: row.querySelector('.i-desc').value,
+                    unit: row.querySelector('.i-unit').value,
+                    qty: row.querySelector('.i-qty').value,
+                    price: row.querySelector('.i-price').value,
+                    note: row.querySelector('.i-note').value
+                });
+            });
+
+            return {
+                quoteNo: document.getElementById('inp-quote-no').value,
+                date: document.getElementById('inp-quote-date').value,
+                clientName: document.getElementById('inp-client-name').value,
+                clientTax: document.getElementById('inp-client-tax').value,
+                clientPhone: document.getElementById('inp-client-phone').value,
+                clientAddress: document.getElementById('inp-client-address').value,
+                clientEmail: document.getElementById('inp-client-email').value,
+                projectName: document.getElementById('inp-project-name').value,
+                vatRate: document.getElementById('inp-vat-rate').value,
+                warranty: document.getElementById('inp-warranty').value,
+                notes: document.getElementById('inp-notes').value,
+                items: items
+            };
         }
 
-        // Xử lý khi hình ảnh logo bị lỗi đường dẫn
-        function handleLogoError() {
-            const img = document.getElementById('print-logo-img');
-            const fallback = document.getElementById('print-logo-fallback');
-            img.classList.add('hidden');
-            fallback.classList.remove('hidden');
-        }
-
-        // Đổi số tiền thành chữ tiếng Việt
-        function numberToWordsVietnamese(number) {
-            if (number === 0) return "Không đồng";
-            const units = ["", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
-            const scales = ["", "nghìn", "triệu", "tỷ", "nghìn tỷ", "triệu tỷ"];
-
-            function readTriple(num) {
-                let h = Math.floor(num / 100);
-                let t = Math.floor((num % 100) / 10);
-                let u = num % 10;
-                let res = "";
-
-                if (h > 0 || t > 0 || u > 0) {
-                    res += units[h] + " trăm ";
-                    if (t === 0 && u > 0) res += "lẻ ";
-                    if (t === 1) res += "mười ";
-                    if (t > 1) res += units[t] + " mươi ";
-                    if (u === 1 && t > 1) res += "mốt ";
-                    else if (u === 5 && t > 0) res += "lăm ";
-                    else if (u > 0) res += units[u] + " ";
-                }
-                return res;
-            }
-
-            let str = "";
-            let scaleIdx = 0;
-            let num = Math.floor(Math.abs(number));
-
-            while (num > 0) {
-                let triple = num % 1000;
-                if (triple > 0) {
-                    let tripleStr = readTriple(triple);
-                    str = tripleStr + scales[scaleIdx] + " " + str;
-                }
-                scaleIdx++;
-                num = Math.floor(num / 1000);
-            }
-
-            str = str.trim();
-            str = str.charAt(0).toUpperCase() + str.slice(1) + " đồng";
-            return str.replace(/\s+/g, ' ');
-        }
-
-        // Hàm chính: Xuất dữ liệu ra bản in A4
-        function generateQuotation() {
-            const clientName = document.getElementById('inp-client-name').value.trim();
-            if (!clientName) {
-                showToast('Vui lòng nhập Tên công ty / Khách hàng!');
-                document.getElementById('inp-client-name').focus();
+        // LƯU LÊN GOOGLE SHEETS
+        async function saveToCloud() {
+            if(SCRIPT_URL === "https://script.google.com/macros/s/AKfycbw6glqxshcnp2ZJGFQ9ge-spkVmPk7gUTPoTXbnywr1yDVnnU_VqS1RLZeutsWDVqfSfA/exec") {
+                showToast("Lỗi: Bạn chưa cấu hình SCRIPT_URL của Google Apps Script trong mã nguồn!");
                 return;
             }
 
-            // Gán thông tin khách hàng & dự án
-            document.getElementById('out-client-name').innerText = clientName;
-            document.getElementById('out-project').innerText = document.getElementById('inp-project-name').value || "Lắp đặt, sửa chữa thiết bị lạnh";
-            document.getElementById('out-quote-no').innerText = document.getElementById('inp-quote-no').value || "BG-2026/TTH-01";
-            document.getElementById('out-quote-date').innerText = document.getElementById('inp-quote-date').value || "";
+            const formData = getFormData();
+            if(!formData.clientName || !formData.quoteNo) {
+                showToast("Vui lòng nhập Tên Khách Hàng và Mã Báo Giá trước khi lưu!");
+                return;
+            }
 
-            // Ẩn/Hiện dòng thông tin trống
-            const tax = document.getElementById('inp-client-tax').value.trim();
-            const phone = document.getElementById('inp-client-phone').value.trim();
-            const address = document.getElementById('inp-client-address').value.trim();
-            const email = document.getElementById('inp-client-email').value.trim();
+            const payload = {
+                quoteId: formData.quoteNo,
+                customerName: formData.clientName,
+                total: calculateRowTotal(),
+                rawData: JSON.stringify(formData)
+            };
 
-            document.getElementById('out-client-tax').innerText = tax;
-            document.getElementById('out-tax-row').style.display = tax ? 'block' : 'none';
+            showLoader("Đang lưu lên Google Sheets...");
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if(result.status === 'success') {
+                    showToast("Đã lưu báo giá thành công!");
+                }
+            } catch (error) {
+                showToast("Lỗi kết nối. Vui lòng kiểm tra lại mạng hoặc link Script.");
+            }
+            hideLoader();
+        }
 
-            document.getElementById('out-client-address').innerText = address || "Theo công trình chỉ định";
+        // TẢI TỪ GOOGLE SHEETS
+        async function loadFromCloud() {
+            if(SCRIPT_URL === "YOUR_WEB_APP_URL_HERE") {
+                showToast("Lỗi: Bạn chưa cấu hình SCRIPT_URL!");
+                return;
+            }
+
+            const searchId = document.getElementById('search-quote-id').value.trim();
+            if(!searchId) {
+                showToast("Vui lòng nhập Mã báo giá cần tìm (VD: BG-2026/TTH-xxx)");
+                return;
+            }
+
+            showLoader("Đang tìm kiếm trên Cloud...");
+            try {
+                const response = await fetch(SCRIPT_URL + "?id=" + encodeURIComponent(searchId));
+                const result = await response.json();
+                
+                if(result.status === 'success') {
+                    const data = JSON.parse(result.data);
+                    
+                    // Phục hồi dữ liệu input
+                    document.getElementById('inp-quote-no').value = data.quoteNo || searchId;
+                    document.getElementById('inp-quote-date').value = data.date;
+                    document.getElementById('inp-client-name').value = data.clientName;
+                    document.getElementById('inp-client-tax').value = data.clientTax;
+                    document.getElementById('inp-client-phone').value = data.clientPhone;
+                    document.getElementById('inp-client-address').value = data.clientAddress;
+                    document.getElementById('inp-client-email').value = data.clientEmail;
+                    document.getElementById('inp-project-name').value = data.projectName;
+                    document.getElementById('inp-vat-rate').value = data.vatRate;
+                    document.getElementById('inp-warranty').value = data.warranty;
+                    document.getElementById('inp-notes').value = data.notes;
+
+                    // Phục hồi bảng
+                    document.getElementById('items-body').innerHTML = '';
+                    if(data.items && data.items.length > 0) {
+                        data.items.forEach(item => addRow(item));
+                    } else {
+                        addRow();
+                    }
+                    calculateRowTotal();
+                    showToast("Đã tải thành công dữ liệu báo giá!");
+                } else {
+                    showToast("Không tìm thấy báo giá nào với mã này!");
+                }
+            } catch (error) {
+                showToast("Lỗi kết nối khi tải dữ liệu.");
+            }
+            hideLoader();
+        }
+
+        // ----- XUẤT BẢN IN (Tương tự code cũ rút gọn) -----
+        function formatVND(amount) { return amount.toLocaleString('vi-VN') + ' VNĐ'; }
+        
+        function generateQuotation() {
+            // Chuyển dữ liệu từ form sang bản in (HTML mapping)
+            document.getElementById('out-client-name').innerText = document.getElementById('inp-client-name').value || '---';
+            document.getElementById('out-quote-no').innerText = document.getElementById('inp-quote-no').value;
+            document.getElementById('out-quote-date').innerText = document.getElementById('inp-quote-date').value;
+            document.getElementById('out-client-tax').innerText = document.getElementById('inp-client-tax').value;
+            document.getElementById('out-client-address').innerText = document.getElementById('inp-client-address').value;
+            document.getElementById('out-client-phone').innerText = document.getElementById('inp-client-phone').value;
+            document.getElementById('out-project').innerText = document.getElementById('inp-project-name').value;
             
-            document.getElementById('out-client-phone').innerText = phone;
-            document.getElementById('out-phone-row').style.display = phone ? 'block' : 'none';
-
-            document.getElementById('out-client-email').innerText = email;
-            document.getElementById('out-email-row').style.display = email ? 'block' : 'none';
-
-            // Xuất chi tiết bảng vật tư
             const outBody = document.getElementById('out-items-body');
             outBody.innerHTML = '';
-            
             let subtotal = 0;
-            const itemRows = document.querySelectorAll('.item-row');
             
-            itemRows.forEach((row, idx) => {
-                const desc = row.querySelector('.i-desc').value.trim() || '---';
-                const unit = row.querySelector('.i-unit').value.trim() || 'Bộ';
+            document.querySelectorAll('.item-row').forEach((row, idx) => {
+                const desc = row.querySelector('.i-desc').value;
+                const unit = row.querySelector('.i-unit').value;
                 const qty = parseFloat(row.querySelector('.i-qty').value) || 0;
                 const price = parseFloat(row.querySelector('.i-price').value) || 0;
-                const note = row.querySelector('.i-note').value.trim() || '';
+                const note = row.querySelector('.i-note').value;
                 const total = qty * price;
                 subtotal += total;
 
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td style="text-align: center; font-weight: bold;">${idx + 1}</td>
-                    <td style="font-weight: 600; color: #0f172a;">${desc}</td>
-                    <td style="text-align: center;">${unit}</td>
-                    <td style="text-align: center; font-weight: bold;">${qty}</td>
-                    <td style="text-align: right;">${formatVND(price)}</td>
-                    <td style="text-align: right; font-weight: bold; color: #004a99;">${formatVND(total)}</td>
-                    <td style="font-size: 11px; color: #64748b;">${note}</td>
+                outBody.innerHTML += `
+                    <tr>
+                        <td class="text-center font-bold">${idx + 1}</td>
+                        <td class="font-semibold">${desc}</td>
+                        <td class="text-center">${unit}</td>
+                        <td class="text-center font-bold">${qty}</td>
+                        <td class="text-right">${formatVND(price)}</td>
+                        <td class="text-right font-bold text-primary">${formatVND(total)}</td>
+                        <td class="text-xs text-slate-500">${note}</td>
+                    </tr>
                 `;
-                outBody.appendChild(tr);
             });
 
-            // Tính toán Thuế VAT & Tổng cộng
             const vatRate = parseFloat(document.getElementById('inp-vat-rate').value) || 0;
-            const vatAmount = subtotal * (vatRate / 100);
-            const grandTotal = subtotal + vatAmount;
+            const vat = subtotal * (vatRate/100);
+            const grandTotal = subtotal + vat;
 
-            // Dòng tạm tính
-            const trSubtotal = document.createElement('tr');
-            trSubtotal.style.backgroundColor = '#f1f5f9';
-            trSubtotal.innerHTML = `
-                <td colspan="5" style="text-align: right; font-weight: bold; text-transform: uppercase;">Tạm tính:</td>
-                <td style="text-align: right; font-weight: bold; color: #0f172a;">${formatVND(subtotal)}</td>
-                <td></td>
-            `;
-            outBody.appendChild(trSubtotal);
+            outBody.innerHTML += `<tr class="bg-slate-50"><td colspan="5" class="text-right font-bold">Tạm tính:</td><td class="text-right font-bold">${formatVND(subtotal)}</td><td></td></tr>`;
+            if(vatRate > 0) outBody.innerHTML += `<tr class="bg-slate-50"><td colspan="5" class="text-right font-bold">Thuế VAT (${vatRate}%):</td><td class="text-right font-bold text-red-500">${formatVND(vat)}</td><td></td></tr>`;
+            outBody.innerHTML += `<tr class="bg-blue-50"><td colspan="5" class="text-right font-black text-primary uppercase">TỔNG CỘNG:</td><td class="text-right font-black text-primary">${formatVND(grandTotal)}</td><td></td></tr>`;
 
-            // Dòng thuế VAT (nếu có)
-            if (vatRate > 0) {
-                const trVat = document.createElement('tr');
-                trVat.style.backgroundColor = '#f1f5f9';
-                trVat.innerHTML = `
-                    <td colspan="5" style="text-align: right; font-weight: bold;">Thuế VAT (${vatRate}%):</td>
-                    <td style="text-align: right; font-weight: bold; color: #dc3545;">${formatVND(vatAmount)}</td>
-                    <td></td>
-                `;
-                outBody.appendChild(trVat);
-            }
-
-            // Dòng Tổng cộng thanh toán
-            const trGrand = document.createElement('tr');
-            trGrand.style.backgroundColor = '#e0f2fe';
-            trGrand.innerHTML = `
-                <td colspan="5" style="text-align: right; font-weight: 900; color: #004a99; font-size: 13px; text-transform: uppercase;">TỔNG CỘNG THANH TOÁN:</td>
-                <td style="text-align: right; font-weight: 900; color: #004a99; font-size: 13.5px;">${formatVND(grandTotal)}</td>
-                <td></td>
-            `;
-            outBody.appendChild(trGrand);
-
-            // Dòng số tiền bằng chữ
-            const trWords = document.createElement('tr');
-            trWords.innerHTML = `
-                <td colspan="7" style="font-style: italic; background-color: #ffffff; padding: 8px 10px;">
-                    <strong style="color: #004a99;">Số tiền bằng chữ:</strong> ${numberToWordsVietnamese(grandTotal)}
-                </td>
-            `;
-            outBody.appendChild(trWords);
-
-            // Điền điều khoản & bảo hành
             const notesList = document.getElementById('out-notes-list');
-            notesList.innerHTML = '';
-
-            const warranty = document.getElementById('inp-warranty').value.trim();
-            if (warranty) {
-                const liW = document.createElement('li');
-                liW.innerHTML = `<strong>Chế độ bảo hành:</strong> ${warranty}`;
-                notesList.appendChild(liW);
-            }
-
-            const rawNotes = document.getElementById('inp-notes').value.split('\n');
-            rawNotes.forEach(line => {
-                if (line.trim()) {
-                    const li = document.createElement('li');
-                    li.innerText = line.trim();
-                    notesList.appendChild(li);
-                }
+            notesList.innerHTML = `<li><strong>Bảo hành:</strong> ${document.getElementById('inp-warranty').value}</li>`;
+            document.getElementById('inp-notes').value.split('\n').forEach(line => {
+                if(line.trim()) notesList.innerHTML += `<li>${line.trim()}</li>`;
             });
 
-            // Chuyển chế độ xem sang trang in
             document.getElementById('input-section').classList.add('hidden');
             document.getElementById('print-section').classList.remove('screen-hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo(0,0);
         }
 
-        // Trở về trang nhập liệu
         function showInputForm() {
             document.getElementById('print-section').classList.add('screen-hidden');
             document.getElementById('input-section').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Hiển thị thông báo Toast nhanh
-        function showToast(message) {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = 'bg-rose-600 text-white px-5 py-3 rounded-xl shadow-2xl text-sm font-bold flex items-center gap-2 pointer-events-auto transform transition duration-300 translate-y-2';
-            toast.innerHTML = `<i class="fas fa-exclamation-circle text-lg"></i> ${message}`;
-            container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.classList.add('opacity-0', '-translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
         }
     </script>
 </body>
