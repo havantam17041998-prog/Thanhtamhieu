@@ -426,34 +426,12 @@ Thanh toán: 50% ngay sau khi ký hợp đồng, 50% sau khi bàn giao.</textare
         </div>
     </div>
 
-   <!-- JAVASCRIPT LOGIC -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
         let quoteCount = 1;
-        
-        // Cấu hình khi vừa load trang
-        document.addEventListener("DOMContentLoaded", () => {
-            initDefaults();
-            loadApiSettings();
-            addRow(); // Thêm sẵn 1 dòng
-        });
+        const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbz_SAMPLE_YOUR_SCRIPT_URL/exec";
 
-        function initDefaults() {
-            // Tạo số báo giá mặc định
-            const today = new Date();
-            const dateStr = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}`;
-            const randomCode = Math.floor(1000 + Math.random() * 9000);
-            
-            document.getElementById('inp-quote-no').value = `BG-${randomCode}`;
-            document.getElementById('inp-quote-date').value = dateStr;
-            
-            // Xóa rỗng các ô khách hàng
-            document.getElementById('inp-client-name').value = "";
-            document.getElementById('inp-client-phone').value = "";
-            document.getElementById('inp-client-address').value = "";
-            document.getElementById('inp-client-tax').value = "";
-        }
-
-        // --- HỆ THỐNG THÔNG BÁO (TOAST) ---
+        // Custom Toast Notification System
         function showNotification(msg, type = 'info') {
             const container = document.getElementById('toast-container');
             const div = document.createElement('div');
@@ -467,26 +445,25 @@ Thanh toán: 50% ngay sau khi ký hợp đồng, 50% sau khi bàn giao.</textare
             }, 3200);
         }
 
-        // --- QUẢN LÝ BẢNG VẬT TƯ ---
         function addRow(data = null) {
             const tbody = document.getElementById('items-body');
             const tr = document.createElement('tr');
             tr.className = 'item-row transition hover:bg-slate-50/80';
             tr.innerHTML = `
                 <td class="py-2 pr-2">
-                    <input type="text" class="i-desc w-full px-3 py-1.5 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-[#004a99]/20 outline-none" placeholder="Tên vật tư / nhân công..." value="${data?.desc || ''}">
+                    <input type="text" class="i-desc w-full px-3 py-1.5 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-primary/20 outline-none" placeholder="Tên vật tư / nhân công..." value="${data?.desc || ''}">
                 </td>
                 <td class="py-2 px-1">
-                    <input type="text" class="i-unit w-full px-2 py-1.5 border border-slate-200 rounded-lg text-sm text-center focus:ring-2 focus:ring-[#004a99]/20 outline-none" value="${data?.unit || 'Bộ'}">
+                    <input type="text" class="i-unit w-full px-2 py-1.5 border border-slate-200 rounded-lg text-sm text-center focus:ring-2 focus:ring-primary/20 outline-none" value="${data?.unit || 'Bộ'}">
                 </td>
                 <td class="py-2 px-1">
-                    <input type="number" step="any" class="i-qty w-full px-2 py-1.5 border border-slate-200 rounded-lg text-sm text-center font-bold focus:ring-2 focus:ring-[#004a99]/20 outline-none" value="${data?.qty ?? 1}" oninput="calculateRowTotal()">
+                    <input type="number" step="any" class="i-qty w-full px-2 py-1.5 border border-slate-200 rounded-lg text-sm text-center font-bold focus:ring-2 focus:ring-primary/20 outline-none" value="${data?.qty ?? 1}" oninput="calculateRowTotal()">
                 </td>
                 <td class="py-2 px-1">
-                    <input type="number" step="any" class="i-price w-full px-2 py-1.5 border border-slate-200 rounded-lg text-sm text-right font-bold text-slate-800 focus:ring-2 focus:ring-[#004a99]/20 outline-none" value="${data?.price ?? 0}" oninput="calculateRowTotal()">
+                    <input type="number" step="any" class="i-price w-full px-2 py-1.5 border border-slate-200 rounded-lg text-sm text-right font-bold text-slate-800 focus:ring-2 focus:ring-primary/20 outline-none" value="${data?.price ?? 0}" oninput="calculateRowTotal()">
                 </td>
                 <td class="py-2 px-1">
-                    <input type="text" class="i-note w-full px-2 py-1.5 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-[#004a99]/20 outline-none" placeholder="Ghi chú" value="${data?.note || ''}">
+                    <input type="text" class="i-note w-full px-2 py-1.5 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-primary/20 outline-none" placeholder="Ghi chú" value="${data?.note || ''}">
                 </td>
                 <td class="py-2 text-center">
                     <button type="button" class="text-slate-300 hover:text-rose-500 transition px-2 py-1" onclick="removeRow(this)">
@@ -504,233 +481,410 @@ Thanh toán: 50% ngay sau khi ký hợp đồng, 50% sau khi bàn giao.</textare
                 btn.closest('tr').remove();
                 calculateRowTotal();
             } else {
-                showNotification('Phải có ít nhất 1 dòng vật tư!', 'warning');
+                showNotification('Báo giá cần ít nhất 1 dòng vật tư!', 'warning');
             }
         }
 
         function clearAllRows() {
-            if(confirm("Bạn có chắc muốn xóa toàn bộ vật tư?")) {
-                document.getElementById('items-body').innerHTML = '';
-                addRow();
-            }
+            document.getElementById('items-body').innerHTML = '';
+            addRow();
+            showNotification('Đã làm mới bảng vật tư');
         }
 
         function calculateRowTotal() {
-            const rows = document.querySelectorAll('.item-row');
             let subtotal = 0;
-            rows.forEach(row => {
-                const qty = Number(row.querySelector('.i-qty').value) || 0;
-                const price = Number(row.querySelector('.i-price').value) || 0;
+            document.querySelectorAll('.item-row').forEach(row => {
+                const qty = parseFloat(row.querySelector('.i-qty').value) || 0;
+                const price = parseFloat(row.querySelector('.i-price').value) || 0;
                 subtotal += (qty * price);
             });
+
             document.getElementById('temp-subtotal').innerText = subtotal.toLocaleString('vi-VN') + ' VNĐ';
             return subtotal;
         }
 
-        // --- CẤU HÌNH API & RESET ---
-        function toggleApiSettings() {
-            const panel = document.getElementById('api-settings-panel');
-            panel.classList.toggle('hidden');
+        function readThreeDigits(number, readZero) {
+            const digitNames = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
+            let hundred = Math.floor(number / 100);
+            let ten = Math.floor((number % 100) / 10);
+            let unit = number % 10;
+            let result = "";
+
+            if (hundred > 0 || readZero) {
+                result += digitNames[hundred] + " trăm ";
+            }
+            if (ten > 1) {
+                result += digitNames[ten] + " mươi ";
+                if (unit === 1) result += "mốt";
+                else if (unit === 5) result += "lăm";
+                else if (unit > 0) result += digitNames[unit];
+            } else if (ten === 1) {
+                result += "mười ";
+                if (unit === 1) result += "một";
+                else if (unit === 5) result += "lăm";
+                else if (unit > 0) result += digitNames[unit];
+            } else if (readZero && unit > 0) {
+                result += "lẻ " + digitNames[unit];
+            } else if (unit > 0) {
+                result += digitNames[unit];
+            }
+            return result.trim();
         }
 
-        function loadApiSettings() {
-            const savedUrl = localStorage.getItem('gg_sheet_url');
-            if (savedUrl) document.getElementById('inp-api-url').value = savedUrl;
+        function numberToWordsVietnamese(number) {
+            if (number === 0) return "Không đồng";
+            if (!number || isNaN(number)) return "";
+
+            number = Math.round(number);
+            let units = ["", "nghìn", "triệu", "tỷ", "nghìn tỷ", "triệu tỷ"];
+            let str = "";
+            let i = 0;
+
+            do {
+                let n = number % 1000;
+                if (n > 0) {
+                    let s = readThreeDigits(n, number > 999);
+                    str = s + " " + units[i] + " " + str;
+                }
+                number = Math.floor(number / 1000);
+                i++;
+            } while (number > 0);
+
+            str = str.trim();
+            if (!str) return "";
+            return str.charAt(0).toUpperCase() + str.slice(1) + " đồng chẵn.";
         }
 
+        function generateQuotation() {
+            const clientName = document.getElementById('inp-client-name').value.trim();
+            if (!clientName) {
+                showNotification('Vui lòng nhập tên Khách hàng / Công ty!', 'error');
+                document.getElementById('inp-client-name').focus();
+                return;
+            }
+
+            // Fill Print Section
+            document.getElementById('out-client-name').innerText = clientName;
+            document.getElementById('out-client-tax').innerText = document.getElementById('inp-client-tax').value || '---';
+            document.getElementById('out-client-address').innerText = document.getElementById('inp-client-address').value || '---';
+            document.getElementById('out-client-phone').innerText = document.getElementById('inp-client-phone').value || '---';
+
+            document.getElementById('out-quote-no').innerText = document.getElementById('inp-quote-no').value;
+            document.getElementById('out-quote-date').innerText = document.getElementById('inp-quote-date').value;
+            document.getElementById('out-project-name').innerText = document.getElementById('inp-project-name').value || 'Cơ Điện Lạnh';
+
+            document.getElementById('out-warranty').innerText = document.getElementById('inp-warranty').value;
+            document.getElementById('out-notes').innerText = document.getElementById('inp-notes').value;
+
+            // Render Items Table
+            const outBody = document.getElementById('out-items-body');
+            outBody.innerHTML = '';
+            let subtotal = 0;
+
+            document.querySelectorAll('.item-row').forEach((row, idx) => {
+                const desc = row.querySelector('.i-desc').value.trim();
+                const unit = row.querySelector('.i-unit').value.trim();
+                const qty = parseFloat(row.querySelector('.i-qty').value) || 0;
+                const price = parseFloat(row.querySelector('.i-price').value) || 0;
+                const total = qty * price;
+                subtotal += total;
+
+                if (desc) {
+                    outBody.innerHTML += `
+                        <tr>
+                            <td class="text-center font-bold">${idx + 1}</td>
+                            <td>
+                                <div class="font-bold text-slate-800">${desc}</div>
+                                ${row.querySelector('.i-note').value ? `<div class="text-[11px] text-slate-500 italic">${row.querySelector('.i-note').value}</div>` : ''}
+                            </td>
+                            <td class="text-center">${unit}</td>
+                            <td class="text-center font-bold">${qty}</td>
+                            <td class="text-right">${price.toLocaleString('vi-VN')}</td>
+                            <td class="text-right font-bold text-slate-900">${total.toLocaleString('vi-VN')}</td>
+                        </tr>
+                    `;
+                }
+            });
+
+            // VAT & Totals
+            const vatRate = parseFloat(document.getElementById('inp-vat-rate').value) || 0;
+            const vatAmount = subtotal * (vatRate / 100);
+            const totalAmount = subtotal + vatAmount;
+
+            document.getElementById('out-subtotal').innerText = subtotal.toLocaleString('vi-VN') + ' VNĐ';
+            document.getElementById('out-vat-percent').innerText = vatRate;
+            document.getElementById('out-vat-amount').innerText = vatAmount.toLocaleString('vi-VN') + ' VNĐ';
+            document.getElementById('out-total-amount').innerText = totalAmount.toLocaleString('vi-VN') + ' VNĐ';
+            document.getElementById('out-amount-words').innerText = numberToWordsVietnamese(totalAmount);
+
+            // VietQR Image Generation
+            const qrUrl = `https://img.vietqr.io/image/MB-0961751705-compact.png?amount=${Math.round(totalAmount)}&addInfo=BG%20${document.getElementById('inp-quote-no').value}&accountName=THANH%20TAM%20HIEU`;
+            document.getElementById('out-vietqr').src = qrUrl;
+
+            // Save to Local History automatically
+            saveToLocalStorage();
+
+            // Toggle UI
+            document.getElementById('input-section').classList.add('hidden');
+            document.getElementById('print-section').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function returnToEditor() {
+            document.getElementById('print-section').classList.add('hidden');
+            document.getElementById('input-section').classList.remove('hidden');
+        }
+
+        function getFormData() {
+            const items = [];
+            document.querySelectorAll('.item-row').forEach(row => {
+                items.push({
+                    desc: row.querySelector('.i-desc').value,
+                    unit: row.querySelector('.i-unit').value,
+                    qty: row.querySelector('.i-qty').value,
+                    price: row.querySelector('.i-price').value,
+                    note: row.querySelector('.i-note').value
+                });
+            });
+
+            const subtotal = calculateRowTotal();
+            const vatRate = parseFloat(document.getElementById('inp-vat-rate').value) || 0;
+            const total = subtotal * (1 + vatRate / 100);
+
+            return {
+                quoteNo: document.getElementById('inp-quote-no').value,
+                quoteDate: document.getElementById('inp-quote-date').value,
+                projectName: document.getElementById('inp-project-name').value,
+                clientName: document.getElementById('inp-client-name').value,
+                clientTax: document.getElementById('inp-client-tax').value,
+                clientPhone: document.getElementById('inp-client-phone').value,
+                clientAddress: document.getElementById('inp-client-address').value,
+                vatRate: vatRate,
+                warranty: document.getElementById('inp-warranty').value,
+                notes: document.getElementById('inp-notes').value,
+                items: items,
+                total: total,
+                timestamp: new Date().toISOString()
+            };
+        }
+
+        function loadFormData(data) {
+            if (!data) return;
+            document.getElementById('inp-quote-no').value = data.quoteNo || '';
+            document.getElementById('inp-quote-date').value = data.quoteDate || '';
+            document.getElementById('inp-project-name').value = data.projectName || '';
+            document.getElementById('inp-client-name').value = data.clientName || '';
+            document.getElementById('inp-client-tax').value = data.clientTax || '';
+            document.getElementById('inp-client-phone').value = data.clientPhone || '';
+            document.getElementById('inp-client-address').value = data.clientAddress || '';
+            document.getElementById('inp-vat-rate').value = data.vatRate ?? 10;
+            document.getElementById('inp-warranty').value = data.warranty || '';
+            document.getElementById('inp-notes').value = data.notes || '';
+
+            const tbody = document.getElementById('items-body');
+            tbody.innerHTML = '';
+            if (data.items && data.items.length > 0) {
+                data.items.forEach(item => addRow(item));
+            } else {
+                addRow();
+            }
+            calculateRowTotal();
+        }
+
+        function saveToLocalStorage() {
+            const data = getFormData();
+            if (!data.clientName) return;
+            let history = JSON.parse(localStorage.getItem('quote_history') || '[]');
+            history = history.filter(h => h.quoteNo !== data.quoteNo);
+            history.unshift(data);
+            if (history.length > 20) history.pop();
+            localStorage.setItem('quote_history', JSON.stringify(history));
+        }
+
+        function openHistoryModal() {
+            const history = JSON.parse(localStorage.getItem('quote_history') || '[]');
+            const listEl = document.getElementById('history-list');
+            
+            if (history.length === 0) {
+                listEl.innerHTML = `<p class="text-center text-slate-400 py-8 text-sm">Chưa có báo giá nào được lưu gần đây.</p>`;
+            } else {
+                listEl.innerHTML = history.map(item => `
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center hover:bg-slate-100 transition">
+                        <div>
+                            <div class="font-bold text-sm text-primary">${item.quoteNo} - ${item.clientName}</div>
+                            <div class="text-xs text-slate-500">${item.projectName || 'Dự án'} • ${new Date(item.timestamp).toLocaleDateString('vi-VN')}</div>
+                            <div class="text-xs font-bold text-slate-800 mt-0.5">${(item.total || 0).toLocaleString('vi-VN')} VNĐ</div>
+                        </div>
+                        <button onclick='loadHistoryItem("${item.quoteNo}")' class="px-3 py-1.5 bg-primary text-white text-xs font-bold rounded-lg shadow">
+                            Tải
+                        </button>
+                    </div>
+                `).join('');
+            }
+            document.getElementById('modal-history').classList.remove('hidden');
+        }
+
+        function closeHistoryModal() {
+            document.getElementById('modal-history').classList.add('hidden');
+        }
+
+        function loadHistoryItem(quoteNo) {
+            const history = JSON.parse(localStorage.getItem('quote_history') || '[]');
+            const found = history.find(h => h.quoteNo === quoteNo);
+            if (found) {
+                loadFormData(found);
+                closeHistoryModal();
+                showNotification(`Đã tải báo giá ${quoteNo}`);
+            }
+        }
+
+        // Google Sheets Integration
         function saveApiUrl() {
             const url = document.getElementById('inp-api-url').value.trim();
-            if(url.startsWith('https://script.google.com/')) {
-                localStorage.setItem('gg_sheet_url', url);
-                showNotification('Đã lưu cấu hình Google Sheet!');
+            localStorage.setItem('gsheet_api_url', url);
+            showNotification('Đã lưu cấu hình Google Sheet URL!');
+            toggleApiSettings();
+        }
+
+        function toggleApiSettings() {
+            document.getElementById('api-settings-panel').classList.toggle('hidden');
+        }
+
+        function isApiConfigured() {
+            const apiUrl = localStorage.getItem('gsheet_api_url') || '';
+            if (!apiUrl || apiUrl.includes('AKfycbz_SAMPLE_YOUR_SCRIPT_URL')) {
+                return false;
+            }
+            return true;
+        }
+
+        function showPhoneSyncModal() {
+            if (!isApiConfigured()) {
+                showNotification('Vui lòng cài đặt và lưu URL Google Sheet trước!', 'warning');
                 toggleApiSettings();
-            } else {
-                showNotification('URL không hợp lệ!', 'error');
+                return;
+            }
+
+            const apiUrl = localStorage.getItem('gsheet_api_url');
+            const currentUrl = window.location.href.split('?')[0];
+            const syncUrl = `${currentUrl}?api=${encodeURIComponent(apiUrl)}`;
+            
+            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(syncUrl)}`;
+            document.getElementById('qr-sync-img').src = qrApiUrl;
+            document.getElementById('modal-qr-sync').classList.remove('hidden');
+        }
+
+        function closeQrModal() {
+            document.getElementById('modal-qr-sync').classList.add('hidden');
+        }
+
+        async function saveToCloud() {
+            const data = getFormData();
+            if (!data.clientName) {
+                showNotification('Nhập tên Khách hàng trước khi lưu cloud!', 'error');
+                return;
+            }
+
+            if (!isApiConfigured()) {
+                showNotification('Chưa cấu hình Google Sheet URL trên thiết bị này!', 'error');
+                toggleApiSettings();
+                return;
+            }
+
+            const apiUrl = localStorage.getItem('gsheet_api_url');
+            showNotification('Đang gửi dữ liệu lên Google Sheets...', 'warning');
+
+            try {
+                const payload = {
+                    quoteId: data.quoteNo,
+                    customerName: data.clientName,
+                    total: data.total,
+                    rawData: JSON.stringify(data)
+                };
+
+                await fetch(apiUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                saveToLocalStorage();
+                showNotification('Đã lưu thành công lên Google Sheets!');
+            } catch (err) {
+                console.error(err);
+                showNotification('Lỗi kết nối Google Sheets!', 'error');
+            }
+        }
+
+        async function loadFromCloud() {
+            const quoteId = document.getElementById('inp-search-quote-id').value.trim();
+            if (!quoteId) {
+                showNotification('Vui lòng nhập Mã Báo Giá cần tìm!', 'error');
+                return;
+            }
+
+            if (!isApiConfigured()) {
+                showNotification('Chưa cấu hình Google Sheet URL trên thiết bị này!', 'error');
+                closeHistoryModal();
+                toggleApiSettings();
+                return;
+            }
+
+            const apiUrl = localStorage.getItem('gsheet_api_url');
+            showNotification('Đang tải dữ liệu từ Google Sheets...', 'warning');
+
+            try {
+                const res = await fetch(`${apiUrl}?id=${encodeURIComponent(quoteId)}`);
+                const json = await res.json();
+
+                if (json.status === 'success' && json.data) {
+                    const data = JSON.parse(json.data);
+                    loadFormData(data);
+                    closeHistoryModal();
+                    showNotification(`Đã tải báo giá ${quoteId} từ Cloud!`);
+                } else {
+                    showNotification('Không tìm thấy Mã Báo Giá trên Google Sheet!', 'error');
+                }
+            } catch (err) {
+                console.error(err);
+                showNotification('Lỗi tải dữ liệu! Đảm bảo Google Script đã chọn quyền "Anyone" khi Deploy.', 'error');
             }
         }
 
         function resetForm() {
-            if(confirm("Tạo mới báo giá? Các dữ liệu đang nhập sẽ bị xóa.")) {
-                initDefaults();
-                document.getElementById('items-body').innerHTML = '';
-                addRow();
-            }
-        }
-
-        // --- GỬI DỮ LIỆU LÊN CLOUD ---
-        async function saveToCloud() {
-            const webAppUrl = localStorage.getItem("gg_sheet_url");
-            if (!webAppUrl) {
-                showNotification("Vui lòng cấu hình URL Google Sheet Web App trước!", "warning");
-                toggleApiSettings();
-                return;
-            }
-
-            const items = [];
-            document.querySelectorAll('.item-row').forEach(row => {
-                const ten = row.querySelector('.i-desc').value.trim();
-                if (ten) {
-                    items.push({
-                        ten: ten,
-                        dvt: row.querySelector('.i-unit').value.trim(),
-                        sl: Number(row.querySelector('.i-qty').value) || 0,
-                        donGia: Number(row.querySelector('.i-price').value) || 0
-                    });
-                }
-            });
-
-            if(items.length === 0) {
-                showNotification("Chưa có nội dung vật tư nào!", "warning");
-                return;
-            }
-
-            const vatRate = Number(document.getElementById("inp-vat-rate").value);
-            const subtotal = calculateRowTotal();
-            const tongTien = subtotal + (subtotal * vatRate / 100);
-
-            // Gom đúng biến để gửi đi
-            const payload = {
-                maBaoGia: document.getElementById("inp-quote-no").value,
-                ngayTao: document.getElementById("inp-quote-date").value,
-                tenKhachHang: document.getElementById("inp-client-name").value,
-                soDienThoai: document.getElementById("inp-client-phone").value,
-                diaChi: document.getElementById("inp-client-address").value,
-                ghiChu: document.getElementById("inp-notes").value,
-                tongTien: tongTien,
-                chiTiet: items
-            };
-
-            const btn = document.querySelector('button[onclick="saveToCloud()"]');
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ĐANG LƯU...';
-            btn.disabled = true;
-
-            try {
-                const response = await fetch(webAppUrl, {
-                    method: "POST",
-                    headers: { "Content-Type": "text/plain;charset=utf-8" },
-                    body: JSON.stringify(payload)
-                });
-                
-                const res = await response.json();
-                if (res.status === "success") {
-                    showNotification("Đã lưu báo giá thành công lên Sheet!");
-                    saveToHistoryLocal(payload);
-                } else {
-                    showNotification("Lỗi từ máy chủ: " + res.message, "error");
-                }
-            } catch (err) {
-                showNotification("Lỗi mạng! Không thể kết nối tới Google Sheet.", "error");
-            } finally {
-                btn.innerHTML = originalHTML;
-                btn.disabled = false;
-            }
-        }
-
-        // --- XUẤT BẢN IN ---
-        function generateQuotation() {
-            if(!document.getElementById("inp-client-name").value.trim()) {
-                showNotification("Vui lòng nhập tên khách hàng!", "warning");
-                return;
-            }
-
-            // Bind data to print view
-            document.getElementById("out-client-name").innerText = document.getElementById("inp-client-name").value;
-            document.getElementById("out-client-tax").innerText = document.getElementById("inp-client-tax").value;
-            document.getElementById("out-client-phone").innerText = document.getElementById("inp-client-phone").value;
-            document.getElementById("out-client-address").innerText = document.getElementById("inp-client-address").value;
+            const today = new Date();
+            const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+            const randNo = Math.floor(100 + Math.random() * 900);
             
-            document.getElementById("out-quote-no").innerText = document.getElementById("inp-quote-no").value;
-            document.getElementById("out-quote-date").innerText = document.getElementById("inp-quote-date").value;
-            document.getElementById("out-project-name").innerText = document.getElementById("inp-project-name").value;
-            
-            document.getElementById("out-warranty").innerText = document.getElementById("inp-warranty").value;
-            document.getElementById("out-notes").innerText = document.getElementById("inp-notes").value;
+            document.getElementById('inp-quote-no').value = `BG-${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}-${randNo}`;
+            document.getElementById('inp-quote-date').value = dateStr;
+            document.getElementById('inp-client-name').value = '';
+            document.getElementById('inp-client-tax').value = '';
+            document.getElementById('inp-client-phone').value = '';
+            document.getElementById('inp-client-address').value = '';
+            document.getElementById('inp-project-name').value = '';
 
-            // Render Table
-            const outTbody = document.getElementById("out-items-body");
-            outTbody.innerHTML = "";
-            let stt = 1;
-            
-            document.querySelectorAll('.item-row').forEach(row => {
-                const ten = row.querySelector('.i-desc').value.trim();
-                if (ten) {
-                    const dvt = row.querySelector('.i-unit').value;
-                    const sl = Number(row.querySelector('.i-qty').value) || 0;
-                    const dg = Number(row.querySelector('.i-price').value) || 0;
-                    const tt = sl * dg;
-                    const note = row.querySelector('.i-note').value;
-                    
-                    const tr = document.createElement("tr");
-                    tr.innerHTML = `
-                        <td class="text-center">${stt++}</td>
-                        <td class="font-medium">${ten} ${note ? `<br><span class="text-[10px] text-slate-500 italic">* ${note}</span>` : ''}</td>
-                        <td class="text-center">${dvt}</td>
-                        <td class="text-center">${sl}</td>
-                        <td class="text-right">${dg.toLocaleString('vi-VN')}</td>
-                        <td class="text-right font-bold text-slate-700">${tt.toLocaleString('vi-VN')}</td>
-                    `;
-                    outTbody.appendChild(tr);
-                }
-            });
-
-            // Math
-            const subtotal = calculateRowTotal();
-            const vatRate = Number(document.getElementById("inp-vat-rate").value);
-            const vatAmount = subtotal * (vatRate / 100);
-            const total = subtotal + vatAmount;
-
-            document.getElementById("out-subtotal").innerText = subtotal.toLocaleString('vi-VN') + " VNĐ";
-            document.getElementById("out-vat-percent").innerText = vatRate;
-            document.getElementById("out-vat-amount").innerText = vatAmount.toLocaleString('vi-VN') + " VNĐ";
-            document.getElementById("out-total-amount").innerText = total.toLocaleString('vi-VN') + " VNĐ";
-            document.getElementById("out-amount-words").innerText = readNumber(total) + " đồng chẵn.";
-
-            // Sinh mã QR Chuyển khoản (Dùng VietQR)
-            // Thay "YOUR_BANK_BIN" và "YOUR_ACC_NO" bằng thông tin NH của Thanh Tâm Hiếu
-            const bankBin = "970436"; // Ví dụ Vietcombank
-            const accNo = "0123456789"; 
-            const qrUrl = `https://img.vietqr.io/image/${bankBin}-${accNo}-compact2.png?amount=${total}&addInfo=${document.getElementById("inp-quote-no").value}&accountName=THANH TAM HIEU`;
-            document.getElementById("out-vietqr").src = qrUrl;
-
-            // Switch view
-            document.getElementById("input-section").classList.add("hidden");
-            document.getElementById("print-section").classList.remove("hidden");
-            window.scrollTo(0, 0);
+            document.getElementById('items-body').innerHTML = '';
+            addRow();
+            showNotification('Đã làm mới Form báo giá!');
         }
 
-        function returnToEditor() {
-            document.getElementById("print-section").classList.add("hidden");
-            document.getElementById("input-section").classList.remove("hidden");
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            // Tự động nhận diện URL kết nối Google Sheet khi mở qua link quét QR
+            const urlParams = new URLSearchParams(window.location.search);
+            const apiParam = urlParams.get('api');
+            if (apiParam) {
+                localStorage.setItem('gsheet_api_url', apiParam);
+                showNotification('Đã tự động kết nối Google Sheet thành công!', 'info');
+            }
 
-        // --- TIỆN ÍCH ĐỌC SỐ THÀNH CHỮ ---
-        function readNumber(n) {
-            if(n === 0) return "Không";
-            const words = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
-            let result = n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").split(",");
-            // Rút gọn hàm đọc chữ (tạm thời xuất văn bản mẫu hoặc bạn có thể tự chèn script đọc số chuẩn của VN)
-            return "Bằng chữ: " + n.toLocaleString('vi-VN'); 
-        }
-
-        // --- CÁC HÀM MODAL ---
-        function openHistoryModal() { document.getElementById("modal-history").classList.remove("hidden"); }
-        function closeHistoryModal() { document.getElementById("modal-history").classList.add("hidden"); }
-        
-        function showPhoneSyncModal() { 
-            const currentUrl = window.location.href;
-            const qrImage = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(currentUrl)}`;
-            document.getElementById("qr-sync-img").src = qrImage;
-            document.getElementById("modal-qr-sync").classList.remove("hidden"); 
-        }
-        function closeQrModal() { document.getElementById("modal-qr-sync").classList.add("hidden"); }
-
-        function saveToHistoryLocal(payload) {
-            let history = JSON.parse(localStorage.getItem('quote_history') || '[]');
-            history.unshift(payload);
-            if(history.length > 20) history.pop();
-            localStorage.setItem('quote_history', JSON.stringify(history));
-        }
+            const savedUrl = localStorage.getItem('gsheet_api_url');
+            if (savedUrl) {
+                document.getElementById('inp-api-url').value = savedUrl;
+            }
+            resetForm();
+        });
     </script>
 </body>
 </html>
