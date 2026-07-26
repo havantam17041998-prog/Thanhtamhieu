@@ -428,7 +428,6 @@ Thanh toán: 50% ngay sau khi ký hợp đồng, 50% sau khi bàn giao.</textare
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        let quoteCount = 1;
         const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbz_SAMPLE_YOUR_SCRIPT_URL/exec";
 
         // Custom Toast Notification System
@@ -481,150 +480,172 @@ Thanh toán: 50% ngay sau khi ký hợp đồng, 50% sau khi bàn giao.</textare
                 btn.closest('tr').remove();
                 calculateRowTotal();
             } else {
-                showNotification('Báo giá cần ít nhất 1 dòng vật tư!', 'warning');
+                showNotification("Phải giữ lại ít nhất 1 dòng vật tư!", "warning");
             }
         }
 
         function clearAllRows() {
-            document.getElementById('items-body').innerHTML = '';
+            const tbody = document.getElementById('items-body');
+            tbody.innerHTML = '';
             addRow();
-            showNotification('Đã làm mới bảng vật tư');
+            showNotification("Đã xóa tất cả các dòng!", "info");
         }
 
         function calculateRowTotal() {
+            const rows = document.querySelectorAll('#items-body tr');
             let subtotal = 0;
-            document.querySelectorAll('.item-row').forEach(row => {
-                const qty = parseFloat(row.querySelector('.i-qty').value) || 0;
-                const price = parseFloat(row.querySelector('.i-price').value) || 0;
-                subtotal += (qty * price);
+            rows.forEach(row => {
+                const qty = parseFloat(row.querySelector('.i-qty')?.value) || 0;
+                const price = parseFloat(row.querySelector('.i-price')?.value) || 0;
+                subtotal += qty * price;
             });
-
-            document.getElementById('temp-subtotal').innerText = subtotal.toLocaleString('vi-VN') + ' VNĐ';
+            document.getElementById('temp-subtotal').innerText = formatCurrency(subtotal);
             return subtotal;
         }
 
-        function readThreeDigits(number, readZero) {
-            const digitNames = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
-            let hundred = Math.floor(number / 100);
-            let ten = Math.floor((number % 100) / 10);
-            let unit = number % 10;
-            let result = "";
-
-            if (hundred > 0 || readZero) {
-                result += digitNames[hundred] + " trăm ";
-            }
-            if (ten > 1) {
-                result += digitNames[ten] + " mươi ";
-                if (unit === 1) result += "mốt";
-                else if (unit === 5) result += "lăm";
-                else if (unit > 0) result += digitNames[unit];
-            } else if (ten === 1) {
-                result += "mười ";
-                if (unit === 1) result += "một";
-                else if (unit === 5) result += "lăm";
-                else if (unit > 0) result += digitNames[unit];
-            } else if (readZero && unit > 0) {
-                result += "lẻ " + digitNames[unit];
-            } else if (unit > 0) {
-                result += digitNames[unit];
-            }
-            return result.trim();
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN').format(Math.round(amount || 0)) + ' VNĐ';
         }
 
-        function numberToWordsVietnamese(number) {
-            if (number === 0) return "Không đồng";
-            if (!number || isNaN(number)) return "";
+        // Đọc số tiền thành chữ Tiếng Việt
+        function numberToWordsVN(number) {
+            if (!number || number === 0) return "Không đồng";
+            if (number < 0) return "Âm " + numberToWordsVN(Math.abs(number));
 
-            number = Math.round(number);
-            let units = ["", "nghìn", "triệu", "tỷ", "nghìn tỷ", "triệu tỷ"];
+            const units = ["", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
+            const scales = ["", "nghìn", "triệu", "tỷ", "nghìn tỷ", "triệu tỷ"];
+
+            function readGroup(num) {
+                let a = Math.floor(num / 100);
+                let b = Math.floor((num % 100) / 10);
+                let c = num % 10;
+                let res = "";
+
+                if (a > 0 || num >= 100) {
+                    res += units[a] + " trăm ";
+                }
+
+                if (b > 1) {
+                    res += units[b] + " mươi ";
+                    if (c === 1) res += "mốt ";
+                    else if (c === 5) res += "lăm ";
+                    else if (c > 0) res += units[c] + " ";
+                } else if (b === 1) {
+                    res += "mười ";
+                    if (c === 1) res += "một ";
+                    else if (c === 5) res += "lăm ";
+                    else if (c > 0) res += units[c] + " ";
+                } else {
+                    if (a > 0 && c > 0) res += "lẻ ";
+                    if (c > 0) {
+                        if (c === 5 && a > 0) res += "năm ";
+                        else res += units[c] + " ";
+                    }
+                }
+                return res;
+            }
+
             let str = "";
             let i = 0;
+            let tempNum = Math.floor(number);
 
-            do {
-                let n = number % 1000;
-                if (n > 0) {
-                    let s = readThreeDigits(n, number > 999);
-                    str = s + " " + units[i] + " " + str;
+            while (tempNum > 0) {
+                let group = tempNum % 1000;
+                if (group > 0) {
+                    let groupStr = readGroup(group);
+                    str = groupStr + scales[i] + " " + str;
                 }
-                number = Math.floor(number / 1000);
+                tempNum = Math.floor(tempNum / 1000);
                 i++;
-            } while (number > 0);
+            }
 
             str = str.trim();
-            if (!str) return "";
-            return str.charAt(0).toUpperCase() + str.slice(1) + " đồng chẵn.";
+            if (str.length > 0) {
+                str = str.charAt(0).toUpperCase() + str.slice(1) + " đồng chẵn.";
+            }
+            return str;
+        }
+
+        function getItemsData() {
+            const rows = document.querySelectorAll('#items-body tr');
+            const items = [];
+            rows.forEach(row => {
+                items.push({
+                    desc: row.querySelector('.i-desc')?.value.trim() || '',
+                    unit: row.querySelector('.i-unit')?.value.trim() || '',
+                    qty: parseFloat(row.querySelector('.i-qty')?.value) || 0,
+                    price: parseFloat(row.querySelector('.i-price')?.value) || 0,
+                    note: row.querySelector('.i-note')?.value.trim() || ''
+                });
+            });
+            return items;
         }
 
         function generateQuotation() {
             const clientName = document.getElementById('inp-client-name').value.trim();
             if (!clientName) {
-                showNotification('Vui lòng nhập tên Khách hàng / Công ty!', 'error');
+                showNotification("Vui lòng nhập tên công ty / khách hàng!", "error");
                 document.getElementById('inp-client-name').focus();
                 return;
             }
 
-            // Fill Print Section
+            const clientTax = document.getElementById('inp-client-tax').value.trim();
+            const clientPhone = document.getElementById('inp-client-phone').value.trim();
+            const clientAddress = document.getElementById('inp-client-address').value.trim();
+            const projectName = document.getElementById('inp-project-name').value.trim();
+            const quoteNo = document.getElementById('inp-quote-no').value.trim();
+            const quoteDate = document.getElementById('inp-quote-date').value.trim();
+            const vatRate = parseFloat(document.getElementById('inp-vat-rate').value) || 0;
+            const warranty = document.getElementById('inp-warranty').value.trim();
+            const notes = document.getElementById('inp-notes').value.trim();
+
             document.getElementById('out-client-name').innerText = clientName;
-            document.getElementById('out-client-tax').innerText = document.getElementById('inp-client-tax').value || '---';
-            document.getElementById('out-client-address').innerText = document.getElementById('inp-client-address').value || '---';
-            document.getElementById('out-client-phone').innerText = document.getElementById('inp-client-phone').value || '---';
+            document.getElementById('out-client-tax').innerText = clientTax || '---';
+            document.getElementById('out-client-phone').innerText = clientPhone || '---';
+            document.getElementById('out-client-address').innerText = clientAddress || '---';
+            document.getElementById('out-project-name').innerText = projectName || 'Cung cấp vật tư & thi công';
+            document.getElementById('out-quote-no').innerText = quoteNo;
+            document.getElementById('out-quote-date').innerText = quoteDate;
+            document.getElementById('out-warranty').innerText = warranty;
+            document.getElementById('out-notes').innerText = notes;
 
-            document.getElementById('out-quote-no').innerText = document.getElementById('inp-quote-no').value;
-            document.getElementById('out-quote-date').innerText = document.getElementById('inp-quote-date').value;
-            document.getElementById('out-project-name').innerText = document.getElementById('inp-project-name').value || 'Cơ Điện Lạnh';
+            const items = getItemsData();
+            const outTbody = document.getElementById('out-items-body');
+            outTbody.innerHTML = '';
 
-            document.getElementById('out-warranty').innerText = document.getElementById('inp-warranty').value;
-            document.getElementById('out-notes').innerText = document.getElementById('inp-notes').value;
-
-            // Render Items Table
-            const outBody = document.getElementById('out-items-body');
-            outBody.innerHTML = '';
             let subtotal = 0;
+            items.forEach((item, index) => {
+                const itemTotal = item.qty * item.price;
+                subtotal += itemTotal;
 
-            document.querySelectorAll('.item-row').forEach((row, idx) => {
-                const desc = row.querySelector('.i-desc').value.trim();
-                const unit = row.querySelector('.i-unit').value.trim();
-                const qty = parseFloat(row.querySelector('.i-qty').value) || 0;
-                const price = parseFloat(row.querySelector('.i-price').value) || 0;
-                const total = qty * price;
-                subtotal += total;
-
-                if (desc) {
-                    outBody.innerHTML += `
-                        <tr>
-                            <td class="text-center font-bold">${idx + 1}</td>
-                            <td>
-                                <div class="font-bold text-slate-800">${desc}</div>
-                                ${row.querySelector('.i-note').value ? `<div class="text-[11px] text-slate-500 italic">${row.querySelector('.i-note').value}</div>` : ''}
-                            </td>
-                            <td class="text-center">${unit}</td>
-                            <td class="text-center font-bold">${qty}</td>
-                            <td class="text-right">${price.toLocaleString('vi-VN')}</td>
-                            <td class="text-right font-bold text-slate-900">${total.toLocaleString('vi-VN')}</td>
-                        </tr>
-                    `;
-                }
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="text-center">${index + 1}</td>
+                    <td>
+                        <div class="font-bold">${item.desc}</div>
+                        ${item.note ? `<div class="text-[11px] text-slate-500 italic">${item.note}</div>` : ''}
+                    </td>
+                    <td class="text-center">${item.unit}</td>
+                    <td class="text-center">${item.qty}</td>
+                    <td class="text-right">${formatCurrency(item.price).replace(' VNĐ', '')}</td>
+                    <td class="text-right font-bold">${formatCurrency(itemTotal).replace(' VNĐ', '')}</td>
+                `;
+                outTbody.appendChild(tr);
             });
 
-            // VAT & Totals
-            const vatRate = parseFloat(document.getElementById('inp-vat-rate').value) || 0;
             const vatAmount = subtotal * (vatRate / 100);
             const totalAmount = subtotal + vatAmount;
 
-            document.getElementById('out-subtotal').innerText = subtotal.toLocaleString('vi-VN') + ' VNĐ';
+            document.getElementById('out-subtotal').innerText = formatCurrency(subtotal);
             document.getElementById('out-vat-percent').innerText = vatRate;
-            document.getElementById('out-vat-amount').innerText = vatAmount.toLocaleString('vi-VN') + ' VNĐ';
-            document.getElementById('out-total-amount').innerText = totalAmount.toLocaleString('vi-VN') + ' VNĐ';
-            document.getElementById('out-amount-words').innerText = numberToWordsVietnamese(totalAmount);
+            document.getElementById('out-vat-amount').innerText = formatCurrency(vatAmount);
+            document.getElementById('out-total-amount').innerText = formatCurrency(totalAmount);
+            document.getElementById('out-amount-words').innerText = numberToWordsVN(totalAmount);
 
-            // VietQR Image Generation
-            const qrUrl = `https://img.vietqr.io/image/MB-0961751705-compact.png?amount=${Math.round(totalAmount)}&addInfo=BG%20${document.getElementById('inp-quote-no').value}&accountName=THANH%20TAM%20HIEU`;
+            // Tạo VietQR tự động dựa trên tổng tiền và số báo giá
+            const qrUrl = `https://img.vietqr.io/image/MB-0961751705-compact2.png?amount=${Math.round(totalAmount)}&addInfo=${encodeURIComponent('THANH TAM HIEU ' + quoteNo)}&accountName=THANH%20TAM%20HIEU`;
             document.getElementById('out-vietqr').src = qrUrl;
 
-            // Save to Local History automatically
-            saveToLocalStorage();
-
-            // Toggle UI
             document.getElementById('input-section').classList.add('hidden');
             document.getElementById('print-section').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -633,256 +654,195 @@ Thanh toán: 50% ngay sau khi ký hợp đồng, 50% sau khi bàn giao.</textare
         function returnToEditor() {
             document.getElementById('print-section').classList.add('hidden');
             document.getElementById('input-section').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function getFormData() {
-            const items = [];
-            document.querySelectorAll('.item-row').forEach(row => {
-                items.push({
-                    desc: row.querySelector('.i-desc').value,
-                    unit: row.querySelector('.i-unit').value,
-                    qty: row.querySelector('.i-qty').value,
-                    price: row.querySelector('.i-price').value,
-                    note: row.querySelector('.i-note').value
-                });
-            });
+        function resetForm() {
+            document.getElementById('inp-client-name').value = '';
+            document.getElementById('inp-client-tax').value = '';
+            document.getElementById('inp-client-phone').value = '';
+            document.getElementById('inp-client-address').value = '';
+            document.getElementById('inp-project-name').value = '';
+            
+            const now = new Date();
+            const dateStr = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+            document.getElementById('inp-quote-date').value = dateStr;
+            
+            const randomCode = Math.floor(100 + Math.random() * 900);
+            const yymmdd = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
+            document.getElementById('inp-quote-no').value = `BG-${yymmdd}-${randomCode}`;
 
-            const subtotal = calculateRowTotal();
-            const vatRate = parseFloat(document.getElementById('inp-vat-rate').value) || 0;
-            const total = subtotal * (1 + vatRate / 100);
-
-            return {
-                quoteNo: document.getElementById('inp-quote-no').value,
-                quoteDate: document.getElementById('inp-quote-date').value,
-                projectName: document.getElementById('inp-project-name').value,
-                clientName: document.getElementById('inp-client-name').value,
-                clientTax: document.getElementById('inp-client-tax').value,
-                clientPhone: document.getElementById('inp-client-phone').value,
-                clientAddress: document.getElementById('inp-client-address').value,
-                vatRate: vatRate,
-                warranty: document.getElementById('inp-warranty').value,
-                notes: document.getElementById('inp-notes').value,
-                items: items,
-                total: total,
-                timestamp: new Date().toISOString()
-            };
-        }
-
-        function loadFormData(data) {
-            if (!data) return;
-            document.getElementById('inp-quote-no').value = data.quoteNo || '';
-            document.getElementById('inp-quote-date').value = data.quoteDate || '';
-            document.getElementById('inp-project-name').value = data.projectName || '';
-            document.getElementById('inp-client-name').value = data.clientName || '';
-            document.getElementById('inp-client-tax').value = data.clientTax || '';
-            document.getElementById('inp-client-phone').value = data.clientPhone || '';
-            document.getElementById('inp-client-address').value = data.clientAddress || '';
-            document.getElementById('inp-vat-rate').value = data.vatRate ?? 10;
-            document.getElementById('inp-warranty').value = data.warranty || '';
-            document.getElementById('inp-notes').value = data.notes || '';
+            document.getElementById('inp-vat-rate').value = '10';
+            document.getElementById('inp-warranty').value = '12 tháng kể từ ngày nghiệm thu bàn giao.';
+            document.getElementById('inp-notes').value = 'Báo giá có hiệu lực trong vòng 30 ngày.\nThanh toán: 50% ngay sau khi ký hợp đồng, 50% sau khi bàn giao.';
 
             const tbody = document.getElementById('items-body');
             tbody.innerHTML = '';
-            if (data.items && data.items.length > 0) {
-                data.items.forEach(item => addRow(item));
-            } else {
-                addRow();
-            }
+            addRow({ desc: 'Bảo trì, sửa chữa hệ thống máy lạnh', unit: 'Bộ', qty: 1, price: 1500000, note: '' });
+            addRow();
+
             calculateRowTotal();
+            showNotification("Đã làm mới form báo giá!", "info");
         }
 
-        function saveToLocalStorage() {
-            const data = getFormData();
-            if (!data.clientName) return;
-            let history = JSON.parse(localStorage.getItem('quote_history') || '[]');
-            history = history.filter(h => h.quoteNo !== data.quoteNo);
-            history.unshift(data);
-            if (history.length > 20) history.pop();
-            localStorage.setItem('quote_history', JSON.stringify(history));
+        function toggleApiSettings() {
+            const panel = document.getElementById('api-settings-panel');
+            panel.classList.toggle('hidden');
+        }
+
+        function saveApiUrl() {
+            const url = document.getElementById('inp-api-url').value.trim();
+            localStorage.setItem('tth_api_url', url);
+            showNotification("Đã lưu kết nối Google Sheet!", "success");
+            toggleApiSettings();
+        }
+
+        function getApiUrl() {
+            return localStorage.getItem('tth_api_url') || DEFAULT_API_URL;
+        }
+
+        function saveToCloud() {
+            const clientName = document.getElementById('inp-client-name').value.trim();
+            if (!clientName) {
+                showNotification("Vui lòng nhập thông tin khách hàng trước khi lưu!", "error");
+                return;
+            }
+
+            const quoteData = {
+                quoteNo: document.getElementById('inp-quote-no').value,
+                quoteDate: document.getElementById('inp-quote-date').value,
+                clientName: clientName,
+                clientTax: document.getElementById('inp-client-tax').value,
+                clientPhone: document.getElementById('inp-client-phone').value,
+                clientAddress: document.getElementById('inp-client-address').value,
+                projectName: document.getElementById('inp-project-name').value,
+                vatRate: document.getElementById('inp-vat-rate').value,
+                warranty: document.getElementById('inp-warranty').value,
+                notes: document.getElementById('inp-notes').value,
+                items: getItemsData(),
+                subtotal: calculateRowTotal(),
+                savedAt: new Date().toLocaleString('vi-VN')
+            };
+
+            // Lưu vào bộ nhớ LocalStorage
+            let history = JSON.parse(localStorage.getItem('tth_quote_history') || '[]');
+            const idx = history.findIndex(h => h.quoteNo === quoteData.quoteNo);
+            if (idx >= 0) {
+                history[idx] = quoteData;
+            } else {
+                history.unshift(quoteData);
+            }
+            localStorage.setItem('tth_quote_history', JSON.stringify(history));
+
+            // Đồng bộ sang Google Sheet nếu có URL Web App
+            const apiUrl = getApiUrl();
+            if (apiUrl && apiUrl !== DEFAULT_API_URL) {
+                fetch(apiUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(quoteData)
+                }).then(() => {
+                    showNotification("Đã đồng bộ lên Google Sheets thành công!", "success");
+                }).catch(err => {
+                    console.error("Cloud error:", err);
+                    showNotification("Đã lưu máy local (lỗi kết nối Sheets)!", "warning");
+                });
+            } else {
+                showNotification("Đã lưu báo giá vào lịch sử máy!", "success");
+            }
         }
 
         function openHistoryModal() {
-            const history = JSON.parse(localStorage.getItem('quote_history') || '[]');
-            const listEl = document.getElementById('history-list');
-            
+            const modal = document.getElementById('modal-history');
+            const historyList = document.getElementById('history-list');
+            const history = JSON.parse(localStorage.getItem('tth_quote_history') || '[]');
+
             if (history.length === 0) {
-                listEl.innerHTML = `<p class="text-center text-slate-400 py-8 text-sm">Chưa có báo giá nào được lưu gần đây.</p>`;
+                historyList.innerHTML = '<p class="text-center text-slate-400 text-sm py-8">Chưa có báo giá nào được lưu.</p>';
             } else {
-                listEl.innerHTML = history.map(item => `
-                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center hover:bg-slate-100 transition">
+                historyList.innerHTML = history.map((item, index) => `
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex justify-between items-center hover:bg-amber-50/50 transition">
                         <div>
-                            <div class="font-bold text-sm text-primary">${item.quoteNo} - ${item.clientName}</div>
-                            <div class="text-xs text-slate-500">${item.projectName || 'Dự án'} • ${new Date(item.timestamp).toLocaleDateString('vi-VN')}</div>
-                            <div class="text-xs font-bold text-slate-800 mt-0.5">${(item.total || 0).toLocaleString('vi-VN')} VNĐ</div>
+                            <div class="font-bold text-slate-800 text-sm">${item.quoteNo} - ${item.clientName}</div>
+                            <div class="text-xs text-slate-500 mt-0.5">${item.projectName || 'Dự án'} | Ngày: ${item.quoteDate} | Tổng: ${formatCurrency(item.subtotal)}</div>
                         </div>
-                        <button onclick='loadHistoryItem("${item.quoteNo}")' class="px-3 py-1.5 bg-primary text-white text-xs font-bold rounded-lg shadow">
-                            Tải
+                        <button onclick="loadQuoteFromHistory(${index})" class="px-3.5 py-1.5 bg-primary text-white text-xs font-bold rounded-xl hover:bg-primaryDark transition">
+                            Tải BG
                         </button>
                     </div>
                 `).join('');
             }
-            document.getElementById('modal-history').classList.remove('hidden');
+
+            modal.classList.remove('hidden');
+        }
+
+        function loadQuoteFromHistory(index) {
+            const history = JSON.parse(localStorage.getItem('tth_quote_history') || '[]');
+            const item = history[index];
+            if (!item) return;
+
+            document.getElementById('inp-quote-no').value = item.quoteNo || '';
+            document.getElementById('inp-quote-date').value = item.quoteDate || '';
+            document.getElementById('inp-client-name').value = item.clientName || '';
+            document.getElementById('inp-client-tax').value = item.clientTax || '';
+            document.getElementById('inp-client-phone').value = item.clientPhone || '';
+            document.getElementById('inp-client-address').value = item.clientAddress || '';
+            document.getElementById('inp-project-name').value = item.projectName || '';
+            document.getElementById('inp-vat-rate').value = item.vatRate || '10';
+            document.getElementById('inp-warranty').value = item.warranty || '';
+            document.getElementById('inp-notes').value = item.notes || '';
+
+            const tbody = document.getElementById('items-body');
+            tbody.innerHTML = '';
+            if (item.items && item.items.length > 0) {
+                item.items.forEach(it => addRow(it));
+            } else {
+                addRow();
+            }
+
+            calculateRowTotal();
+            closeHistoryModal();
+            showNotification(`Đã tải báo giá ${item.quoteNo}!`, "success");
+        }
+
+        function loadFromCloud() {
+            const searchId = document.getElementById('inp-search-quote-id').value.trim();
+            if (!searchId) {
+                showNotification("Vui lòng nhập Số Báo Giá!", "warning");
+                return;
+            }
+
+            const history = JSON.parse(localStorage.getItem('tth_quote_history') || '[]');
+            const index = history.findIndex(h => h.quoteNo.toLowerCase() === searchId.toLowerCase());
+
+            if (index >= 0) {
+                loadQuoteFromHistory(index);
+            } else {
+                showNotification("Không tìm thấy số Báo Giá trong bộ nhớ!", "error");
+            }
         }
 
         function closeHistoryModal() {
             document.getElementById('modal-history').classList.add('hidden');
         }
 
-        function loadHistoryItem(quoteNo) {
-            const history = JSON.parse(localStorage.getItem('quote_history') || '[]');
-            const found = history.find(h => h.quoteNo === quoteNo);
-            if (found) {
-                loadFormData(found);
-                closeHistoryModal();
-                showNotification(`Đã tải báo giá ${quoteNo}`);
-            }
-        }
-
-        // Google Sheets Integration
-        function saveApiUrl() {
-            const url = document.getElementById('inp-api-url').value.trim();
-            localStorage.setItem('gsheet_api_url', url);
-            showNotification('Đã lưu cấu hình Google Sheet URL!');
-            toggleApiSettings();
-        }
-
-        function toggleApiSettings() {
-            document.getElementById('api-settings-panel').classList.toggle('hidden');
-        }
-
-        function isApiConfigured() {
-            const apiUrl = localStorage.getItem('gsheet_api_url') || '';
-            if (!apiUrl || apiUrl.includes('AKfycbz_SAMPLE_YOUR_SCRIPT_URL')) {
-                return false;
-            }
-            return true;
-        }
-
         function showPhoneSyncModal() {
-            if (!isApiConfigured()) {
-                showNotification('Vui lòng cài đặt và lưu URL Google Sheet trước!', 'warning');
-                toggleApiSettings();
-                return;
-            }
-
-            const apiUrl = localStorage.getItem('gsheet_api_url');
-            const currentUrl = window.location.href.split('?')[0];
-            const syncUrl = `${currentUrl}?api=${encodeURIComponent(apiUrl)}`;
-            
-            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(syncUrl)}`;
-            document.getElementById('qr-sync-img').src = qrApiUrl;
-            document.getElementById('modal-qr-sync').classList.remove('hidden');
+            const modal = document.getElementById('modal-qr-sync');
+            const qrImg = document.getElementById('qr-sync-img');
+            const currentUrl = window.location.href;
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(currentUrl)}`;
+            modal.classList.remove('hidden');
         }
 
         function closeQrModal() {
             document.getElementById('modal-qr-sync').classList.add('hidden');
         }
 
-        async function saveToCloud() {
-            const data = getFormData();
-            if (!data.clientName) {
-                showNotification('Nhập tên Khách hàng trước khi lưu cloud!', 'error');
-                return;
-            }
-
-            if (!isApiConfigured()) {
-                showNotification('Chưa cấu hình Google Sheet URL trên thiết bị này!', 'error');
-                toggleApiSettings();
-                return;
-            }
-
-            const apiUrl = localStorage.getItem('gsheet_api_url');
-            showNotification('Đang gửi dữ liệu lên Google Sheets...', 'warning');
-
-            try {
-                const payload = {
-                    quoteId: data.quoteNo,
-                    customerName: data.clientName,
-                    total: data.total,
-                    rawData: JSON.stringify(data)
-                };
-
-                await fetch(apiUrl, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                saveToLocalStorage();
-                showNotification('Đã lưu thành công lên Google Sheets!');
-            } catch (err) {
-                console.error(err);
-                showNotification('Lỗi kết nối Google Sheets!', 'error');
-            }
-        }
-
-        async function loadFromCloud() {
-            const quoteId = document.getElementById('inp-search-quote-id').value.trim();
-            if (!quoteId) {
-                showNotification('Vui lòng nhập Mã Báo Giá cần tìm!', 'error');
-                return;
-            }
-
-            if (!isApiConfigured()) {
-                showNotification('Chưa cấu hình Google Sheet URL trên thiết bị này!', 'error');
-                closeHistoryModal();
-                toggleApiSettings();
-                return;
-            }
-
-            const apiUrl = localStorage.getItem('gsheet_api_url');
-            showNotification('Đang tải dữ liệu từ Google Sheets...', 'warning');
-
-            try {
-                const res = await fetch(`${apiUrl}?id=${encodeURIComponent(quoteId)}`);
-                const json = await res.json();
-
-                if (json.status === 'success' && json.data) {
-                    const data = JSON.parse(json.data);
-                    loadFormData(data);
-                    closeHistoryModal();
-                    showNotification(`Đã tải báo giá ${quoteId} từ Cloud!`);
-                } else {
-                    showNotification('Không tìm thấy Mã Báo Giá trên Google Sheet!', 'error');
-                }
-            } catch (err) {
-                console.error(err);
-                showNotification('Lỗi tải dữ liệu! Đảm bảo Google Script đã chọn quyền "Anyone" khi Deploy.', 'error');
-            }
-        }
-
-        function resetForm() {
-            const today = new Date();
-            const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
-            const randNo = Math.floor(100 + Math.random() * 900);
-            
-            document.getElementById('inp-quote-no').value = `BG-${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}-${randNo}`;
-            document.getElementById('inp-quote-date').value = dateStr;
-            document.getElementById('inp-client-name').value = '';
-            document.getElementById('inp-client-tax').value = '';
-            document.getElementById('inp-client-phone').value = '';
-            document.getElementById('inp-client-address').value = '';
-            document.getElementById('inp-project-name').value = '';
-
-            document.getElementById('items-body').innerHTML = '';
-            addRow();
-            showNotification('Đã làm mới Form báo giá!');
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Tự động nhận diện URL kết nối Google Sheet khi mở qua link quét QR
-            const urlParams = new URLSearchParams(window.location.search);
-            const apiParam = urlParams.get('api');
-            if (apiParam) {
-                localStorage.setItem('gsheet_api_url', apiParam);
-                showNotification('Đã tự động kết nối Google Sheet thành công!', 'info');
-            }
-
-            const savedUrl = localStorage.getItem('gsheet_api_url');
-            if (savedUrl) {
-                document.getElementById('inp-api-url').value = savedUrl;
-            }
+        // Khởi tạo trang
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedUrl = localStorage.getItem('tth_api_url') || DEFAULT_API_URL;
+            document.getElementById('inp-api-url').value = savedUrl;
             resetForm();
         });
     </script>
