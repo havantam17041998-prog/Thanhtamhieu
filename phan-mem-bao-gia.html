@@ -85,6 +85,9 @@
                 <button onclick="openHistoryModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm rounded-xl transition flex items-center gap-2">
                     <i class="fas fa-history text-primary"></i> Lịch Sử Lần Lưu
                 </button>
+                <button onclick="showPhoneSyncModal()" class="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-sm rounded-xl transition flex items-center gap-2">
+                    <i class="fas fa-qrcode text-indigo-600"></i> Quét QR Điện Thoại
+                </button>
                 <button onclick="toggleApiSettings()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm rounded-xl transition flex items-center gap-2">
                     <i class="fas fa-cog text-slate-500"></i> Cấu Hình Google Sheet
                 </button>
@@ -272,6 +275,30 @@ Thanh toán: 50% ngay sau khi ký hợp đồng, 50% sau khi bàn giao.</textare
             </div>
             <div class="p-4 border-t border-slate-100 flex justify-end">
                 <button onclick="closeHistoryModal()" class="px-5 py-2 bg-slate-200 text-slate-700 font-bold text-xs rounded-xl">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL QUÉT QR ĐỒNG BỘ ĐIỆN THOẠI -->
+    <div id="modal-qr-sync" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden flex flex-col">
+            <div class="p-5 bg-[#004a99] text-white flex justify-between items-center">
+                <h3 class="font-bold text-lg flex items-center gap-2"><i class="fas fa-mobile-alt text-amber-400"></i> Đồng Bộ Sang Điện Thoại</h3>
+                <button onclick="closeQrModal()" class="text-white hover:text-amber-300 text-xl font-bold">&times;</button>
+            </div>
+            <div class="p-6 text-center space-y-4">
+                <p class="text-sm text-slate-600">Dùng camera điện thoại quét mã QR bên dưới để mở ứng dụng báo giá với <strong>URL kết nối được cấu hình tự động</strong>:</p>
+                <div class="flex justify-center p-3 bg-slate-50 rounded-2xl border border-slate-200 inline-block mx-auto">
+                    <img id="qr-sync-img" src="" alt="Mã QR Cấu Hình" class="w-56 h-56 object-contain rounded-xl">
+                </div>
+                <div class="text-xs text-slate-600 bg-amber-50 p-3 rounded-xl border border-amber-200 text-left space-y-1">
+                    <p class="font-bold text-amber-800"><i class="fas fa-exclamation-triangle"></i> Lưu ý khi mở trên Điện thoại:</p>
+                    <p>• Mở bằng <strong>Chrome</strong> (Android) hoặc <strong>Safari</strong> (iPhone).</p>
+                    <p>• Nếu quét từ Zalo, bấm vào nút <strong><i class="fas fa-ellipsis-h"></i> góc trên phải</strong> > chọn <strong>"Mở bằng trình duyệt"</strong>.</p>
+                </div>
+            </div>
+            <div class="p-4 border-t border-slate-100 flex justify-end">
+                <button onclick="closeQrModal()" class="px-5 py-2 bg-slate-200 text-slate-700 font-bold text-xs rounded-xl">Đóng</button>
             </div>
         </div>
     </div>
@@ -723,6 +750,34 @@ Thanh toán: 50% ngay sau khi ký hợp đồng, 50% sau khi bàn giao.</textare
             document.getElementById('api-settings-panel').classList.toggle('hidden');
         }
 
+        function isApiConfigured() {
+            const apiUrl = localStorage.getItem('gsheet_api_url') || '';
+            if (!apiUrl || apiUrl.includes('AKfycbz_SAMPLE_YOUR_SCRIPT_URL')) {
+                return false;
+            }
+            return true;
+        }
+
+        function showPhoneSyncModal() {
+            if (!isApiConfigured()) {
+                showNotification('Vui lòng cài đặt và lưu URL Google Sheet trước!', 'warning');
+                toggleApiSettings();
+                return;
+            }
+
+            const apiUrl = localStorage.getItem('gsheet_api_url');
+            const currentUrl = window.location.href.split('?')[0];
+            const syncUrl = `${currentUrl}?api=${encodeURIComponent(apiUrl)}`;
+            
+            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(syncUrl)}`;
+            document.getElementById('qr-sync-img').src = qrApiUrl;
+            document.getElementById('modal-qr-sync').classList.remove('hidden');
+        }
+
+        function closeQrModal() {
+            document.getElementById('modal-qr-sync').classList.add('hidden');
+        }
+
         async function saveToCloud() {
             const data = getFormData();
             if (!data.clientName) {
@@ -730,7 +785,13 @@ Thanh toán: 50% ngay sau khi ký hợp đồng, 50% sau khi bàn giao.</textare
                 return;
             }
 
-            const apiUrl = localStorage.getItem('gsheet_api_url') || DEFAULT_API_URL;
+            if (!isApiConfigured()) {
+                showNotification('Chưa cấu hình Google Sheet URL trên thiết bị này!', 'error');
+                toggleApiSettings();
+                return;
+            }
+
+            const apiUrl = localStorage.getItem('gsheet_api_url');
             showNotification('Đang gửi dữ liệu lên Google Sheets...', 'warning');
 
             try {
@@ -763,7 +824,14 @@ Thanh toán: 50% ngay sau khi ký hợp đồng, 50% sau khi bàn giao.</textare
                 return;
             }
 
-            const apiUrl = localStorage.getItem('gsheet_api_url') || DEFAULT_API_URL;
+            if (!isApiConfigured()) {
+                showNotification('Chưa cấu hình Google Sheet URL trên thiết bị này!', 'error');
+                closeHistoryModal();
+                toggleApiSettings();
+                return;
+            }
+
+            const apiUrl = localStorage.getItem('gsheet_api_url');
             showNotification('Đang tải dữ liệu từ Google Sheets...', 'warning');
 
             try {
@@ -780,7 +848,7 @@ Thanh toán: 50% ngay sau khi ký hợp đồng, 50% sau khi bàn giao.</textare
                 }
             } catch (err) {
                 console.error(err);
-                showNotification('Không thể lấy dữ liệu từ Cloud!', 'error');
+                showNotification('Lỗi tải dữ liệu! Đảm bảo Google Script đã chọn quyền "Anyone" khi Deploy.', 'error');
             }
         }
 
@@ -803,6 +871,14 @@ Thanh toán: 50% ngay sau khi ký hợp đồng, 50% sau khi bàn giao.</textare
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Tự động nhận diện URL kết nối Google Sheet khi mở qua link quét QR
+            const urlParams = new URLSearchParams(window.location.search);
+            const apiParam = urlParams.get('api');
+            if (apiParam) {
+                localStorage.setItem('gsheet_api_url', apiParam);
+                showNotification('Đã tự động kết nối Google Sheet thành công!', 'info');
+            }
+
             const savedUrl = localStorage.getItem('gsheet_api_url');
             if (savedUrl) {
                 document.getElementById('inp-api-url').value = savedUrl;
