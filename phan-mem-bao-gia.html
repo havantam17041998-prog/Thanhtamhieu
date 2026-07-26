@@ -807,21 +807,60 @@ Thanh toán: 50% ngay sau khi ký hợp đồng, 50% sau khi bàn giao.</textare
         }
 
         function loadFromCloud() {
-            const searchId = document.getElementById('inp-search-quote-id').value.trim();
-            if (!searchId) {
-                showNotification("Vui lòng nhập Số Báo Giá!", "warning");
-                return;
-            }
+           async function loadFromCloud() {
+    const searchId = document.getElementById('inp-search-quote-id').value.trim();
+    if (!searchId) {
+        showNotification("Vui lòng nhập Mã Báo Giá cần tải!", "warning");
+        return;
+    }
 
-            const history = JSON.parse(localStorage.getItem('tth_quote_history') || '[]');
-            const index = history.findIndex(h => h.quoteNo.toLowerCase() === searchId.toLowerCase());
+    const apiUrl = getApiUrl();
+    if (!apiUrl || apiUrl === DEFAULT_API_URL) {
+        showNotification("Chưa cấu hình liên kết Google Apps Script URL!", "error");
+        return;
+    }
 
-            if (index >= 0) {
-                loadQuoteFromHistory(index);
+    showNotification("Đang tìm kiếm mã trên Google Sheets...", "info");
+
+    try {
+        // Gửi yêu cầu GET tới Google Sheets để lấy dữ liệu theo Mã Báo Giá
+        const response = await fetch(`${apiUrl}?quoteNo=${encodeURIComponent(searchId)}`);
+        const result = await response.json();
+
+        if (result.status === "success" && result.data) {
+            const item = result.data;
+            
+            // Đổ dữ liệu lấy từ Cloud vào các ô nhập liệu
+            document.getElementById('inp-quote-no').value = item.quoteNo || '';
+            document.getElementById('inp-quote-date').value = item.quoteDate || '';
+            document.getElementById('inp-client-name').value = item.clientName || '';
+            document.getElementById('inp-client-phone').value = item.clientPhone || '';
+            document.getElementById('inp-client-address').value = item.clientAddress || '';
+            document.getElementById('inp-project-name').value = item.projectName || '';
+            document.getElementById('inp-vat-rate').value = item.vatRate || '10';
+
+            // Đổ lại danh sách vật tư
+            const tbody = document.getElementById('items-body');
+            tbody.innerHTML = '';
+            if (item.items && item.items.length > 0) {
+                item.items.forEach(it => addRow(it));
             } else {
-                showNotification("Không tìm thấy số Báo Giá trong bộ nhớ!", "error");
+                addRow();
             }
+
+            calculateRowTotal();
+            closeHistoryModal();
+            showNotification(`Đã đồng bộ báo giá ${item.quoteNo} từ Google Sheets!`, "success");
+        } else if (result.status === "not_found") {
+            showNotification("Không tìm thấy Mã Báo Giá này trên Google Sheets!", "error");
+        } else {
+            showNotification("Có lỗi xảy ra khi đọc dữ liệu từ Cloud!", "error");
         }
+    } catch (err) {
+        console.error("Lỗi đồng bộ:", err);
+        showNotification("Không thể kết nối với Google Sheets! Kiểm tra lại URL API.", "error");
+    }
+}
 
         function closeHistoryModal() {
             document.getElementById('modal-history').classList.add('hidden');
