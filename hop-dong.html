@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Tạo & Xuất File Word Hợp Đồng & Biên Bản Nghiệm Thu - Nguyên Thanh Đạt</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .paper-a4 {
+            font-family: 'Times New Roman', Times, serif;
+            color: #000;
+            line-height: 1.4;
+        }
+        /* Style for Word export compatibility */
+        .doc-table-clean, .doc-table-clean td, .doc-table-clean th {
+            border: none !important;
+            padding: 2px 0;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .active-preview-container, .active-preview-container * {
+                visibility: visible;
+            }
+            .active-preview-container {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                background: white !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
+
+    <!-- Header / Navbar -->
+    <header class="bg-slate-800 border-b border-slate-700 px-6 py-4 flex flex-wrap justify-between items-center gap-4 shadow-md no-print">
+        <div class="flex items-center space-x-3">
+            <div class="bg-blue-600 p-2.5 rounded-xl shadow-lg shadow-blue-500/20 text-white font-bold text-xl">
+                NTĐ
+            </div>
+            <div>
+                <h1 class="text-lg font-bold text-white tracking-wide">NGUYÊN THANH ĐẠT</h1>
+                <p class="text-xs text-slate-400">Hệ Thống Xuất File Word Hợp Đồng & Biên Bản Nghiệm Thu v2.1 (Chuẩn Word MS Office)</p>
+            </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+            <button onclick="loadDemoData()" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 active:scale-95 transition-all text-slate-200 rounded-lg text-xs font-semibold flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                Nạp Dữ Liệu Corèle V
+            </button>
+
+            <!-- Export Buttons -->
+            <button onclick="exportContractToWord()" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-500 active:scale-95 transition-all text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 shadow-lg shadow-blue-500/20">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                Xuất Word Hợp Đồng
+            </button>
+
+            <button onclick="exportNghiemThuToWord()" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 active:scale-95 transition-all text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 shadow-lg shadow-indigo-500/20">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Xuất Word Biên Bản Nghiệm Thu
+            </button>
+
+            <button onclick="exportAllToWord()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 active:scale-95 transition-all text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 shadow-lg shadow-emerald-500/20">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+                Xuất Cả 2 File Word
+            </button>
+            
+            <button onclick="window.print()" class="px-3 py-2 bg-slate-700 hover:bg-slate-600 active:scale-95 transition-all text-slate-300 rounded-lg text-xs font-semibold flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                In
+            </button>
+        </div>
+    </header>
+
+    <!-- Notification Toast Container -->
+    <div id="toast-container" class="fixed top-20 right-6 z-50 pointer-events-none"></div>
+
+    <!-- Main Content Workspace -->
+    <main class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+        
+        <!-- LEFT PANEL: Data Input Form -->
+        <section class="w-full lg:w-1/2 bg-slate-850 p-6 overflow-y-auto max-h-[calc(100vh-73px)] space-y-6 no-print">
+            
+            <div class="border-b border-slate-700 pb-3 flex justify-between items-center">
+                <div>
+                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                        <span class="p-1.5 bg-blue-500/10 text-blue-400 rounded-md">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                        </span>
+                        Thông Tin Chung & Dữ Liệu
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Mọi thay đổi sẽ tự động đồng bộ sang cả Hợp Đồng và Biên Bản Nghiệm Thu.</p>
+                </div>
+            </div>
+
+            <!-- GROUP 1: Mã hợp đồng & Thời gian -->
+            <div class="bg-slate-800/60 rounded-xl p-5 border border-slate-700/60 space-y-4">
+                <h3 class="text-xs font-semibold text-blue-400 uppercase tracking-wider">1. Cấu Hình Văn Bản & Thời Gian</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Số Hợp Đồng / Căn cứ</label>
+                        <input type="text" id="contract-no" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500" value="03072026/NTĐ/CRV /HĐMB">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Ngày ký Hợp Đồng</label>
+                        <input type="text" id="contract-date" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500" value="ngày 03 tháng 07 năm 2026">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Ngày lập Biên bản Nghiệm thu</label>
+                        <input type="text" id="nghiemthu-date" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500" value="ngày 10 tháng 07 năm 2026">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Thời gian bảo hành (tháng)</label>
+                        <input type="number" id="warranty-months" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500" value="24">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Địa điểm giao hàng & thi công</label>
+                    <textarea id="delivery-location" rows="2" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none">75 Hoàng Văn Thụ, Phường Cầu Kiệu, TP. Hồ Chí Minh và 206 Hai Bà Trưng, Phường Tân Định, TP. Hồ Chí Minh.</textarea>
+                </div>
+            </div>
+
+            <!-- GROUP 2: Bên A (Khách hàng) -->
+            <div class="bg-slate-800/60 rounded-xl p-5 border border-slate-700/60 space-y-4">
+                <h3 class="text-xs font-semibold text-blue-400 uppercase tracking-wider">2. BÊN A: Bên Mua / Bên Nghiệm Thu</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Tên Công Ty (Bên A)</label>
+                        <input type="text" id="bena-name" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500" value="CÔNG TY TNHH CORÈLE V">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Địa Chỉ</label>
+                        <input type="text" id="bena-address" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500" value="75 Hoàng Văn Thụ, Phường Cầu Kiệu, TP. Hồ Chí Minh, Việt Nam">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Mã Số Thuế</label>
+                        <input type="text" id="bena-mst" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500" value="0313981262">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Điện thoại</label>
+                        <input type="text" id="bena-phone" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500" value="028 3823 4794">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Người Đại Diện</label>
+                        <input type="text" id="bena-represent" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500" value="Ông CAO QUỐC KHÁNH">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Chức Vụ</label>
+                        <input type="text" id="bena-position" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500" value="Giám Đốc Điều Hành">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Giấy Ủy Quyền / Căn cứ bổ sung</label>
+                        <input type="text" id="bena-auth" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500" value="Theo giấy ủy quyền số 01/UQ/CRV.2025 đã ký ngày 31 tháng 03 năm 2025">
+                    </div>
+                </div>
+            </div>
+
+            <!-- GROUP 3: Bên B (Thi công) -->
+            <div class="bg-slate-800/60 rounded-xl p-5 border border-slate-700/60 space-y-4">
+                <h3 class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">3. BÊN B: Bên Bán / Bên Thi Công (Nguyên Thanh Đạt)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Tên Công Ty (Bên B)</label>
+                        <input type="text" id="benb-name" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-400" value="CÔNG TY TNHH NGUYÊN THANH ĐẠT" readonly>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Địa Chỉ</label>
+                        <input type="text" id="benb-address" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-400" value="1423/19/19, Khu Phố 35, Phường Long Bình, Thành Phố Đồng Nai, Việt Nam" readonly>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Mã Số Thuế</label>
+                        <input type="text" id="benb-mst" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-400" value="3604006899" readonly>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Điện thoại</label>
+                        <input type="text" id="benb-phone" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-400" value="0358294648" readonly>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Người Đại Diện</label>
+                        <input type="text" id="benb-represent" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500" value="Ông NGUYỄN HOÀNG GIANG THANH">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Chức Vụ</label>
+                        <input type="text" id="benb-position" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500" value="Giám đốc">
+                    </div>
+                </div>
+            </div>
+
+            <!-- GROUP 4: Danh sách Máy lạnh & Vật tư -->
+            <div class="bg-slate-800/60 rounded-xl p-5 border border-slate-700/60 space-y-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-semibold text-blue-400 uppercase tracking-wider">4. Bảng Hạng Mục Vật Tư & Thiết Bị</h3>
+                    <button onclick="addNewRow()" class="text-xs bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 px-3 py-1 rounded-lg border border-emerald-500/30 font-semibold flex items-center gap-1">
+                        + Thêm Dòng
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[500px]">
+                        <thead>
+                            <tr class="border-b border-slate-700 text-[11px] text-slate-400 uppercase font-semibold">
+                                <th class="pb-2 w-[6%] text-center">STT</th>
+                                <th class="pb-2 w-[44%]">Tên Hạng Mục / Thiết Bị</th>
+                                <th class="pb-2 w-[10%] text-center">ĐVT</th>
+                                <th class="pb-2 w-[10%] text-center">SL</th>
+                                <th class="pb-2 w-[20%] text-right">Đơn Giá (đ)</th>
+                                <th class="pb-2 w-[10%] text-center">Xóa</th>
+                            </tr>
+                        </thead>
+                        <tbody id="items-table-body" class="divide-y divide-slate-700/50 text-xs">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- GROUP 5: Thuế & Tạm ứng -->
+            <div class="bg-slate-800/60 rounded-xl p-5 border border-slate-700/60 space-y-4">
+                <h3 class="text-xs font-semibold text-blue-400 uppercase tracking-wider">5. Cấu hình Thuế VAT & Thanh Toán</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Mức Thuế Suất VAT</label>
+                        <select id="vat-rate" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="0.08" selected>8% (Thuế GTGT ưu đãi)</option>
+                            <option value="0.10">10% (Thuế GTGT chuẩn)</option>
+                            <option value="0.00">0% (Không thuế)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Tỷ Lệ Tạm Ứng Đợt 1 (%)</label>
+                        <div class="flex items-center gap-2">
+                            <input type="range" id="deposit-slider" min="10" max="90" step="5" class="w-full accent-blue-500" value="50">
+                            <span id="deposit-percent-txt" class="text-xs font-bold text-white w-10 text-right">50%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- RIGHT PANEL: Live Document Preview Tabs -->
+        <section class="w-full lg:w-1/2 bg-slate-950 p-6 overflow-y-auto max-h-[calc(100vh-73px)] border-t lg:border-t-0 lg:border-l border-slate-800 flex flex-col items-center">
+            
+            <!-- Tab Switcher -->
+            <div class="flex bg-slate-800 p-1 rounded-xl mb-6 border border-slate-700 no-print">
+                <button id="btn-tab-contract" onclick="switchTab('contract')" class="px-5 py-2 rounded-lg text-xs font-bold transition-all bg-blue-600 text-white shadow-md">
+                    📄 Xem Hợp Đồng Mua Bán
+                </button>
+                <button id="btn-tab-nghiemthu" onclick="switchTab('nghiemthu')" class="px-5 py-2 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white">
+                    📋 Xem Biên Bản Nghiệm Thu
+                </button>
+            </div>
+
+            <!-- PREVIEW 1: HỢP ĐỒNG (Standardized HTML tables for Word accuracy) -->
+            <div id="preview-contract" class="w-full max-w-[21cm] bg-white text-black p-10 md:p-12 shadow-2xl rounded-sm paper-a4 active-preview-container">
+                
+                <!-- National Header (Using borderless table for perfect Word alignment) -->
+                <table class="w-full border-none mb-4 doc-table-clean" style="width: 100%; border: none;">
+                    <tr>
+                        <td style="text-align: center; border: none;">
+                            <p style="font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; font-size: 13px; margin: 0;">CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
+                            <p style="font-weight: bold; font-size: 12px; margin: 2px 0;">Độc lập - Tự do - Hạnh phúc</p>
+                            <p style="text-align: center; margin: 2px 0; font-weight: bold;">━━━━━━━</p>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Contract Title -->
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h3 style="font-weight: bold; font-size: 15px; text-transform: uppercase; margin: 5px 0;">HỢP ĐỒNG MUA BÁN HÀNG HÓA VÀ LẮP ĐẶT MÁY LẠNH</h3>
+                    <p style="font-style: italic; font-size: 12px; margin: 2px 0;">Số: <span id="v-contract-no" style="font-family: monospace;"></span></p>
+                </div>
+
+                <div style="font-size: 12px; margin-bottom: 15px; text-align: justify; font-style: italic;">
+                    <p style="margin: 2px 0;">- Căn cứ Luật Thương mại số 36/2005/QH11 và các văn bản hướng dẫn hiện hành;</p>
+                    <p style="margin: 2px 0;">- Căn cứ Bộ Luật Dân sự số 91/2015/QH13 và nhu cầu thực tế của hai Bên.</p>
+                </div>
+
+                <p style="font-size: 12.5px; margin-bottom: 15px;" id="v-contract-date"></p>
+
+                <!-- Parties Information -->
+                <div style="font-size: 12.5px; margin-bottom: 15px;">
+                    <p style="font-weight: bold; margin: 2px 0;">BÊN A (BÊN MUA): <span id="v-bena-name" style="text-transform: uppercase;"></span></p>
+                    <p style="margin: 2px 0;">• Địa chỉ: <span id="v-bena-address"></span></p>
+                    <p style="margin: 2px 0;">• Mã số thuế: <span id="v-bena-mst"></span> | Điện thoại: <span id="v-bena-phone"></span></p>
+                    <p style="margin: 2px 0;">• Đại diện bởi: <span id="v-bena-represent" style="font-weight: bold;"></span> - Chức vụ: <span id="v-bena-position"></span></p>
+                    <p style="font-style: italic; font-size: 11.5px; margin: 2px 0;">  <span id="v-bena-auth"></span></p>
+                </div>
+
+                <div style="font-size: 12.5px; margin-bottom: 20px;">
+                    <p style="font-weight: bold; margin: 2px 0;">BÊN B (BÊN BÁN): <span id="v-benb-name" style="text-transform: uppercase; color: #1e3a8a;"></span></p>
+                    <p style="margin: 2px 0;">• Địa chỉ: <span id="v-benb-address"></span></p>
+                    <p style="margin: 2px 0;">• Mã số thuế: <span id="v-benb-mst"></span> | Điện thoại: <span id="v-benb-phone"></span></p>
+                    <p style="margin: 2px 0;">• Đại diện bởi: <span id="v-benb-represent" style="font-weight: bold;"></span> - Chức vụ: <span id="v-benb-position"></span></p>
+                </div>
+
+                <!-- Articles & Table -->
+                <div style="font-size: 12.5px; margin-bottom: 15px;">
+                    <p style="font-weight: bold; text-transform: uppercase; margin-bottom: 6px;">ĐIỀU 1: NỘI DUNG VÀ GIÁ TRỊ HỢP ĐỒNG</p>
+                    
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid black; font-size: 11px;">
+                        <thead>
+                            <tr style="background-color: #f3f4f6; font-weight: bold;">
+                                <th style="border: 1px solid black; padding: 4px; text-align: center; width: 30px;">STT</th>
+                                <th style="border: 1px solid black; padding: 4px; text-align: left;">HẠNG MỤC VẬT TƯ / THIẾT BỊ</th>
+                                <th style="border: 1px solid black; padding: 4px; text-align: center; width: 45px;">ĐVT</th>
+                                <th style="border: 1px solid black; padding: 4px; text-align: center; width: 35px;">SL</th>
+                                <th style="border: 1px solid black; padding: 4px; text-align: right; width: 85px;">ĐƠN GIÁ</th>
+                                <th style="border: 1px solid black; padding: 4px; text-align: right; width: 100px;">THÀNH TIỀN</th>
+                            </tr>
+                        </thead>
+                        <tbody id="v-contract-table"></tbody>
+                        <tfoot style="font-weight: bold;">
+                            <tr>
+                                <td colspan="5" style="border: 1px solid black; padding: 4px; text-align: right;">CỘNG TIỀN HÀNG:</td>
+                                <td id="v-subtotal" style="border: 1px solid black; padding: 4px; text-align: right;">0</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" style="border: 1px solid black; padding: 4px; text-align: right;">THUẾ VAT (<span id="v-vat-rate">8</span>%):</td>
+                                <td id="v-vat-amount" style="border: 1px solid black; padding: 4px; text-align: right;">0</td>
+                            </tr>
+                            <tr style="background-color: #f9fafb;">
+                                <td colspan="5" style="border: 1px solid black; padding: 4px; text-align: right; color: #1e3a8a;">TỔNG CỘNG THANH TOÁN:</td>
+                                <td id="v-grandtotal" style="border: 1px solid black; padding: 4px; text-align: right; color: #1e3a8a;">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <p style="font-style: italic; margin-top: 6px;">Bằng chữ: <span id="v-grandtotal-words" style="font-weight: bold; font-family: serif;"></span>.</p>
+                </div>
+
+                <div style="font-size: 12.5px; margin-bottom: 15px; text-align: justify;">
+                    <p style="font-weight: bold; text-transform: uppercase; margin-bottom: 4px;">ĐIỀU 2: BẢO HÀNH VÀ LẮP ĐẶT</p>
+                    <p style="margin: 2px 0;">• Địa điểm lắp đặt: <span id="v-delivery-location"></span>.</p>
+                    <p style="margin: 2px 0;">• Thời gian bảo hành: <span id="v-warranty-months" style="font-weight: bold;">24</span> tháng cho toàn bộ thiết bị kể từ ngày bàn giao nghiệm thu.</p>
+                </div>
+
+                <div style="font-size: 12.5px; margin-bottom: 25px; text-align: justify;">
+                    <p style="font-weight: bold; text-transform: uppercase; margin-bottom: 4px;">ĐIỀU 3: TIẾN ĐỘ THANH TOÁN</p>
+                    <p style="margin: 2px 0;">• <strong>Đợt 1 (Tạm ứng):</strong> Bên A tạm ứng <span id="v-dep-percent">50</span>% giá trị Hợp đồng tương ứng <span id="v-dep-amount" style="font-weight: bold;"></span> VNĐ (Bằng chữ: <span id="v-dep-words" style="font-style: italic; font-weight: bold;"></span>).</p>
+                    <p style="margin: 2px 0;">• <strong>Đợt 2 (Thanh toán còn lại):</strong> Thanh toán <span id="v-final-amount" style="font-weight: bold;"></span> VNĐ (Bằng chữ: <span id="v-final-words" style="font-style: italic; font-weight: bold;"></span>) sau khi Bên B hoàn tất lắp đặt và bàn giao nghiệm thu.</p>
+                </div>
+
+                <!-- Signatures Block (Using 2-Column Table for perfect MS Word layout) -->
+                <table class="w-full border-none doc-table-clean" style="width: 100%; border: none; font-size: 12.5px; margin-top: 20px;">
+                    <tr>
+                        <td style="width: 50%; text-align: center; vertical-align: top; border: none; padding: 0 10px;">
+                            <p style="font-weight: bold; text-transform: uppercase; margin: 0;">ĐẠI DIỆN BÊN A</p>
+                            <p style="font-size: 10px; color: #6b7280; margin: 2px 0 60px 0;">(Ký, ghi rõ họ tên & đóng dấu)</p>
+                            <p id="v-sig-bena" style="font-family: serif; font-size: 14px; font-weight: bold; margin: 0;"></p>
+                        </td>
+                        <td style="width: 50%; text-align: center; vertical-align: top; border: none; padding: 0 10px;">
+                            <p style="font-weight: bold; text-transform: uppercase; color: #1e3a8a; margin: 0;">ĐẠI DIỆN BÊN B</p>
+                            <p style="font-size: 10px; color: #6b7280; margin: 2px 0 60px 0;">(Ký, ghi rõ họ tên & đóng dấu)</p>
+                            <p id="v-sig-benb" style="font-family: serif; font-size: 14px; font-weight: bold; margin: 0;"></p>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <!-- PREVIEW 2: BIÊN BẢN NGHIỆM THU -->
+            <div id="preview-nghiemthu" class="w-full max-w-[21cm] bg-white text-black p-10 md:p-12 shadow-2xl rounded-sm paper-a4 hidden active-preview-container">
+                
+                <!-- National Header Table -->
+                <table class="w-full border-none mb-4 doc-table-clean" style="width: 100%; border: none;">
+                    <tr>
+                        <td style="text-align: center; border: none;">
+                            <p style="font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; font-size: 13px; margin: 0;">CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
+                            <p style="font-weight: bold; font-size: 12px; margin: 2px 0;">Độc lập - Tự do - Hạnh phúc</p>
+                            <p style="text-align: center; margin: 2px 0; font-weight: bold;">━━━━━━━</p>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Title -->
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h3 style="font-weight: bold; font-size: 15px; text-transform: uppercase; margin: 5px 0;">BIÊN BẢN BÀN GIAO VÀ NGHIỆM THU</h3>
+                    <p style="font-style: italic; font-size: 12px; font-weight: 500; margin: 2px 0;">(V/v: Cung cấp vật tư và lắp đặt hệ thống máy lạnh)</p>
+                </div>
+
+                <div style="font-size: 12px; margin-bottom: 15px; text-align: justify; font-style: italic;">
+                    <p style="margin: 2px 0;">- Căn cứ Hợp đồng mua bán hàng hóa và lắp đặt máy lạnh số: <strong id="v-nt-contract-no"></strong> ký ngày <span id="v-nt-contract-date"></span> giữa Bên A và Bên B.</p>
+                    <p style="margin: 2px 0;">- Căn cứ vào quá trình thi công, lắp đặt và vận hành chạy thử thực tế tại công trình.</p>
+                </div>
+
+                <p style="font-size: 12.5px; margin-bottom: 15px;">Hôm nay, <span id="v-nt-date" style="font-weight: 600;"></span>, tại địa điểm công trình, chúng tôi gồm có:</p>
+
+                <!-- Party A -->
+                <div style="font-size: 12.5px; margin-bottom: 15px;">
+                    <p style="font-weight: bold; text-transform: uppercase; margin: 2px 0;">BÊN A (BÊN MUA / BÊN NGHIỆM THU): <span id="v-nt-bena-name"></span></p>
+                    <p style="margin: 2px 0;">• Địa chỉ: <span id="v-nt-bena-address"></span></p>
+                    <p style="margin: 2px 0;">• Điện thoại: <span id="v-nt-bena-phone"></span> | Mã số thuế: <span id="v-nt-bena-mst"></span></p>
+                    <p style="margin: 2px 0;">• Đại diện bởi: <span id="v-nt-bena-represent" style="font-weight: bold;"></span> - Chức vụ: <span id="v-nt-bena-position"></span></p>
+                    <p style="font-style: italic; font-size: 11.5px; margin: 2px 0;">  <span id="v-nt-bena-auth"></span></p>
+                </div>
+
+                <!-- Party B -->
+                <div style="font-size: 12.5px; margin-bottom: 15px;">
+                    <p style="font-weight: bold; text-transform: uppercase; margin: 2px 0;">BÊN B (BÊN BÁN / BÊN THI CÔNG): <span id="v-nt-benb-name" style="color: #1e3a8a;"></span></p>
+                    <p style="margin: 2px 0;">• Địa chỉ: <span id="v-nt-benb-address"></span></p>
+                    <p style="margin: 2px 0;">• Điện thoại: <span id="v-nt-benb-phone"></span> | Mã số thuế: <span id="v-nt-benb-mst"></span></p>
+                    <p style="margin: 2px 0;">• Đại diện bởi: <span id="v-nt-benb-represent" style="font-weight: bold;"></span> - Chức vụ: <span id="v-nt-benb-position"></span></p>
+                </div>
+
+                <p style="font-size: 12.5px; margin-bottom: 12px; text-align: justify;">Hai bên cùng tiến hành kiểm tra, bàn giao và nghiệm thu khối lượng công việc cung cấp, lắp đặt thiết bị máy lạnh với nội dung chi tiết như sau:</p>
+
+                <!-- Article 1 -->
+                <div style="font-size: 12.5px; margin-bottom: 15px;">
+                    <p style="font-weight: bold; text-transform: uppercase; margin-bottom: 6px;">ĐIỀU 1: NỘI DUNG VÀ KHỐI LƯỢNG NGHIỆM THU</p>
+                    
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid black; font-size: 11px;">
+                        <thead>
+                            <tr style="background-color: #f3f4f6; font-weight: bold;">
+                                <th style="border: 1px solid black; padding: 4px; text-align: center; width: 30px;">STT</th>
+                                <th style="border: 1px solid black; padding: 4px; text-align: left;">DIỄN GIẢI HẠNG MỤC VẬT TƯ / THIẾT BỊ</th>
+                                <th style="border: 1px solid black; padding: 4px; text-align: center; width: 45px;">ĐVT</th>
+                                <th style="border: 1px solid black; padding: 4px; text-align: center; width: 35px;">SL</th>
+                                <th style="border: 1px solid black; padding: 4px; text-align: right; width: 85px;">ĐƠN GIÁ</th>
+                                <th style="border: 1px solid black; padding: 4px; text-align: right; width: 100px;">THÀNH TIỀN</th>
+                            </tr>
+                        </thead>
+                        <tbody id="v-nt-table"></tbody>
+                        <tfoot style="font-weight: bold;">
+                            <tr>
+                                <td colspan="5" style="border: 1px solid black; padding: 4px; text-align: right;">TỔNG GIÁ TRỊ CHƯA THUẾ (VAT):</td>
+                                <td id="v-nt-subtotal" style="border: 1px solid black; padding: 4px; text-align: right;">0</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" style="border: 1px solid black; padding: 4px; text-align: right;">THUẾ VAT (<span id="v-nt-vat-rate">8</span>%):</td>
+                                <td id="v-nt-vat-amount" style="border: 1px solid black; padding: 4px; text-align: right;">0</td>
+                            </tr>
+                            <tr style="background-color: #f9fafb;">
+                                <td colspan="5" style="border: 1px solid black; padding: 4px; text-align: right; color: #1e3a8a;">TỔNG GIÁ TRỊ THANH TOÁN (ĐÃ BAO GỒM VAT):</td>
+                                <td id="v-nt-grandtotal" style="border: 1px solid black; padding: 4px; text-align: right; color: #1e3a8a;">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <p style="font-style: italic; margin-top: 6px;">Tổng giá trị thanh toán bằng chữ: <span id="v-nt-grandtotal-words" style="font-weight: bold; font-family: serif;"></span>.</p>
+                </div>
+
+                <!-- Articles 2 & 3 -->
+                <div style="font-size: 12.5px; margin-bottom: 12px; text-align: justify;">
+                    <p style="font-weight: bold; text-transform: uppercase; margin-bottom: 4px;">ĐIỀU 2: ĐÁNH GIÁ CHẤT LƯỢNG VÀ TÌNH TRẠNG VẬN HÀNH</p>
+                    <p style="margin: 2px 0;">1. <strong>Về số lượng & chất lượng thiết bị:</strong> Bàn giao đủ số lượng; toàn bộ máy mới 100%, nguyên đai nguyên kiện, đúng chủng loại cam kết.</p>
+                    <p style="margin: 2px 0;">2. <strong>Về kỹ thuật thi công:</strong> Thiết bị được lắp đặt chắc chắn, cân bằng, tính thẩm mỹ cao, hệ thống thoát nước ngưng hoạt động tốt, không rò rỉ gas/nước.</p>
+                    <p style="margin: 2px 0;">3. <strong>Về tình trạng vận hành:</strong> Hai bên đã cho tiến hành chạy thử nghiệm. Hệ thống máy lạnh hoạt động bình thường, làm lạnh nhanh, máy chạy êm, đáp ứng đầy đủ tiêu chuẩn kỹ thuật.</p>
+                </div>
+
+                <div style="font-size: 12.5px; margin-bottom: 25px; text-align: justify;">
+                    <p style="font-weight: bold; text-transform: uppercase; margin-bottom: 4px;">ĐIỀU 3: KẾT LUẬN VÀ XÁC NHẬN BÀN GIAO</p>
+                    <p style="margin: 2px 0;">1. Bên A chính thức đồng ý nghiệm thu và nhận bàn giao toàn bộ hệ thống máy lạnh nêu tại Điều 1 từ Bên B.</p>
+                    <p style="margin: 2px 0;">2. Thời gian bảo hành cho toàn bộ hệ thống thiết bị là <strong id="v-nt-warranty">24</strong> tháng kể từ ngày ký biên bản nghiệm thu này.</p>
+                    <p style="margin: 2px 0;">3. Biên bản này là văn bản pháp lý làm căn cứ để Bên B xuất hóa đơn GTGT và Bên A hoàn tất thủ tục thanh toán Đợt 2 theo quy định tại Hợp đồng.</p>
+                </div>
+
+                <!-- Signatures -->
+                <table class="w-full border-none doc-table-clean" style="width: 100%; border: none; font-size: 12.5px; margin-top: 20px;">
+                    <tr>
+                        <td style="width: 50%; text-align: center; vertical-align: top; border: none; padding: 0 10px;">
+                            <p style="font-weight: bold; text-transform: uppercase; margin: 0;">ĐẠI DIỆN BÊN A</p>
+                            <p style="font-size: 10px; color: #6b7280; margin: 2px 0 60px 0;">(Ký, ghi rõ họ tên & đóng dấu)</p>
+                            <p id="v-nt-sig-bena" style="font-family: serif; font-size: 14px; font-weight: bold; margin: 0;"></p>
+                        </td>
+                        <td style="width: 50%; text-align: center; vertical-align: top; border: none; padding: 0 10px;">
+                            <p style="font-weight: bold; text-transform: uppercase; color: #1e3a8a; margin: 0;">ĐẠI DIỆN BÊN B</p>
+                            <p style="font-size: 10px; color: #6b7280; margin: 2px 0 60px 0;">(Ký, ghi rõ họ tên & đóng dấu)</p>
+                            <p id="v-nt-sig-benb" style="font-family: serif; font-size: 14px; font-weight: bold; margin: 0;"></p>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- JavaScript Application Engine -->
+    <script>
+        // Sample Data Initial State
+        let items = [
+            { id: 1, desc: 'Máy lạnh Hisense Inverter 1.5Hp AS-12TR4RLRCD02', unit: 'Bộ', qty: 1, price: 6400000 },
+            { id: 2, desc: 'Máy lạnh Hisense Inverter 1Hp AS-10TR4RGUUA00', unit: 'Bộ', qty: 1, price: 5400000 },
+            { id: 3, desc: 'Máy lạnh Hisense Inverter 2Hp AS-18TW4RGATU00', unit: 'Bộ', qty: 1, price: 9600000 },
+            { id: 4, desc: 'Ống đồng 6/12 7 dem hailiang', unit: 'Mét', qty: 1, price: 250000 },
+            { id: 5, desc: 'Ống đồng 6/10 7 dem hailiang', unit: 'Mét', qty: 1, price: 210000 },
+            { id: 6, desc: 'Dây điện Cadivi Cv1.5', unit: 'Mét', qty: 1, price: 11000 },
+            { id: 7, desc: 'Dây điện Cadivi Cv2.5', unit: 'Mét', qty: 1, price: 16000 },
+            { id: 8, desc: 'Ke đỡ dàn nóng 1hp – 1.5hp', unit: 'Bộ', qty: 2, price: 120000 },
+            { id: 9, desc: 'Ke đỡ dàn nóng 2hp', unit: 'Bộ', qty: 1, price: 180000 },
+            { id: 10, desc: 'Nhân công lắp đặt máy lạnh 1hp - 1.5hp', unit: 'Bộ', qty: 2, price: 400000 },
+            { id: 11, desc: 'Nhân công lắp đặt máy lạnh 2hp', unit: 'Bộ', qty: 1, price: 600000 },
+            { id: 12, desc: 'Vật tư phụ (CB, vít, tắc kê, si,...)', unit: 'Gói', qty: 1, price: 700000 }
+        ];
+
+        // Helper to normalize Unicode to NFC (prevents accent splitting)
+        function cleanText(str) {
+            if (typeof str !== 'string') return str;
+            return str.normalize('NFC');
+        }
+
+        // Vietnamese Number Reader Function
+        const mangSo = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
+        function docBlock(so, dayDu) {
+            let chuoi = "";
+            let tram = Math.floor(so / 100);
+            let chuc = Math.floor((so % 100) / 10);
+            let donVi = so % 10;
+            if (tram > 0 || dayDu) chuoi += mangSo[tram] + " trăm ";
+            if (chuc > 1) {
+                chuoi += mangSo[chuc] + " mươi ";
+                if (donVi === 1) chuoi += "mốt ";
+                else if (donVi === 5) chuoi += "lăm ";
+                else if (donVi > 0) chuoi += mangSo[donVi] + " ";
+            } else if (chuc === 1) {
+                chuoi += "mười ";
+                if (donVi === 1) chuoi += "một ";
+                else if (donVi === 5) chuoi += "lăm ";
+                else if (donVi > 0) chuoi += mangSo[donVi] + " ";
+            } else if (chuc === 0 && donVi > 0) {
+                if (tram > 0 || dayDu) chuoi += "linh ";
+                if (donVi === 5) chuoi += "lăm ";
+                else chuoi += mangSo[donVi] + " ";
+            }
+            return chuoi;
+        }
+
+        function docSoTien(so) {
+            if (so === 0) return "Không đồng";
+            if (isNaN(so)) return "Không đồng";
+            let chuoi = "";
+            let dong = so % 1000;
+            so = Math.floor(so / 1000);
+            let nghin = so % 1000;
+            so = Math.floor(so / 1000);
+            let trieu = so % 1000;
+            let ty = Math.floor(so / 1000);
+            
+            if (ty > 0) chuoi += docBlock(ty, false) + "tỷ ";
+            if (trieu > 0) chuoi += docBlock(trieu, ty > 0) + "triệu ";
+            if (nghin > 0) chuoi += docBlock(nghin, ty > 0 || trieu > 0) + "nghìn ";
+            if (dong > 0) chuoi += docBlock(dong, ty > 0 || trieu > 0 || nghin > 0);
+            
+            chuoi = chuoi.trim();
+            if (chuoi.length > 0) chuoi = chuoi.charAt(0).toUpperCase() + chuoi.slice(1);
+            return cleanText(chuoi + " đồng");
+        }
+
+        function formatMoney(amount) {
+            return new Intl.NumberFormat('vi-VN').format(Math.round(amount));
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `p-3.5 mb-2 rounded-xl shadow-xl border text-xs font-semibold transition-all duration-300 opacity-0 translate-y-2 flex items-center gap-2 pointer-events-auto ${
+                type === 'success' ? 'bg-emerald-950 border-emerald-800 text-emerald-200' : 'bg-red-950 border-red-800 text-red-200'
+            }`;
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('opacity-0', 'translate-y-2'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        // Switch Tab Logic
+        function switchTab(tab) {
+            const btnContract = document.getElementById('btn-tab-contract');
+            const btnNghiemThu = document.getElementById('btn-tab-nghiemthu');
+            const pContract = document.getElementById('preview-contract');
+            const pNghiemThu = document.getElementById('preview-nghiemthu');
+
+            if (tab === 'contract') {
+                btnContract.className = "px-5 py-2 rounded-lg text-xs font-bold transition-all bg-blue-600 text-white shadow-md";
+                btnNghiemThu.className = "px-5 py-2 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white";
+                pContract.classList.remove('hidden');
+                pNghiemThu.classList.add('hidden');
+            } else {
+                btnNghiemThu.className = "px-5 py-2 rounded-lg text-xs font-bold transition-all bg-indigo-600 text-white shadow-md";
+                btnContract.className = "px-5 py-2 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white";
+                pNghiemThu.classList.remove('hidden');
+                pContract.classList.add('hidden');
+            }
+        }
+
+        // Items Table Render
+        function renderItemsTable() {
+            const tbody = document.getElementById('items-table-body');
+            tbody.innerHTML = '';
+            items.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'border-b border-slate-700/40 hover:bg-slate-800/30';
+                tr.innerHTML = `
+                    <td class="py-2 text-center text-slate-400 font-mono">${index + 1}</td>
+                    <td class="py-2">
+                        <input type="text" value="${item.desc}" onchange="updateItem(${item.id}, 'desc', this.value)" class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-xs text-white focus:outline-none focus:ring-1 focus:ring-blue-500">
+                    </td>
+                    <td class="py-2">
+                        <input type="text" value="${item.unit}" onchange="updateItem(${item.id}, 'unit', this.value)" class="w-12 mx-auto text-center bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-xs text-white focus:outline-none focus:ring-1 focus:ring-blue-500">
+                    </td>
+                    <td class="py-2">
+                        <input type="number" value="${item.qty}" min="1" onchange="updateItem(${item.id}, 'qty', parseInt(this.value) || 1)" class="w-12 mx-auto text-center bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-xs text-white focus:outline-none focus:ring-1 focus:ring-blue-500">
+                    </td>
+                    <td class="py-2 text-right">
+                        <input type="number" value="${item.price}" min="0" onchange="updateItem(${item.id}, 'price', parseFloat(this.value) || 0)" class="w-24 ml-auto text-right bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-xs text-white focus:outline-none focus:ring-1 focus:ring-blue-500">
+                    </td>
+                    <td class="py-2 text-center">
+                        <button onclick="removeItem(${item.id})" class="text-red-400 hover:text-red-300 p-1">✕</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            updateAll();
+        }
+
+        function updateItem(id, field, value) {
+            const item = items.find(i => i.id === id);
+            if (item) {
+                item[field] = value;
+                updateAll();
+            }
+        }
+
+        function removeItem(id) {
+            if (items.length <= 1) {
+                showToast("Cần giữ lại ít nhất 1 thiết bị/vật tư", "error");
+                return;
+            }
+            items = items.filter(i => i.id !== id);
+            renderItemsTable();
+            showToast("Đã xóa hạng mục!");
+        }
+
+        function addNewRow() {
+            const newId = items.length > 0 ? Math.max(...items.map(i => i.id)) + 1 : 1;
+            items.push({ id: newId, desc: 'Hạng mục mới...', unit: 'Bộ', qty: 1, price: 0 });
+            renderItemsTable();
+            showToast("Đã thêm dòng mới!");
+        }
+
+        // Main Update & Calculations Trigger
+        function updateAll() {
+            const contractNo = cleanText(document.getElementById('contract-no').value);
+            const contractDate = cleanText(document.getElementById('contract-date').value);
+            const nghiemthuDate = cleanText(document.getElementById('nghiemthu-date').value);
+            const warrantyMonths = cleanText(document.getElementById('warranty-months').value);
+            const deliveryLocation = cleanText(document.getElementById('delivery-location').value);
+
+            const benaName = cleanText(document.getElementById('bena-name').value);
+            const benaAddress = cleanText(document.getElementById('bena-address').value);
+            const benaMst = cleanText(document.getElementById('bena-mst').value);
+            const benaPhone = cleanText(document.getElementById('bena-phone').value);
+            const benaRepresent = cleanText(document.getElementById('bena-represent').value);
+            const benaPosition = cleanText(document.getElementById('bena-position').value);
+            const benaAuth = cleanText(document.getElementById('bena-auth').value);
+
+            const benbName = cleanText(document.getElementById('benb-name').value);
+            const benbAddress = cleanText(document.getElementById('benb-address').value);
+            const benbMst = cleanText(document.getElementById('benb-mst').value);
+            const benbPhone = cleanText(document.getElementById('benb-phone').value);
+            const benbRepresent = cleanText(document.getElementById('benb-represent').value);
+            const benbPosition = cleanText(document.getElementById('benb-position').value);
+
+            const vatRate = parseFloat(document.getElementById('vat-rate').value);
+            const depPercent = parseInt(document.getElementById('deposit-slider').value);
+
+            // Update Hợp Đồng Preview
+            document.getElementById('v-contract-no').innerText = contractNo;
+            document.getElementById('v-contract-date').innerText = `Hôm nay, ${contractDate}, tại công trình, chúng tôi gồm:`;
+            document.getElementById('v-delivery-location').innerText = deliveryLocation;
+            document.getElementById('v-warranty-months').innerText = warrantyMonths;
+
+            document.getElementById('v-bena-name').innerText = benaName;
+            document.getElementById('v-bena-address').innerText = benaAddress;
+            document.getElementById('v-bena-mst').innerText = benaMst;
+            document.getElementById('v-bena-phone').innerText = benaPhone;
+            document.getElementById('v-bena-represent').innerText = benaRepresent;
+            document.getElementById('v-bena-position').innerText = benaPosition;
+            document.getElementById('v-bena-auth').innerText = benaAuth;
+
+            document.getElementById('v-benb-name').innerText = benbName;
+            document.getElementById('v-benb-address').innerText = benbAddress;
+            document.getElementById('v-benb-mst').innerText = benbMst;
+            document.getElementById('v-benb-phone').innerText = benbPhone;
+            document.getElementById('v-benb-represent').innerText = benbRepresent;
+            document.getElementById('v-benb-position').innerText = benbPosition;
+
+            document.getElementById('v-sig-bena').innerText = benaRepresent.replace("Ông ", "").replace("Bà ", "");
+            document.getElementById('v-sig-benb').innerText = benbRepresent.replace("Ông ", "").replace("Bà ", "");
+
+            // Update Biên Bản Nghiệm Thu Preview
+            document.getElementById('v-nt-contract-no').innerText = contractNo;
+            document.getElementById('v-nt-contract-date').innerText = contractDate;
+            document.getElementById('v-nt-date').innerText = nghiemthuDate;
+            document.getElementById('v-nt-warranty').innerText = warrantyMonths;
+
+            document.getElementById('v-nt-bena-name').innerText = benaName;
+            document.getElementById('v-nt-bena-address').innerText = benaAddress;
+            document.getElementById('v-nt-bena-phone').innerText = benaPhone;
+            document.getElementById('v-nt-bena-mst').innerText = benaMst;
+            document.getElementById('v-nt-bena-represent').innerText = benaRepresent;
+            document.getElementById('v-nt-bena-position').innerText = benaPosition;
+            document.getElementById('v-nt-bena-auth').innerText = benaAuth;
+
+            document.getElementById('v-nt-benb-name').innerText = benbName;
+            document.getElementById('v-nt-benb-address').innerText = benbAddress;
+            document.getElementById('v-nt-benb-phone').innerText = benbPhone;
+            document.getElementById('v-nt-benb-mst').innerText = benbMst;
+            document.getElementById('v-nt-benb-represent').innerText = benbRepresent;
+            document.getElementById('v-nt-benb-position').innerText = benbPosition;
+
+            document.getElementById('v-nt-sig-bena').innerText = benaRepresent.replace("Ông ", "").replace("Bà ", "");
+            document.getElementById('v-nt-sig-benb').innerText = benbRepresent.replace("Ông ", "").replace("Bà ", "");
+
+            // Render Preview Tables
+            let subtotal = 0;
+            const cTable = document.getElementById('v-contract-table');
+            const ntTable = document.getElementById('v-nt-table');
+            cTable.innerHTML = '';
+            ntTable.innerHTML = '';
+
+            items.forEach((item, index) => {
+                const itemTotal = item.qty * item.price;
+                subtotal += itemTotal;
+
+                const rowHtml = `
+                    <tr>
+                        <td style="border: 1px solid black; padding: 4px; text-align: center;">${index + 1}</td>
+                        <td style="border: 1px solid black; padding: 4px; text-align: left;">${cleanText(item.desc)}</td>
+                        <td style="border: 1px solid black; padding: 4px; text-align: center;">${cleanText(item.unit)}</td>
+                        <td style="border: 1px solid black; padding: 4px; text-align: center;">${item.qty}</td>
+                        <td style="border: 1px solid black; padding: 4px; text-align: right;">${formatMoney(item.price)}</td>
+                        <td style="border: 1px solid black; padding: 4px; text-align: right;">${formatMoney(itemTotal)}</td>
+                    </tr>
+                `;
+                cTable.insertAdjacentHTML('beforeend', rowHtml);
+                ntTable.insertAdjacentHTML('beforeend', rowHtml);
+            });
+
+            // Financial Calculations
+            const vatAmount = subtotal * vatRate;
+            const grandTotal = subtotal + vatAmount;
+
+            const depAmount = subtotal * (depPercent / 100);
+            const finalAmount = grandTotal - depAmount;
+
+            // Apply Contract Totals
+            document.getElementById('v-subtotal').innerText = formatMoney(subtotal);
+            document.getElementById('v-vat-rate').innerText = (vatRate * 100);
+            document.getElementById('v-vat-amount').innerText = formatMoney(vatAmount);
+            document.getElementById('v-grandtotal').innerText = formatMoney(grandTotal);
+            document.getElementById('v-grandtotal-words').innerText = docSoTien(grandTotal);
+
+            document.getElementById('v-dep-percent').innerText = depPercent;
+            document.getElementById('v-dep-amount').innerText = formatMoney(depAmount);
+            document.getElementById('v-dep-words').innerText = docSoTien(depAmount);
+
+            document.getElementById('v-final-amount').innerText = formatMoney(finalAmount);
+            document.getElementById('v-final-words').innerText = docSoTien(finalAmount);
+
+            // Apply Nghiệm Thu Totals
+            document.getElementById('v-nt-subtotal').innerText = formatMoney(subtotal);
+            document.getElementById('v-nt-vat-rate').innerText = (vatRate * 100);
+            document.getElementById('v-nt-vat-amount').innerText = formatMoney(vatAmount);
+            document.getElementById('v-nt-grandtotal').innerText = formatMoney(grandTotal);
+            document.getElementById('v-nt-grandtotal-words').innerText = docSoTien(grandTotal);
+        }
+
+        // Word Exporter Engine (Compatible with MS Word, WPS & Office 365)
+        function generateWordDocument(containerId, fileName) {
+            const containerEl = document.getElementById(containerId);
+            if (!containerEl) return;
+
+            // Clone container to avoid modifying DOM
+            const clone = containerEl.cloneNode(true);
+
+            // Remove non-printable elements if any
+            const noPrints = clone.querySelectorAll('.no-print');
+            noPrints.forEach(el => el.remove());
+
+            const htmlContent = cleanText(clone.innerHTML);
+
+            const wordDocumentHeader = `
+                <html xmlns:o='urn:schemas-microsoft-com:office:office' 
+                      xmlns:w='urn:schemas-microsoft-com:office:word' 
+                      xmlns:m='http://schemas.microsoft.com/office/2004/12/omml'
+                      xmlns='http://www.w3.org/TR/REC-html40'>
+                <head>
+                    <meta charset='utf-8'>
+                    <title>${fileName}</title>
+                    <!--[if gte mso 9]>
+                    <xml>
+                    <w:WordDocument>
+                    <w:View>Print</w:View>
+                    <w:Zoom>100</w:Zoom>
+                    <w:DoNotOptimizeForBrowser/>
+                    <w:ValidateAgainstSchemas/>
+                    <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+                    <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+                    <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+                    <w:Compatibility>
+                        <w:BreakWrappedTables/>
+                        <w:SnapToGridInCell/>
+                        <w:WrapTextWithPunct/>
+                        <w:UseAsianBreakRules/>
+                        <w:DontGrowAutofit/>
+                    </w:Compatibility>
+                    </w:WordDocument>
+                    </xml>
+                    <![endif]-->
+                    <style>
+                        @page Section1 {
+                            size: 21.0cm 29.7cm;
+                            margin: 2.0cm 2.0cm 2.0cm 2.0cm;
+                            mso-page-orientation: portrait;
+                            mso-header-margin: 36.0pt;
+                            mso-footer-margin: 36.0pt;
+                            mso-paper-source: 0;
+                        }
+                        div.Section1 {
+                            page: Section1;
+                        }
+                        body, table, td, th, p, span, div {
+                            font-family: 'Times New Roman', serif !important;
+                        }
+                        body {
+                            font-size: 11pt;
+                            line-height: 1.35;
+                            color: #000000;
+                        }
+                        p { margin: 0 0 4pt; text-align: justify; }
+                        h3 { font-size: 13pt; font-weight: bold; text-align: center; margin: 12pt 0 4pt; text-transform: uppercase; }
+                        table { border-collapse: collapse; width: 100%; margin: 6pt 0; }
+                        td, th { vertical-align: middle; }
+                        .doc-table-clean, .doc-table-clean td, .doc-table-clean th {
+                            border: none !important;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="Section1">
+                        ${htmlContent}
+                    </div>
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob(['\ufeff' + wordDocumentHeader], {
+                type: 'application/msword;charset=utf-8'
+            });
+
+            const link = document.createElement("a");
+            document.body.appendChild(link);
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName + '.doc';
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function exportContractToWord() {
+            generateWordDocument('preview-contract', 'Hop_Dong_Mua_Ban_Nguyen_Thanh_Dat');
+            showToast("Đã tải xuống File Word Hợp Đồng!");
+        }
+
+        function exportNghiemThuToWord() {
+            generateWordDocument('preview-nghiemthu', 'Bien_Ban_Nghiem_Thu_Nguyen_Thanh_Dat');
+            showToast("Đã tải xuống File Word Biên Bản Nghiệm Thu!");
+        }
+
+        function exportAllToWord() {
+            exportContractToWord();
+            setTimeout(() => exportNghiemThuToWord(), 800);
+        }
+
+        function loadDemoData() {
+            document.getElementById('contract-no').value = "03072026/NTĐ/CRV /HĐMB";
+            document.getElementById('contract-date').value = "ngày 03 tháng 07 năm 2026";
+            document.getElementById('nghiemthu-date').value = "ngày 10 tháng 07 năm 2026";
+            document.getElementById('warranty-months').value = "24";
+            document.getElementById('bena-name').value = "CÔNG TY TNHH CORÈLE V";
+            document.getElementById('bena-address').value = "75 Hoàng Văn Thụ, Phường Cầu Kiệu, TP. Hồ Chí Minh, Việt Nam";
+            document.getElementById('bena-mst').value = "0313981262";
+            document.getElementById('bena-phone').value = "028 3823 4794";
+            document.getElementById('bena-represent').value = "Ông CAO QUỐC KHÁNH";
+            document.getElementById('bena-position').value = "Giám Đốc Điều Hành";
+            document.getElementById('bena-auth').value = "Theo giấy ủy quyền số 01/UQ/CRV.2025 đã ký ngày 31 tháng 03 năm 2025";
+
+            items = [
+                { id: 1, desc: 'Máy lạnh Hisense Inverter 1.5Hp AS-12TR4RLRCD02', unit: 'Bộ', qty: 1, price: 6400000 },
+                { id: 2, desc: 'Máy lạnh Hisense Inverter 1Hp AS-10TR4RGUUA00', unit: 'Bộ', qty: 1, price: 5400000 },
+                { id: 3, desc: 'Máy lạnh Hisense Inverter 2Hp AS-18TW4RGATU00', unit: 'Bộ', qty: 1, price: 9600000 },
+                { id: 4, desc: 'Ống đồng 6/12 7 dem hailiang', unit: 'Mét', qty: 1, price: 250000 },
+                { id: 5, desc: 'Ống đồng 6/10 7 dem hailiang', unit: 'Mét', qty: 1, price: 210000 },
+                { id: 6, desc: 'Dây điện Cadivi Cv1.5', unit: 'Mét', qty: 1, price: 11000 },
+                { id: 7, desc: 'Dây điện Cadivi Cv2.5', unit: 'Mét', qty: 1, price: 16000 },
+                { id: 8, desc: 'Ke đỡ dàn nóng 1hp – 1.5hp', unit: 'Bộ', qty: 2, price: 120000 },
+                { id: 9, desc: 'Ke đỡ dàn nóng 2hp', unit: 'Bộ', qty: 1, price: 180000 },
+                { id: 10, desc: 'Nhân công lắp đặt máy lạnh 1hp - 1.5hp', unit: 'Bộ', qty: 2, price: 400000 },
+                { id: 11, desc: 'Nhân công lắp đặt máy lạnh 2hp', unit: 'Bộ', qty: 1, price: 600000 },
+                { id: 12, desc: 'Vật tư phụ (CB, vít, tắc kê, si,...)', unit: 'Gói', qty: 1, price: 700000 }
+            ];
+
+            renderItemsTable();
+            showToast("Đã nạp toàn bộ dữ liệu hợp đồng mẫu!");
+        }
+
+        // Attach Input Listeners
+        document.getElementById('deposit-slider').addEventListener('input', function(e) {
+            document.getElementById('deposit-percent-txt').innerText = `${e.target.value}%`;
+            updateAll();
+        });
+
+        const inputs = document.querySelectorAll('input, select, textarea');
+        inputs.forEach(el => {
+            el.addEventListener('input', updateAll);
+            el.addEventListener('change', updateAll);
+        });
+
+        // Initialize App
+        window.onload = function() {
+            renderItemsTable();
+        };
+    </script>
+</body>
+</html>
